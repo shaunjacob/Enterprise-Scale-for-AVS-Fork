@@ -1,9 +1,3 @@
-@description('The friendly name for the workbook, this name must be unique within a resource group.')
-param workbookDisplayName string = 'AVS Workbook'
-
-@description('Location for this resource, is deployed to the resource group region by default')
-param Location string = resourceGroup().location
-
 @description('The unique guid for this workbook instance')
 param workbookId string = newGuid()
 
@@ -14,6 +8,9 @@ var workbookContent = {
       type: 9
       content: {
         version: 'KqlParameterItem/1.0'
+        crossComponentResources: [
+          '{Subscription}'
+        ]
         parameters: [
           {
             id: '0e322c64-be41-4f52-ba5b-df55cf94e41d'
@@ -22,7 +19,7 @@ var workbookContent = {
             type: 4
             isRequired: true
             value: {
-              durationMs: 2592000000
+              durationMs: 604800000
             }
             typeSettings: {
               selectableValues: [
@@ -108,10 +105,6 @@ var workbookContent = {
             crossComponentResources: [
               '{Subscription}'
             ]
-            value: [
-              'value::all'
-            ]
-            isHiddenWhenLocked: true
             typeSettings: {
               additionalResourceOptions: [
                 'value::all'
@@ -123,6 +116,9 @@ var workbookContent = {
             }
             queryType: 1
             resourceType: 'microsoft.resourcegraph/resources'
+            value: [
+              'value::all'
+            ]
           }
           {
             id: '85d960b8-e89c-42ee-bf8c-fa95ce925c5d'
@@ -142,22 +138,22 @@ var workbookContent = {
           }
         ]
         style: 'pills'
-        queryType: 0
-        resourceType: 'microsoft.operationalinsights/workspaces'
+        queryType: 1
+        resourceType: 'microsoft.resourcegraph/resources'
       }
       name: 'parameters - 0'
     }
     {
       type: 1
       content: {
-        json: '# This workbook shows information relevant to deployed Azure VMware Solution Private Clouds'
+        json: '# This workbook shows information relevant to deployed Azure VMware Solutions'
       }
       name: 'text - 4'
     }
     {
       type: 1
       content: {
-        json: '# Change Log\r\n\r\n### Version 1\r\nThis is the origional version of the AVS workbooks and features:\r\n1. A summary of the AVS soltuons deployed\r\n2. Metrics performance view\r\n3. Activity section related to AVS\r\n\r\nVersion 2\r\nAdded VMware resource view\r\n\r\n### Version 3 \r\nAdded VM Information \r\n\r\n### Version 4\r\nAdded Alert information\r\n\r\n### Version 5\r\nAdded help for configuring Alerts\r\n\r\n### Version 6\r\nAdded Advisor recommendations\r\nAdded impact filter for Advisor recommendations\r\nAdded status VM tools'
+        json: '# Change Log\r\n\r\n### Version 1\r\nThis is the original version of the AVS workbooks and features:\r\n1. A summary of the AVS solutions deployed\r\n2. Metrics performance view\r\n3. Activity section related to AVS\r\n\r\nVersion 2\r\nAdded VMware resource view\r\n\r\n### Version 3 \r\nAdded VM Information \r\n\r\n### Version 4\r\nAdded Alert information\r\n\r\n### Version 5\r\nAdded help for configuring Alerts\r\n\r\n### Version 6\r\nAdded Advisor recommendations\r\nAdded impact filter for Advisor recommendations\r\nAdded status VM tools\r\n\r\n### Version 7\r\nAdded help for Activity tab view\r\n\r\n### Version 8\r\nAdded syslog information\r\nEnabled more info slyout for syslog\r\nPresented workspace parameter in general instead of hidden'
       }
       conditionalVisibility: {
         parameterName: 'ChangeLog'
@@ -202,6 +198,14 @@ var workbookContent = {
             linkTarget: 'parameter'
             linkLabel: 'Alerts'
             subTarget: 'Alerts'
+            style: 'link'
+          }
+          {
+            id: '2fdb4cac-6ce8-4481-867a-cfe4e50e1ed7'
+            cellValue: 'Tab'
+            linkTarget: 'parameter'
+            linkLabel: 'SysLog'
+            subTarget: 'SysLog'
             style: 'link'
           }
           {
@@ -370,7 +374,7 @@ var workbookContent = {
                     ]
                     timeContextFromParameter: 'TimeRange'
                     timeContext: {
-                      durationMs: 86400000
+                      durationMs: 2592000000
                     }
                     metrics: [
                       {
@@ -403,7 +407,7 @@ var workbookContent = {
                     ]
                     timeContextFromParameter: 'TimeRange'
                     timeContext: {
-                      durationMs: 86400000
+                      durationMs: 2592000000
                     }
                     metrics: [
                       {
@@ -436,7 +440,7 @@ var workbookContent = {
                     ]
                     timeContextFromParameter: 'TimeRange'
                     timeContext: {
-                      durationMs: 86400000
+                      durationMs: 2592000000
                     }
                     metrics: [
                       {
@@ -879,7 +883,7 @@ var workbookContent = {
           {
             type: 1
             content: {
-              json: 'In order to deploy alerts you will need the resource ID for the AVS instance you want to be alerted on. Alerts will also need to be deployed for each seperate AVS instance.\r\n\r\nTo get the resource ID, navigate to the Overview blade of the required AVS instance and click on **"JSON View"** in the top right corner. The ID will be at the top of the fly out menu and looks as follow:\r\n\r\n**Example:** /subscriptions/"subscription ID"/resourceGroups/"Resource Group"/providers/Microsoft.AVS/privateClouds/"AVS instance name"'
+              json: 'In order to deploy alerts you will need the resource ID for the AVS instance you want to be alerted on. Alerts will also need to be deployed for each separate AVS instance.\r\n\r\nTo get the resource ID, navigate to the Overview blade of the required AVS instance and click on **"JSON View"** in the top right corner. The ID will be at the top of the fly out menu and looks as follow:\r\n\r\n**Example:** /subscriptions/"subscription ID"/resourceGroups/"Resource Group"/providers/Microsoft.AVS/privateClouds/"AVS instance name"'
             }
             conditionalVisibility: {
               parameterName: 'ShowHelp'
@@ -1114,6 +1118,244 @@ var workbookContent = {
         groupType: 'editable'
         items: [
           {
+            type: 9
+            content: {
+              version: 'KqlParameterItem/1.0'
+              crossComponentResources: [
+                '{Workspace}'
+              ]
+              parameters: [
+                {
+                  id: '1a79bc93-b09a-4bb4-93d3-ea8c184736fa'
+                  version: 'KqlParameterItem/1.0'
+                  name: 'HostName'
+                  type: 2
+                  isRequired: true
+                  multiSelect: true
+                  quote: '\''
+                  delimiter: ','
+                  query: 'AVSSyslog \r\n| distinct HostName'
+                  crossComponentResources: [
+                    '{Workspace}'
+                  ]
+                  typeSettings: {
+                    additionalResourceOptions: [
+                      'value::all'
+                    ]
+                    showDefault: false
+                  }
+                  timeContext: {
+                    durationMs: 0
+                  }
+                  timeContextFromParameter: 'TimeRange'
+                  queryType: 0
+                  resourceType: 'microsoft.operationalinsights/workspaces'
+                  value: [
+                    'value::all'
+                  ]
+                }
+                {
+                  id: 'd4044f39-295b-4158-adc7-e82afee13409'
+                  version: 'KqlParameterItem/1.0'
+                  name: 'AppName'
+                  type: 2
+                  isRequired: true
+                  multiSelect: true
+                  quote: '\''
+                  delimiter: ','
+                  query: 'AVSSyslog \r\n| distinct AppName'
+                  crossComponentResources: [
+                    '{Workspace}'
+                  ]
+                  typeSettings: {
+                    additionalResourceOptions: [
+                      'value::all'
+                    ]
+                    showDefault: false
+                  }
+                  timeContext: {
+                    durationMs: 0
+                  }
+                  timeContextFromParameter: 'TimeRange'
+                  queryType: 0
+                  resourceType: 'microsoft.operationalinsights/workspaces'
+                  value: [
+                    'value::all'
+                  ]
+                }
+                {
+                  version: 'KqlParameterItem/1.0'
+                  name: 'Severity'
+                  type: 2
+                  isRequired: true
+                  multiSelect: true
+                  quote: '\''
+                  delimiter: ','
+                  query: 'AVSSyslog \r\n| distinct Severity'
+                  crossComponentResources: [
+                    '{Workspace}'
+                  ]
+                  typeSettings: {
+                    additionalResourceOptions: [
+                      'value::all'
+                    ]
+                    showDefault: false
+                  }
+                  timeContext: {
+                    durationMs: 0
+                  }
+                  timeContextFromParameter: 'TimeRange'
+                  queryType: 0
+                  resourceType: 'microsoft.operationalinsights/workspaces'
+                  value: [
+                    'value::all'
+                  ]
+                  id: '83f0c115-953b-42db-870c-b22344745fba'
+                }
+              ]
+              style: 'pills'
+              queryType: 0
+              resourceType: 'microsoft.operationalinsights/workspaces'
+            }
+            name: 'parameters - 0'
+          }
+          {
+            type: 3
+            content: {
+              version: 'KqlItem/1.0'
+              query: 'AVSSyslog \r\n| where HostName in ({HostName})\r\n| where AppName in ({AppName})\r\n| where Severity in ({Severity}) or \'*\' in ({Severity})\r\n| summarize count() by Severity'
+              size: 4
+              title: 'Count of records by severity'
+              timeContextFromParameter: 'TimeRange'
+              exportFieldName: 'Severity'
+              exportParameterName: 'Sev'
+              queryType: 0
+              resourceType: 'microsoft.operationalinsights/workspaces'
+              crossComponentResources: [
+                '{Workspace}'
+              ]
+              visualization: 'tiles'
+              tileSettings: {
+                titleContent: {
+                  columnMatch: 'Severity'
+                  formatter: 1
+                }
+                leftContent: {
+                  columnMatch: 'count_'
+                  formatter: 12
+                  formatOptions: {
+                    palette: 'auto'
+                  }
+                  numberFormat: {
+                    unit: 17
+                    options: {
+                      maximumSignificantDigits: 3
+                      maximumFractionDigits: 2
+                    }
+                  }
+                }
+                showBorder: true
+              }
+            }
+            name: 'query - 2'
+          }
+          {
+            type: 1
+            content: {
+              json: 'Enable collection of SysLog to your Log Analytics workspace with diagnostic settings on your AVS instance.'
+            }
+            name: 'text - 3'
+          }
+          {
+            type: 3
+            content: {
+              version: 'KqlItem/1.0'
+              query: 'AVSSyslog \r\n| where HostName in ({HostName})\r\n| where AppName in ({AppName})\r\n| where Severity in ({Severity}) or \'*\' in ({Severity})\r\n| project TimeGenerated, HostName, AppName, Facility, Severity, Message'
+              size: 4
+              timeContextFromParameter: 'TimeRange'
+              queryType: 0
+              resourceType: 'microsoft.operationalinsights/workspaces'
+              crossComponentResources: [
+                '{Workspace}'
+              ]
+              visualization: 'table'
+              gridSettings: {
+                formatters: [
+                  {
+                    columnMatch: 'Severity'
+                    formatter: 18
+                    formatOptions: {
+                      thresholdsOptions: 'icons'
+                      thresholdsGrid: [
+                        {
+                          operator: '=='
+                          thresholdValue: 'debug'
+                          representation: 'question'
+                          text: '{0}{1}'
+                        }
+                        {
+                          operator: '=='
+                          thresholdValue: 'warn'
+                          representation: '2'
+                          text: '{0}{1}'
+                        }
+                        {
+                          operator: '=='
+                          thresholdValue: 'err'
+                          representation: '3'
+                          text: '{0}{1}'
+                        }
+                        {
+                          operator: '=='
+                          thresholdValue: 'notice'
+                          representation: 'Normal'
+                          text: '{0}{1}'
+                        }
+                        {
+                          operator: '=='
+                          thresholdValue: 'alert'
+                          representation: 'Fired'
+                          text: '{0}{1}'
+                        }
+                        {
+                          operator: 'Default'
+                          thresholdValue: null
+                          representation: '1'
+                          text: '{0}{1}'
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    columnMatch: 'Message'
+                    formatter: 7
+                    formatOptions: {
+                      linkTarget: 'CellDetails'
+                      linkIsContextBlade: true
+                    }
+                  }
+                ]
+                filter: true
+              }
+            }
+            name: 'query - 1'
+          }
+        ]
+      }
+      conditionalVisibility: {
+        parameterName: 'Tab'
+        comparison: 'isEqualTo'
+        value: 'SysLog'
+      }
+      name: 'group - SysLog'
+    }
+    {
+      type: 12
+      content: {
+        version: 'NotebookGroup/1.0'
+        groupType: 'editable'
+        items: [
+          {
             type: 1
             content: {
               json: '### Azure Advisor recommendations for Azure VMware Solution'
@@ -1276,6 +1518,55 @@ var workbookContent = {
         groupType: 'editable'
         items: [
           {
+            type: 9
+            content: {
+              version: 'KqlParameterItem/1.0'
+              crossComponentResources: [
+                '{Workspace}'
+              ]
+              parameters: [
+                {
+                  id: '88593ed5-65af-436c-a72e-ea92df78cc42'
+                  version: 'KqlParameterItem/1.0'
+                  name: 'ShowHelpA'
+                  label: 'Show Activity Help'
+                  type: 10
+                  isRequired: true
+                  query: 'datatable(Option:string, ) [\r\n    "Yes",\r\n    "No",\r\n]'
+                  crossComponentResources: [
+                    '{Workspace}'
+                  ]
+                  typeSettings: {
+                    additionalResourceOptions: []
+                    showDefault: false
+                  }
+                  timeContext: {
+                    durationMs: 1800000
+                  }
+                  queryType: 0
+                  resourceType: 'microsoft.operationalinsights/workspaces'
+                  value: 'No'
+                }
+              ]
+              style: 'pills'
+              queryType: 0
+              resourceType: 'microsoft.operationalinsights/workspaces'
+            }
+            name: 'parameters - 1'
+          }
+          {
+            type: 1
+            content: {
+              json: 'In order for this section to display activity data first ensure that  Azure activity log collection from your AVS Private Cloud to Log Analytics is enabled.\r\n\r\nThis can be done from the Activity log blade of Azure Monitor.\r\n\r\n'
+            }
+            conditionalVisibility: {
+              parameterName: 'ShowHelpA'
+              comparison: 'isEqualTo'
+              value: 'Yes'
+            }
+            name: 'text - 2'
+          }
+          {
             type: 3
             content: {
               version: 'KqlItem/1.0'
@@ -1293,7 +1584,19 @@ var workbookContent = {
               visualization: 'table'
               gridSettings: {
                 filter: true
+                sortBy: [
+                  {
+                    itemKey: 'TimeGenerated'
+                    sortOrder: 1
+                  }
+                ]
               }
+              sortBy: [
+                {
+                  itemKey: 'TimeGenerated'
+                  sortOrder: 1
+                }
+              ]
             }
             name: 'query - 4'
           }
@@ -1307,18 +1610,18 @@ var workbookContent = {
       name: 'group - Activity'
     }
   ]
-  isLocked: false
   fallbackResourceIds: [
     'Azure Monitor'
   ]
+  '$schema': 'https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json'
 }
 
 resource workbookId_resource 'microsoft.insights/workbooks@2021-03-08' = {
   name: workbookId
-  location: Location
+  location: resourceGroup().location
   kind: 'shared'
   properties: {
-    displayName: workbookDisplayName
+    displayName: 'AVS-Workbook-${uniqueString(resourceGroup().location)}'
     serializedData: string(workbookContent)
     version: '1.0'
     sourceId: 'Azure Monitor'
