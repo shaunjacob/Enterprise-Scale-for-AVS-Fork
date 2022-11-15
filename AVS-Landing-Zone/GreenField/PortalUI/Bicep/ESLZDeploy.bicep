@@ -64,27 +64,28 @@ param JumpboxSku string = 'Standard_D2s_v3'
 @description('The subnet CIDR used for the Bastion Subnet. Must be a /26 or greater within the VNetAddressSpace')
 param BastionSubnet string = ''
 
-//On-premise Networking
-@description('A boolean flag to deploy a Route Serrver or skip')
-param DeployRouteServer bool = false
-@description('A boolean flag to deploy a Route Serrver or skip')
-param RouteServerVNetName string = ''
-@description('Does a RouteServerSubnet exists?')
-param RouteServerSubnetExists bool = false
-@description('Flag to check onpremise connectivity method, ExpressRoute or VPN')
-param OnPremConnectivity string = ''
-@description('The subnet CIDR used for the RouteServer Subnet')
-param RouteServerSubnetPrefix string = ''
-
-//Monitoring
-@description('Deploy AVS Dashboard')
+// Monitoring Module Parameters
+param DeployMonitoring bool = false
 param DeployDashboard bool = false
-@description('Deploy Azure Monitor metric alerts for your AVS Private Cloud')
 param DeployMetricAlerts bool = false
-@description('Deploy Service Health Alerts for AVS')
 param DeployServiceHealth bool = false
-@description('Email addresses to be added to the alerting action group. Use the format ["name1@domain.com","name2@domain.com"].')
 param AlertEmails string = ''
+param CPUUsageThreshold int
+param MemoryUsageThreshold int
+param StorageUsageThreshold int
+param StorageCriticalThreshold int
+
+//Diagnostic Module Parameters
+param DeployDiagnostics bool = false
+param DeployAVSLogsWorkspace bool = false
+param DeployActivityLogDiagnostics bool = false
+param DeployAVSLogsStorage bool = false
+param DeployWorkbook bool = false
+param DeployWorkspace bool = false
+param DeployStorageAccount bool = false
+param ExistingWorkspaceId string = ''
+param ExistingStorageAccountId string = ''
+param StorageRetentionDays int
 
 //Addons
 @description('Should HCX be deployed as part of the deployment')
@@ -147,18 +148,6 @@ module VNetConnection 'Modules/VNetConnection.bicep' = if (DeployNetworking) {
   }
 }
 
-module RouteServer 'Modules/RouteServer.bicep' = if ((OnPremConnectivity == 'VPN') && (DeployRouteServer)) {
-  name: '${deploymentPrefix}-RouteServer'
-  params: {
-    Prefix: Prefix
-    Location: Location
-    VNetName: DeployNetworking ? AzureNetworking.outputs.VNetName : RouteServerVNetName
-    RouteServerSubnetPrefix : RouteServerSubnetPrefix
-    RouteServerSubnetExists : RouteServerSubnetExists
-  }
-}
-
-
 module Jumpbox 'Modules/JumpBox.bicep' = if (DeployJumpbox) {
   name: '${deploymentPrefix}-Jumpbox'
   params: {
@@ -174,18 +163,40 @@ module Jumpbox 'Modules/JumpBox.bicep' = if (DeployJumpbox) {
   }
 }
 
-module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth) || (DeployDashboard)) {
+module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMonitoring)) {
   name: '${deploymentPrefix}-Monitoring'
   params: {
     AlertEmails: AlertEmails
     Prefix: Prefix
-    PrimaryLocation: Location
+    Location: Location
     DeployMetricAlerts : DeployMetricAlerts
     DeployServiceHealth : DeployServiceHealth
     DeployDashboard : DeployDashboard
-    PrimaryPrivateCloudName : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
-    PrimaryPrivateCloudResourceId : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudResourceId
-    ExRConnectionResourceId : DeployNetworking ? VNetConnection.outputs.ExRConnectionResourceId : ''
+    DeployWorkbook : DeployWorkbook
+    PrivateCloudName : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
+    PrivateCloudResourceId : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudResourceId
+    CPUUsageThreshold: CPUUsageThreshold
+    MemoryUsageThreshold: MemoryUsageThreshold
+    StorageUsageThreshold: StorageUsageThreshold
+    StorageCriticalThreshold: StorageCriticalThreshold
+  }
+}
+
+module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
+  name: '${deploymentPrefix}-Diagnostics'
+  params: {
+    Location: Location
+    Prefix: Prefix
+    DeployAVSLogsWorkspace: DeployAVSLogsWorkspace
+    DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
+    DeployAVSLogsStorage: DeployAVSLogsStorage
+    DeployWorkspace: DeployWorkspace
+    DeployStorageAccount: DeployStorageAccount
+    PrivateCloudName: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
+    PrivateCloudResourceId: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudResourceId
+    ExistingWorkspaceId: ExistingWorkspaceId
+    ExistingStorageAccountId: ExistingStorageAccountId
+    StorageRetentionDays: StorageRetentionDays
   }
 }
 
