@@ -308,7 +308,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
                             "label": "Connect AVS to Azure VNet",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "toolTip": "Select Yes to continue with this step, or No to Skip",
                             "constraints": {
                                 "required": true,
@@ -329,7 +329,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "[equals(steps('azureNetwork').DeployNetworking, true)]",
                             "label": "Virtual Network",
-                            "defaultValue": "New",
+                            "defaultValue": "None",
                             "toolTip": "Select New to deploy a new virtual network, or choose an existing VNet",
                             "constraints": {
                                 "required": true,
@@ -1175,7 +1175,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
                             "label": "Deploy HCX",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "toolTip": "",
                             "constraints": {
                                 "required": true,
