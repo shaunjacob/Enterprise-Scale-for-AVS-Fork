@@ -348,7 +348,7 @@
                         {
                             "name": "NetworkResourceGroup",
                             "type": "Microsoft.Common.TextBox",
-                            "visible": true,
+                            "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "New Virtual Network Resource Group Name",
                             "defaultValue": "",
                             "toolTip": "Name of the new virtual network resource group",
@@ -361,7 +361,7 @@
                         {
                             "name": "NetworkName",
                             "type": "Microsoft.Common.TextBox",
-                            "visible": true,
+                            "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "New Virtual Network Name",
                             "defaultValue": "",
                             "toolTip": "Name of the new virtual network",
