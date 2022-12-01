@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "8508309263007365789"
+      "templateHash": "13357780527278653286"
     }
   },
   "parameters": {
@@ -236,9 +236,6 @@
     "StorageUsageThreshold": {
       "type": "int"
     },
-    "StorageCriticalThreshold": {
-      "type": "int"
-    },
     "DeployDiagnostics": {
       "type": "bool",
       "defaultValue": false
@@ -262,6 +259,14 @@
     "DeployWorkspace": {
       "type": "bool",
       "defaultValue": false
+    },
+    "NewWorkspaceName": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "NewStorageAccountName": {
+      "type": "string",
+      "defaultValue": ""
     },
     "DeployStorageAccount": {
       "type": "bool",
@@ -1626,9 +1631,6 @@
           },
           "StorageUsageThreshold": {
             "value": "[parameters('StorageUsageThreshold')]"
-          },
-          "StorageCriticalThreshold": {
-            "value": "[parameters('StorageCriticalThreshold')]"
           }
         },
         "template": {
@@ -1638,10 +1640,19 @@
             "_generator": {
               "name": "bicep",
               "version": "0.12.40.16777",
-              "templateHash": "5161836634660448365"
+              "templateHash": "1657102893493420962"
             }
           },
           "parameters": {
+            "Prefix": {
+              "type": "string"
+            },
+            "Location": {
+              "type": "string"
+            },
+            "AlertEmails": {
+              "type": "string"
+            },
             "DeployMetricAlerts": {
               "type": "bool"
             },
@@ -1650,15 +1661,6 @@
             },
             "DeployDashboard": {
               "type": "bool"
-            },
-            "Prefix": {
-              "type": "string"
-            },
-            "AlertEmails": {
-              "type": "string"
-            },
-            "Location": {
-              "type": "string"
             },
             "DeployWorkbook": {
               "type": "bool"
@@ -1676,9 +1678,6 @@
               "type": "int"
             },
             "StorageUsageThreshold": {
-              "type": "int"
-            },
-            "StorageCriticalThreshold": {
               "type": "int"
             }
           },
@@ -1786,9 +1785,6 @@
                   },
                   "StorageUsageThreshold": {
                     "value": "[parameters('StorageUsageThreshold')]"
-                  },
-                  "StorageCriticalThreshold": {
-                    "value": "[parameters('StorageCriticalThreshold')]"
                   }
                 },
                 "template": {
@@ -1798,7 +1794,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.12.40.16777",
-                      "templateHash": "16434716623814106512"
+                      "templateHash": "4728087559461503811"
                     }
                   },
                   "parameters": {
@@ -1820,8 +1816,17 @@
                     "StorageUsageThreshold": {
                       "type": "int"
                     },
+                    "CPUCriticalThreshold": {
+                      "type": "int",
+                      "defaultValue": 80
+                    },
+                    "MemoryCriticalThreshold": {
+                      "type": "int",
+                      "defaultValue": 80
+                    },
                     "StorageCriticalThreshold": {
-                      "type": "int"
+                      "type": "int",
+                      "defaultValue": 75
                     }
                   },
                   "variables": {
@@ -1851,8 +1856,24 @@
                         "Severity": 2
                       },
                       {
+                        "Name": "CPUCritical",
+                        "Description": "CPU Critical Usage per Cluster",
+                        "Metric": "EffectiveCpuAverage",
+                        "SplitDimension": "clustername",
+                        "Threshold": "[parameters('CPUCriticalThreshold')]",
+                        "Severity": 0
+                      },
+                      {
+                        "Name": "MemoryCritical",
+                        "Description": "Memory Critical Usage per Cluster",
+                        "Metric": "UsageAverage",
+                        "SplitDimension": "clustername",
+                        "Threshold": "[parameters('MemoryCriticalThreshold')]",
+                        "Severity": 0
+                      },
+                      {
                         "Name": "StorageCritical",
-                        "Description": "Storage Usage per Datastore",
+                        "Description": "Storage Critical Usage per Datastore",
                         "Metric": "DiskUsedPercentage",
                         "SplitDimension": "dsname",
                         "Threshold": "[parameters('StorageCriticalThreshold')]",
@@ -4630,8 +4651,14 @@
           "DeployWorkspace": {
             "value": "[parameters('DeployWorkspace')]"
           },
+          "NewWorkspaceName": {
+            "value": "[parameters('NewWorkspaceName')]"
+          },
           "DeployStorageAccount": {
             "value": "[parameters('DeployStorageAccount')]"
+          },
+          "NewStorageAccountName": {
+            "value": "[parameters('NewStorageAccountName')]"
           },
           "PrivateCloudName": {
             "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudName.value, parameters('ExistingPrivateCloudName'))]"
@@ -4656,7 +4683,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.12.40.16777",
-              "templateHash": "15519860138785116855"
+              "templateHash": "3546126954653857492"
             }
           },
           "parameters": {
@@ -4679,6 +4706,14 @@
             "DeployAVSLogsWorkspace": {
               "type": "bool",
               "defaultValue": false
+            },
+            "NewWorkspaceName": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "NewStorageAccountName": {
+              "type": "string",
+              "defaultValue": ""
             },
             "DeployActivityLogDiagnostics": {
               "type": "bool",
@@ -4729,8 +4764,8 @@
                   "Location": {
                     "value": "[parameters('Location')]"
                   },
-                  "Prefix": {
-                    "value": "[parameters('Prefix')]"
+                  "NewWorkspaceName": {
+                    "value": "[parameters('NewWorkspaceName')]"
                   }
                 },
                 "template": {
@@ -4740,14 +4775,14 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.12.40.16777",
-                      "templateHash": "8881033461838862562"
+                      "templateHash": "2876446036572930680"
                     }
                   },
                   "parameters": {
-                    "Prefix": {
+                    "Location": {
                       "type": "string"
                     },
-                    "Location": {
+                    "NewWorkspaceName": {
                       "type": "string"
                     }
                   },
@@ -4755,14 +4790,14 @@
                     {
                       "type": "Microsoft.OperationalInsights/workspaces",
                       "apiVersion": "2022-10-01",
-                      "name": "[format('{0}-Workspace', parameters('Prefix'))]",
+                      "name": "[parameters('NewWorkspaceName')]",
                       "location": "[parameters('Location')]"
                     }
                   ],
                   "outputs": {
                     "WorkspaceId": {
                       "type": "string",
-                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-Workspace', parameters('Prefix')))]"
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('NewWorkspaceName'))]"
                     }
                   }
                 }
@@ -4785,6 +4820,9 @@
                 "parameters": {
                   "Location": {
                     "value": "[parameters('Location')]"
+                  },
+                  "NewStorageAccountName": {
+                    "value": "[parameters('NewStorageAccountName')]"
                   }
                 },
                 "template": {
@@ -4794,22 +4832,22 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.12.40.16777",
-                      "templateHash": "4029383951596435329"
+                      "templateHash": "128356252218645058"
                     }
                   },
                   "parameters": {
                     "Location": {
                       "type": "string"
+                    },
+                    "NewStorageAccountName": {
+                      "type": "string"
                     }
-                  },
-                  "variables": {
-                    "storageaccountname": "[format('avs{0}', uniqueString(resourceGroup().id))]"
                   },
                   "resources": [
                     {
                       "type": "Microsoft.Storage/storageAccounts",
                       "apiVersion": "2022-05-01",
-                      "name": "[variables('storageaccountname')]",
+                      "name": "[parameters('NewStorageAccountName')]",
                       "location": "[parameters('Location')]",
                       "sku": {
                         "name": "Standard_LRS"
@@ -4823,11 +4861,11 @@
                   "outputs": {
                     "StorageAccountName": {
                       "type": "string",
-                      "value": "[variables('storageaccountname')]"
+                      "value": "[parameters('NewStorageAccountName')]"
                     },
                     "StorageAccountid": {
                       "type": "string",
-                      "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageaccountname'))]"
+                      "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('NewStorageAccountName'))]"
                     }
                   }
                 }

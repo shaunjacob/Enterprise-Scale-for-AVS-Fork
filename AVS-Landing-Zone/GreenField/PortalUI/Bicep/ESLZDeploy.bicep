@@ -81,7 +81,6 @@ param AlertEmails string = ''
 param CPUUsageThreshold int
 param MemoryUsageThreshold int
 param StorageUsageThreshold int
-param StorageCriticalThreshold int
 
 //Diagnostic Module Parameters
 param DeployDiagnostics bool = false
@@ -90,6 +89,8 @@ param DeployActivityLogDiagnostics bool = false
 param DeployAVSLogsStorage bool = false
 param DeployWorkbook bool = false
 param DeployWorkspace bool = false
+param NewWorkspaceName string = ''
+param NewStorageAccountName string = ''
 param DeployStorageAccount bool = false
 param ExistingWorkspaceId string = ''
 param ExistingStorageAccountId string = ''
@@ -189,7 +190,6 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMonitoring)
     CPUUsageThreshold: CPUUsageThreshold
     MemoryUsageThreshold: MemoryUsageThreshold
     StorageUsageThreshold: StorageUsageThreshold
-    StorageCriticalThreshold: StorageCriticalThreshold
   }
 }
 
@@ -202,7 +202,9 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
     DeployAVSLogsStorage: DeployAVSLogsStorage
     DeployWorkspace: DeployWorkspace
+    NewWorkspaceName: NewWorkspaceName
     DeployStorageAccount: DeployStorageAccount
+    NewStorageAccountName: NewStorageAccountName
     PrivateCloudName: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
     PrivateCloudResourceId: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudResourceId
     ExistingWorkspaceId: ExistingWorkspaceId

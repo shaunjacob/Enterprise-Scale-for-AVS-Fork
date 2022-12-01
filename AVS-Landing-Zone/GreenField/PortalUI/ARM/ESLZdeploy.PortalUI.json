@@ -39,7 +39,7 @@
                                     "name": "info",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
-                                        "text": "This AVS Landing Zone Accelerator will create a defined resource group hierarchy in the chosen subscription with the prefix provided at this step. Each resource created as part of the deployment will also utilize this prefix in the name. For more details, click the link below ",
+                                        "text": "This AVS Landing Zone Accelerator will create a defined resource group hierarchy in the chosen subscription with the prefix provided at this step. Some of the resources created as part of the deployment will also utilize this prefix in its name. For more details, click the link below ",
                                         "link": {
                                             "label": "Learn more",
                                             "uri": "https://github.com/Azure/Enterprise-Scale-for-AVS/tree/main/AVS-Landing-Zone/GreenField"
@@ -888,7 +888,7 @@
                                     "toolTip": "Set the CPU Usage Threshold to be alerted on per Cluster",
                                     "min": 1,
                                     "max": 100,
-                                    "defaultValue": 80,
+                                    "defaultValue": 60,
                                     "showStepMarkers": true,
                                     "constraints": {
                                         "required": true
@@ -903,7 +903,7 @@
                                     "toolTip": "Set the Memory Usage Threshold to be alerted on per Cluster",
                                     "min": 1,
                                     "max": 100,
-                                    "defaultValue": 80,
+                                    "defaultValue": 60,
                                     "showStepMarkers": true,
                                     "constraints": {
                                         "required": true
@@ -918,25 +918,20 @@
                                     "toolTip": "Set the Storage Usage Threshold to be alerted on per Cluster",
                                     "min": 1,
                                     "max": 100,
-                                    "defaultValue": 70,
+                                    "defaultValue": 60,
                                     "showStepMarkers": true,
                                     "constraints": {
                                         "required": true
                                     }
                                 },
                                 {
-                                    "name": "storageCriticalThreshold",
-                                    "type": "Microsoft.Common.Slider",
+                                    "name": "MonitoringInputsInfo1",
+                                    "type": "Microsoft.Common.InfoBox",
                                     "visible": "[equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true)]",
-                                    "label": "Storage Critical % Threshold (Sev 0 Alert)",
-                                    "subLabel": "",
-                                    "toolTip": "Set the Critical Storage Usage Threshold to be alerted on per Cluster",
-                                    "min": 1,
-                                    "max": 100,
-                                    "defaultValue": 80,
-                                    "showStepMarkers": true,
-                                    "constraints": {
-                                        "required": true
+                                    "options": {
+                                        "icon": "None",
+                                        "text": "In addition to the alerts above, we will create Sev 0 alerts based on VMware recommended thresholds. These will be set as 80% for CPU and Memory, 75% for Storage",
+                                        "style": "Info"
                                     }
                                 }
                             ]
@@ -957,7 +952,7 @@
                                     "name": "AVSAlertInfo1",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
-                                        "text": "Diagnostic settings in Azure allow for the collection of resource and activity logs to either be stored to a storage account, to a Log Analytics Workspace or streamed to an Event Hub. This provides the ability to store and retrieve logs for future diagnosis or troubleshooting. In this deployment, you will select the Private Cloud you would like to enable Diagnostic Settings, and send to a New or Existing Log Anayltics Workspace or Storage account",
+                                        "text": "Diagnostic settings in Azure allow for the collection of resource and activity logs to either be stored to a storage account, to a Log Analytics Workspace or streamed to an Event Hub. This provides the ability to store and retrieve logs for future diagnosis or troubleshooting. In this deployment, you will select the Private Cloud you would like to enable Diagnostic Settings, and send these to a New or Existing Log Analytics Workspace or Storage Account",
                                         "link": {
                                             "label": "Learn more",
                                             "uri": "https://learn.microsoft.com/en-us/azure/azure-vmware/configure-vmware-syslogs"
@@ -1002,7 +997,14 @@
                             "type": "Microsoft.Solutions.ResourceSelector",
                             "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
                             "label": "Select the AVS Private Cloud to enable diagnostic settings",
-                            "resourceType": "Microsoft.AVS/privateClouds"
+                            "resourceType": "Microsoft.AVS/privateClouds",
+                            "options": {
+                                "filter": {
+                                    "subscription": "onBasics",
+                                    "location": "onBasics"
+                                }
+                            }
+
                         },
                         {
                             "name": "Workspace",
@@ -1074,6 +1076,20 @@
                                     }
                                 },
                                 {
+                                    "name": "newWorkspaceName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, true)]",
+                                    "label": "New Workspace Name",
+                                    "placeholder": "",
+                                    "defaultValue": "",
+                                    "toolTip": "The workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "^[a-z0-9A-Z-]{4,63}$",
+                                        "validationMessage": "The workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol."
+                                    }
+                                },
+                                {
                                     "name": "existingWorkspaceSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, false)]",
@@ -1131,6 +1147,20 @@
                                     }
                                 },
                                 {
+                                    "name": "newStorageAccountName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)]",
+                                    "label": "New Storage Account Name",
+                                    "placeholder": "",
+                                    "defaultValue": "",
+                                    "toolTip": "The name must be unique across all existing storage account names in Azure. It must be 3 to 24 characters long, and can contain only lowercase letters and numbers.",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "^[a-z0-9]{3,24}$",
+                                        "validationMessage": "The name must be unique across all existing storage account names in Azure. It must be 3 to 24 characters long, and can contain only lowercase letters and numbers."
+                                    }
+                                },
+                                {
                                     "name": "existingStorageAccountSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)]",
@@ -1141,9 +1171,9 @@
                                     "name": "storageRetention",
                                     "type": "Microsoft.Common.Slider",
                                     "visible": "[equals(steps('Diagnostics').StorageAccount.StorageLogCollection, true)]",
-                                    "label": "Retention Days",
+                                    "label": "Storage Account Retention Days",
                                     "subLabel": "",
-                                    "toolTip": "Retention policy ranges from 1 to 365 days. If you do not want to apply any retention policy and retain data forever, set retention (days) to 0.",
+                                    "toolTip": "Retention only applies to storage account. Retention policy ranges from 1 to 365 days. If you do not want to apply any retention policy and retain data forever, set retention (days) to 0.",
                                     "min": 0,
                                     "max": 365,
                                     "defaultValue": 1,
@@ -1291,10 +1321,9 @@
                 "PrivateCloudName": "[steps('Monitoring').MonitoringInputs.avsSelector.name]",
                 "PrivateCloudResourceId": "[steps('Monitoring').MonitoringInputs.avsSelector.id]",
                 "AlertEmails": "[steps('Monitoring').MonitoringInputs.ActionGroupEmails]",
-                "CPUUsageThreshold": "[steps('Monitoring').MonitoringInputs.cpuUsageThreshold]",
-                "MemoryUsageThreshold": "[steps('Monitoring').MonitoringInputs.memoryUsageThreshold]",
-                "StorageUsageThreshold": "[steps('Monitoring').MonitoringInputs.storageUsageThreshold]",
-                "StorageCriticalThreshold": "[steps('Monitoring').MonitoringInputs.storageCriticalThreshold]",
+                "CPUUsageThreshold": "[if(equals(steps('Monitoring').DeployMonitoring, true), steps('Monitoring').MonitoringInputs.cpuUsageThreshold, '0')]",
+                "MemoryUsageThreshold": "[if(equals(steps('Monitoring').DeployMonitoring, true), steps('Monitoring').MonitoringInputs.memoryUsageThreshold, '0')]",
+                "StorageUsageThreshold": "[if(equals(steps('Monitoring').DeployMonitoring, true), steps('Monitoring').MonitoringInputs.storageUsageThreshold, '0')]",
                 "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
                 "DeployAVSLogsWorkspace": "[steps('Diagnostics').Workspace.AVSLogCollection]",
                 "DiagnosticsPrivateCloudName": "[steps('Diagnostics').avsSelector2.name]",
@@ -1302,10 +1331,12 @@
                 "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
                 "DeployAVSLogsStorage": "[steps('Diagnostics').StorageAccount.StorageLogCollection]",
                 "DeployWorkspace": "[steps('Diagnostics').Workspace.WorkspaceExists]",
+                "NewWorkspaceName": "[steps('Diagnostics').Workspace.newWorkspaceName]",
                 "ExistingWorkspaceId": "[steps('Diagnostics').Workspace.existingWorkspaceSelector.id]",
                 "ExistingStorageAccountId": "[steps('Diagnostics').StorageAccount.existingStorageAccountSelector.id]",
                 "DeployStorageAccount": "[steps('Diagnostics').StorageAccount.StorageAccountExists]",
-                "StorageRetentionDays": "[steps('Diagnostics').StorageAccount.storageRetention]",
+                "NewStorageAccountName": "[steps('Diagnostics').StorageAccount.newStorageAccountName]",
+                "StorageRetentionDays": "[if(equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true), steps('Diagnostics').StorageAccount.storageRetention, '0')]",
                 "DeployHCX": "[steps('Addons').deployHCX]",
                 "DeploySRM": "[steps('Addons').deploySRM]",
                 "SRMLicenseKey": "[steps('Addons').srmLicenseKey]",
