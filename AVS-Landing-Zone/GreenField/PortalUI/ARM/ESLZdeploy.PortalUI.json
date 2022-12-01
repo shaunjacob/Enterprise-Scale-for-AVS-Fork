@@ -483,6 +483,7 @@
                             "multiLine": true,
                             "constraints": {
                                 "allowedValues": "[map(steps('azureNetwork').gatewaySubnetApi.value,(item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\",\"description\":\"', 'Resource Group: ', last(take(split(item.id, '/'), 5)), '\"}')))]",
+                                "regex": "^gatewaysubnet$",
                                 "required": true
                             }
                         },
