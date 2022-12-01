@@ -843,19 +843,6 @@
                             "label": "",
                             "elements": [
                                 {
-                                    "name": "avsSelector",
-                                    "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true))]",
-                                    "label": "Select AVS Private Cloud",
-                                    "resourceType": "Microsoft.AVS/privateClouds",
-                                    "options": {
-                                        "filter": {
-                                            "subscription": "onBasics",
-                                            "location": "onBasics"
-                                        }
-                                    }
-                                },
-                                {
                                     "name": "ActionGroupEmails",
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "Email address to send the alerts to",
@@ -991,20 +978,6 @@
                                 "uri": "https://learn.microsoft.com/en-us/azure/azure-monitor/usage-estimated-costs",
                                 "style": "Warning"
                             }
-                        },
-                        {
-                            "name": "avsSelector2",
-                            "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
-                            "label": "Select the AVS Private Cloud to enable diagnostic settings",
-                            "resourceType": "Microsoft.AVS/privateClouds",
-                            "options": {
-                                "filter": {
-                                    "subscription": "onBasics",
-                                    "location": "onBasics"
-                                }
-                            }
-
                         },
                         {
                             "name": "Workspace",
@@ -1318,16 +1291,12 @@
                 "DeployDashboard": "[steps('Monitoring').AVSDashboard.DeployDashboard]",
                 "DeployServiceHealth": "[steps('Monitoring').AVSDashboard.DeployServiceHealth]",
                 "DeployMetricAlerts": "[steps('Monitoring').AVSDashboard.DeployAVSAlerts]",
-                "PrivateCloudName": "[steps('Monitoring').MonitoringInputs.avsSelector.name]",
-                "PrivateCloudResourceId": "[steps('Monitoring').MonitoringInputs.avsSelector.id]",
                 "AlertEmails": "[steps('Monitoring').MonitoringInputs.ActionGroupEmails]",
                 "CPUUsageThreshold": "[if(equals(steps('Monitoring').DeployMonitoring, true), steps('Monitoring').MonitoringInputs.cpuUsageThreshold, '0')]",
                 "MemoryUsageThreshold": "[if(equals(steps('Monitoring').DeployMonitoring, true), steps('Monitoring').MonitoringInputs.memoryUsageThreshold, '0')]",
                 "StorageUsageThreshold": "[if(equals(steps('Monitoring').DeployMonitoring, true), steps('Monitoring').MonitoringInputs.storageUsageThreshold, '0')]",
                 "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
                 "DeployAVSLogsWorkspace": "[steps('Diagnostics').Workspace.AVSLogCollection]",
-                "DiagnosticsPrivateCloudName": "[steps('Diagnostics').avsSelector2.name]",
-                "DiagnosticsPrivateCloudResourceId": "[steps('Diagnostics').avsSelector2.id]",
                 "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
                 "DeployAVSLogsStorage": "[steps('Diagnostics').StorageAccount.StorageLogCollection]",
                 "DeployWorkspace": "[steps('Diagnostics').Workspace.WorkspaceExists]",
