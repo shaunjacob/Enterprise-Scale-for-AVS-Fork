@@ -156,6 +156,32 @@
                             "label": "Private Cloud details",
                             "elements": [
                                 {
+                                    "name": "AVSResourceGroup",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": true,
+                                    "label": "AVS Resource Group Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Resource Group"
+                                    }
+                                },
+								{
+                                    "name": "AVSName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": true,
+                                    "label": "AVS Private Cloud Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Private Cloud"
+                                    }
+                                },
+                                {
                                     "name": "avsAddressSpace",
                                     "type": "Microsoft.Common.TextBox",
                                     "visible": true,

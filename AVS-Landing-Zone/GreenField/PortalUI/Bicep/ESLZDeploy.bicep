@@ -10,6 +10,10 @@ param Location string = deployment().location
 //Private Cloud
 @description('Set this to false if the Private Cloud already exists')
 param DeployPrivateCloud bool = false
+@description('Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment')
+param PrivateCloudName string = ''
+@description('Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment')
+param PrivateCloudResourceGroupName string = ''
 @description('The address space used for the AVS Private Cloud management networks. Must be a non-overlapping /22')
 param PrivateCloudAddressSpace string = ''
 @description('The SKU that should be used for the first cluster, ensure you have quota for the given SKU before deploying')
@@ -109,8 +113,9 @@ var varCuaid = '1cf4a3e3-529c-4fb2-ba6a-63dff7d71586'
 module AVSCore 'Modules/AVSCore.bicep' = {
   name: '${deploymentPrefix}-AVS'
   params: {
-    Prefix: Prefix
     Location: Location
+    PrivateCloudName: PrivateCloudName
+    PrivateCloudResourceGroupName: PrivateCloudResourceGroupName
     PrivateCloudAddressSpace: PrivateCloudAddressSpace
     PrivateCloudHostCount: PrivateCloudHostCount
     PrivateCloudSKU: PrivateCloudSKU

@@ -1,8 +1,9 @@
 targetScope = 'subscription'
 
 param Location string
-param Prefix string
 param PrivateCloudAddressSpace string
+param PrivateCloudName string
+param PrivateCloudResourceGroupName string
 param PrivateCloudSKU string
 param PrivateCloudHostCount int
 param DeployPrivateCloud bool
@@ -11,7 +12,7 @@ param ExistingPrivateCloudResourceId string
 //var DeployNew = empty(ExistingPrivateCloudId)
 
 resource PrivateCloudResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = if (DeployPrivateCloud) {
-  name: '${Prefix}-PrivateCloud'
+  name: PrivateCloudResourceGroupName
   location: Location
 }
 
@@ -19,8 +20,8 @@ module PrivateCloud 'AVSCore/PrivateCloud.bicep' = if (DeployPrivateCloud) {
   scope: PrivateCloudResourceGroup
   name: '${deployment().name}-PrivateCloud'
   params: {
-    Prefix: Prefix
     Location: Location
+    PrivateCloudName: PrivateCloudName
     NetworkBlock: PrivateCloudAddressSpace
     SKUName: PrivateCloudSKU
     ManagementClusterSize: PrivateCloudHostCount
