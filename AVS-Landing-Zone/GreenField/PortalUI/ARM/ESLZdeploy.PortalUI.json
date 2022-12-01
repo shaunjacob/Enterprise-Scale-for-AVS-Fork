@@ -1262,6 +1262,8 @@
                 "Prefix": "[steps('basics').avsDeploymentPrefix]",
                 "Location": "[steps('basics').avsDeploymentScope.location.name]",
                 "DeployPrivateCloud": "[steps('PrivateCloud').DeployPrivateCloud]",
+                "PrivateCloudResourceGroupName": "[steps('PrivateCloud').avsPrivateCloudSettings.AVSResourceGroup]",
+                "PrivateCloudName": "[steps('PrivateCloud').avsPrivateCloudSettings.AVSName]",
                 "PrivateCloudAddressSpace": "[steps('PrivateCloud').avsPrivateCloudSettings.avsAddressSpace]",
                 "PrivateCloudSKU": "[steps('PrivateCloud').avsPrivateCloudSettings.avsSkuType]",
                 "PrivateCloudHostCount": "[steps('PrivateCloud').avsPrivateCloudSettings.avsHostCount]",
