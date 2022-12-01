@@ -308,7 +308,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
                             "label": "Connect AVS to Azure VNet",
-                            "defaultValue": "No",
+                            "defaultValue": "No (Skip)",
                             "toolTip": "Select Yes to continue with this step, or No to Skip",
                             "constraints": {
                                 "required": true,
