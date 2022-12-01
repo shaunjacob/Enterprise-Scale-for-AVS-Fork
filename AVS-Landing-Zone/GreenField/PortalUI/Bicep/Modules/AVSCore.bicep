@@ -3,7 +3,7 @@ targetScope = 'subscription'
 param Location string
 param PrivateCloudAddressSpace string
 param PrivateCloudName string
-param PrivateCloudResourceGroupName string
+param PrivateCloudResourceGroupName string = 'avs-rg'
 param PrivateCloudSKU string
 param PrivateCloudHostCount int
 param DeployPrivateCloud bool
