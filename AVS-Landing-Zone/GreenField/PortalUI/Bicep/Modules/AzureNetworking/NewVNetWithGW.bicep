@@ -4,13 +4,15 @@ param Prefix string
 param NewVNetAddressSpace string
 param NewVnetNewGatewaySubnetAddressPrefix string
 param NewGatewaySku string = 'Standard'
+param NetworkName string = ''
 
-var NewVNetName = '${Prefix}-vnet'
+
+//var NewVNetName = '${Prefix}-vnet'
 var NewVnetNewGatewayName = '${Prefix}-gw'
 
 //New VNet Workflow
 resource NewVNet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
-  name: NewVNetName
+  name: NetworkName
   location: Location
   properties: {
     addressSpace: {

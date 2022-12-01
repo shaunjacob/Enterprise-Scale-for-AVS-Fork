@@ -11,10 +11,12 @@ param NewVnetNewGatewaySubnetAddressPrefix string
 param GatewaySubnetExists bool
 param ExistingVnetNewGatewaySubnetPrefix string
 param ExistingGatewaySubnetId string
+param NetworkName string = ''
+param NetworkResourceGroupName string = ''
 
 
 resource NetworkResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: '${Prefix}-Network'
+  name: NetworkResourceGroupName
   location: Location
 }
 
@@ -24,6 +26,7 @@ module NewNetwork 'AzureNetworking/NewVNetWithGW.bicep' = if (!VNetExists) {
   params: {
     Prefix: Prefix
     Location: Location
+    NetworkName: NetworkName
     NewVNetAddressSpace: NewVNetAddressSpace
     NewVnetNewGatewaySubnetAddressPrefix: NewVnetNewGatewaySubnetAddressPrefix
   }

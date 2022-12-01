@@ -53,6 +53,10 @@ param ExistingGatewaySubnetId string = ''
 @description('The existing vnet new gatewaysubnet prefix')
 param ExistingVnetNewGatewaySubnetPrefix string = ''
 
+param NetworkName string = ''
+param NetworkResourceGroupName string = ''
+
+
 //Jumpbox
 @description('Should a Jumpbox & Bastion be deployed to access the Private Cloud')
 param DeployJumpbox bool = false
@@ -130,6 +134,8 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
     Prefix: Prefix
     Location: Location
     VNetExists: VNetExists
+    NetworkName: NetworkName
+    NetworkResourceGroupName: NetworkResourceGroupName
     ExistingVnetName : ExistingVnetName
     GatewayExists : GatewayExists
     ExistingGatewayName : ExistingGatewayName

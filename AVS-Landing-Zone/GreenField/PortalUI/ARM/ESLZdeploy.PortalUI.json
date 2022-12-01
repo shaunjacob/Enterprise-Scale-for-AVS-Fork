@@ -346,6 +346,32 @@
                             }
                         },
                         {
+                            "name": "NetworkResourceGroup",
+                            "type": "Microsoft.Common.TextBox",
+                            "visible": true,
+                            "label": "New Virtual Network Resource Group Name",
+                            "defaultValue": "",
+                            "toolTip": "Name of the new virtual network resource group",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "Provide a name for your new virtual network"
+                            }
+                        },
+                        {
+                            "name": "NetworkName",
+                            "type": "Microsoft.Common.TextBox",
+                            "visible": true,
+                            "label": "New Virtual Network Name",
+                            "defaultValue": "",
+                            "toolTip": "Name of the new virtual network",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "Provide a name for your New Virtual Network"
+                            }
+                        },
+                        {
                             "name": "vNetAddressSpace",
                             "type": "Microsoft.Common.TextBox",
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
@@ -1239,6 +1265,8 @@
                 "ExistingPrivateCloudResourceId": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSPrivateCloudSettings.existingAVSSelector.id, 'none')]",
                 "VNetExists": "[steps('azureNetwork').VNetExists]",
                 "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
+                "NetworkResourceGroupName": "[steps('azureNetwork').NetworkResourceGroup]",
+                "NetworkName": "[steps('azureNetwork').NetworkName]",
                 "ExistingVnetName": "[steps('azureNetwork').VnetSelectorId.name]",
                 "GatewayExists": "[steps('azureNetwork').GatewayExists]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.name]",
