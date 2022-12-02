@@ -516,7 +516,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, false)]",
                             "options": {
-                                "text": "Ensure subnet prefix is correct and available in your virtual network.",
+                                "text": "Ensure subnet prefix is valid and in the address space of your virtual network.",
                                 "style": "Warning"
                             }
                         },                    

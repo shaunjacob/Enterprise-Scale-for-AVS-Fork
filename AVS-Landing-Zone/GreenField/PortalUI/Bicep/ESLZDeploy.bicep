@@ -49,7 +49,7 @@ param ExistingVnetName string = ''
 @description('The Existing Gateway name')
 param ExistingGatewayName string = ''
 @description('The existing vnet gatewaysubnet id')
-param ExistingGatewaySubnetId string = ''
+param ExistingGatewaySubnetId string = '/subscriptions/3360bc25-f24a-4221-9129-2207e8afb5bc/resourceGroups/RGName/providers/Microsoft.Network/virtualNetworks/VNetName/subnets/GatewaySubnet'
 @description('The existing vnet new gatewaysubnet prefix')
 param ExistingVnetNewGatewaySubnetPrefix string = ''
 

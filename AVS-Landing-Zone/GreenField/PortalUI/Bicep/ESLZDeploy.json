@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "11105224103001135521"
+      "templateHash": "219260750161310487"
     }
   },
   "parameters": {
@@ -145,7 +145,7 @@
     },
     "ExistingGatewaySubnetId": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "/subscriptions/3360bc25-f24a-4221-9129-2207e8afb5bc/resourceGroups/RGName/providers/Microsoft.Network/virtualNetworks/VNetName/subnets/GatewaySubnet",
       "metadata": {
         "description": "The existing vnet gatewaysubnet id"
       }
