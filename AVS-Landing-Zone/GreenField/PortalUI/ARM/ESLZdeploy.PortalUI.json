@@ -168,6 +168,16 @@
                                         "validationMessage": "Provide a name for your Resource Group"
                                     }
                                 },
+                                {
+                                    "name": "avsRGInfo",
+                                    "type": "Microsoft.Common.InfoBox",
+                                    "visible": true,
+                                    "options": {
+                                        "text": "Entering an existing resource group name will not have any impact to any other resources in the resource group",
+                                        "uri": "",
+                                        "style": "Ino"
+                                    }
+                                },
 								{
                                     "name": "AVSName",
                                     "type": "Microsoft.Common.TextBox",
@@ -211,7 +221,7 @@
                                                 "value": "AV36"
                                             },
                                             {
-                                                "label": "AV36T",
+                                                "label": "AV36T (Trial SKU)",
                                                 "description": "",
                                                 "value": "AV36T"
                                             },
@@ -356,6 +366,16 @@
                                 "required": true,
                                 "regex": "",
                                 "validationMessage": "Provide a name for your new virtual network"
+                            }
+                        },
+                        {
+                            "name": "networkRGInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": true,
+                            "options": {
+                                "text": "Entering an existing resource group name will not have any impact to any other resources in the resource group",
+                                "uri": "",
+                                "style": "Ino"
                             }
                         },
                         {
