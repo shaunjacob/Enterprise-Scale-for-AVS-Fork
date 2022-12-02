@@ -1295,7 +1295,7 @@
                 "GatewayExists": "[steps('azureNetwork').GatewayExists]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.name]",
                 "GatewaySubnetExists": "[if(equals(steps('azureNetwork').GatewayExists, true), true, steps('azureNetwork').GatewaySubnetExists)]",
-                "ExistingGatewaySubnetId": "[steps('azureNetwork').gatewaySubnetSubnetSelectorName]",
+                "ExistingGatewaySubnetId": "[steps('azureNetwork').gatewaySubnetSubnetSelectorName.id]",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
                 "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",
                 "ExistingVnetNewGatewaySubnetPrefix": "[if(equals(steps('azureNetwork').GatewaySubnetExists, false), steps('azureNetwork').ExistingVnetNewGatewaySubnetPrefix, 'none')]",
