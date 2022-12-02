@@ -175,7 +175,7 @@
                                     "options": {
                                         "text": "Entering an existing resource group name will not have any impact to any other resources in the resource group",
                                         "uri": "",
-                                        "style": "Ino"
+                                        "style": "Info"
                                     }
                                 },
 								{
@@ -317,7 +317,7 @@
                             "name": "DeployNetworking",
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
-                            "label": "Connect AVS to Azure VNet",
+                            "label": "Connect AVS to an Azure VNet",
                             "defaultValue": "No (Skip)",
                             "toolTip": "Select Yes to continue with this step, or No to Skip",
                             "constraints": {
@@ -371,11 +371,11 @@
                         {
                             "name": "networkRGInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": true,
+                            "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "options": {
                                 "text": "Entering an existing resource group name will not have any impact to any other resources in the resource group",
                                 "uri": "",
-                                "style": "Ino"
+                                "style": "Info"
                             }
                         },
                         {
