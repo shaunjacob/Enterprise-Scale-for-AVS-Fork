@@ -420,16 +420,6 @@
                             }
                         },
                         {
-                            "name": "VnetSelectorId",
-                            "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
-                            "label": "Virtual Network",
-                            "resourceType": "Microsoft.Network/virtualNetworks",
-                            "constraints": {
-                                "required": true
-                            }
-                        },
-                        {
                             "name": "GatewayExists",
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
@@ -453,9 +443,19 @@
                         {
                             "name": "gatewaySelectorId",
                             "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('azureNetwork').GatewayExists, true)]",
+                            "visible": "[equals(steps('azureNetwork').GatewayExists, false)]",
                             "label": "Select Existing ExpressRoute Gateway",
                             "resourceType": "Microsoft.Network/virtualNetworkGateways",
+                            "constraints": {
+                                "required": true
+                            }
+                        },
+                        {
+                            "name": "VnetSelectorId",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "visible": "[equals(steps('azureNetwork').GatewayExists, true)]",
+                            "label": "Virtual Network",
+                            "resourceType": "Microsoft.Network/virtualNetworks",
                             "constraints": {
                                 "required": true
                             }
