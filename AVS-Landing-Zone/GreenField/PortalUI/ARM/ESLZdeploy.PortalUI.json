@@ -174,7 +174,6 @@
                                     "visible": true,
                                     "options": {
                                         "text": "Entering an existing resource group name will not have any impact to any other resources in the resource group",
-                                        "uri": "",
                                         "style": "Info"
                                     }
                                 },
@@ -374,7 +373,6 @@
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "options": {
                                 "text": "Entering an existing resource group name will not have any impact to any other resources in the resource group",
-                                "uri": "",
                                 "style": "Info"
                             }
                         },
@@ -443,7 +441,7 @@
                         {
                             "name": "gatewaySelectorId",
                             "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('azureNetwork').GatewayExists, false)]",
+                            "visible": "[equals(steps('azureNetwork').GatewayExists, true)]",
                             "label": "Select Existing ExpressRoute Gateway",
                             "resourceType": "Microsoft.Network/virtualNetworkGateways",
                             "constraints": {
@@ -453,7 +451,7 @@
                         {
                             "name": "VnetSelectorId",
                             "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('azureNetwork').GatewayExists, true)]",
+                            "visible": "[equals(steps('azureNetwork').GatewayExists, false)]",
                             "label": "Virtual Network",
                             "resourceType": "Microsoft.Network/virtualNetworks",
                             "constraints": {
