@@ -272,7 +272,16 @@
                                             "location": "onBasics"
                                         }
                                     }
-                                }
+                                },
+                                {
+                                    "name": "existingavsInfo",
+                                    "type": "Microsoft.Common.InfoBox",
+                                    "visible": "",
+                                    "options": {
+                                        "text": "The Private Cloud chosen in this step will be used for all the following modules",
+                                        "style": "Info"
+                                    }
+                                },
                             ]
                         }
                     ]
