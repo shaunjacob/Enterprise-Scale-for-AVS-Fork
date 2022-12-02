@@ -54,7 +54,7 @@ param ExistingGatewaySubnetId string = ''
 param ExistingVnetNewGatewaySubnetPrefix string = ''
 
 param NetworkName string = ''
-param NetworkResourceGroupName string = ''
+param NetworkResourceGroupName string = 'network-rg'
 
 
 //Jumpbox

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "10452057120656562576"
+      "templateHash": "11105224103001135521"
     }
   },
   "parameters": {
@@ -163,7 +163,7 @@
     },
     "NetworkResourceGroupName": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "network-rg"
     },
     "DeployJumpbox": {
       "type": "bool",
