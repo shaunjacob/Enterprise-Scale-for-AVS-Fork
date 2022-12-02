@@ -480,31 +480,14 @@
                             }
                         },
                         {
-                            "name": "gatewaySubnetApi",
-                            "type": "Microsoft.Solutions.ArmApiControl",
-                            "request": {
-                                "method": "GET",
-                                "path": "[concat(steps('azureNetwork').VnetSelectorId.id, '/subnets?api-version=2021-03-01')]"
-                            }
-                        },
-                        {
-                            "name": "gatewaySubnetSubnetSelectorName",
-                            "label": "Subnet",
-                            "type": "Microsoft.Common.DropDown",
+                            "name": "GWSubnetExistsTrue",
+                            "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, true)]",
-                            "defaultValue": "",
-                            "toolTip": "Select the existing GatewaySubnet",
-                            "multiselect": false,
-                            "selectAll": false,
-                            "filter": true,
-                            "filterPlaceholder": "Filter items ...",
-                            "multiLine": true,
-                            "constraints": {
-                                "allowedValues": "[map(steps('azureNetwork').gatewaySubnetApi.value,(item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\",\"description\":\"', 'Resource Group: ', last(take(split(item.id, '/'), 5)), '\"}')))]",
-                                "regex": "^gatewaysubnet$",
-                                "required": true
+                            "options": {
+                                "text": "Ensure the GatewaySubnet exists in the chosen virtual network or else the deployment will fail",
+                                "style": "Warning"
                             }
-                        },
+                        }, 
                         {
                             "name": "ExistingVnetNewGatewaySubnetPrefix",
                             "type": "Microsoft.Common.TextBox",
@@ -520,7 +503,7 @@
                             }
                         },
                         {
-                            "name": "GWSubnetExistsTrue",
+                            "name": "GWSubnetExistsFalse",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, false)]",
                             "options": {
@@ -1295,7 +1278,7 @@
                 "GatewayExists": "[steps('azureNetwork').GatewayExists]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.name]",
                 "GatewaySubnetExists": "[if(equals(steps('azureNetwork').GatewayExists, true), true, steps('azureNetwork').GatewaySubnetExists)]",
-                "ExistingGatewaySubnetId": "[steps('azureNetwork').gatewaySubnetSubnetSelectorName.id]",
+                "ExistingGatewaySubnetId": "[concat(steps('azureNetwork').VnetSelectorId.id, '/subnets/GatewaySubnet')]",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
                 "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",
                 "ExistingVnetNewGatewaySubnetPrefix": "[if(equals(steps('azureNetwork').GatewaySubnetExists, false), steps('azureNetwork').ExistingVnetNewGatewaySubnetPrefix, 'none')]",
