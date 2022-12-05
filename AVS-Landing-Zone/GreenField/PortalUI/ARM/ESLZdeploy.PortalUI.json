@@ -1287,7 +1287,7 @@
                 "GatewayExists": "[steps('azureNetwork').GatewayExists]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.id]",
                 "GatewaySubnetExists": "[steps('azureNetwork').GatewaySubnetExists]",
-                "ExistingGatewaySubnetId": "[if(equals(steps('azureNetwork').GatewaySubnetExists, true), concat(steps('azureNetwork').VnetSelectorId.id, '/subnets/GatewaySubnet'), '')]",
+                "ExistingGatewaySubnetId": "'/subscriptions/3360bc25-f24a-4221-9129-2207e9adb5bc/resourceGroups/SJAVSTEST2-RG/providers/Microsoft.Network/virtualNetworks/SJAVSTEST2-VNET/subnets/GatewaySubnet'",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
                 "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",
                 "ExistingVnetNewGatewaySubnetPrefix": "[if(equals(steps('azureNetwork').GatewaySubnetExists, false), steps('azureNetwork').ExistingVnetNewGatewaySubnetPrefix, 'none')]",
