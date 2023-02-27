@@ -500,7 +500,7 @@
                         {
                             "name": "ExistingVnetNewGatewaySubnetPrefix",
                             "type": "Microsoft.Common.TextBox",
-                            "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, false)]",
+                            "visible": false,
                             "label": "Gateway Subnet Prefix",
                             "toolTip": "Enter the address prefix for the new GatewaySubnet",
                             "defaultValue": "",

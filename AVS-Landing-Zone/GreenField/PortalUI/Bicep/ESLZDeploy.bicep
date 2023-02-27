@@ -46,15 +46,17 @@ param NewVNetAddressSpace string = ''
 param NewVnetNewGatewaySubnetAddressPrefix string = ''
 @description('The Existing VNet name')
 param ExistingVnetName string = ''
+@description('The Existing VNet name')
+param ExistingVnetId string = ''
 @description('The Existing Gateway name')
 param ExistingGatewayName string = ''
 @description('The existing vnet gatewaysubnet id')
-param ExistingGatewaySubnetId string = '/subscriptions/3360bc25-f24a-4221-9129-2207e8afb5bc/resourceGroups/RGName/providers/Microsoft.Network/virtualNetworks/VNetName/subnets/GatewaySubnet'
+param ExistingGatewaySubnetId string = ''
 @description('The existing vnet new gatewaysubnet prefix')
 param ExistingVnetNewGatewaySubnetPrefix string = ''
 
-param NetworkName string = ''
-param NetworkResourceGroupName string = 'network-rg'
+param NewNetworkName string = ''
+param NewNetworkResourceGroupName string = 'network-rg'
 
 
 //Jumpbox
@@ -78,9 +80,9 @@ param DeployDashboard bool = false
 param DeployMetricAlerts bool = false
 param DeployServiceHealth bool = false
 param AlertEmails string = ''
-param CPUUsageThreshold int
-param MemoryUsageThreshold int
-param StorageUsageThreshold int
+param CPUUsageThreshold int = 60
+param MemoryUsageThreshold int = 60
+param StorageUsageThreshold int = 60
 
 //Diagnostic Module Parameters
 param DeployDiagnostics bool = false
@@ -94,11 +96,11 @@ param NewStorageAccountName string = ''
 param DeployStorageAccount bool = false
 param ExistingWorkspaceId string = ''
 param ExistingStorageAccountId string = ''
-param StorageRetentionDays int
+param StorageRetentionDays int = 1
 
 //Addons
 @description('Should HCX be deployed as part of the deployment')
-param DeployHCX bool = true
+param DeployHCX bool = false
 @description('Should SRM be deployed as part of the deployment')
 param DeploySRM bool = false
 @description('License key to be used if SRM is deployed')
@@ -135,9 +137,10 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
     Prefix: Prefix
     Location: Location
     VNetExists: VNetExists
-    NetworkName: NetworkName
-    NetworkResourceGroupName: NetworkResourceGroupName
+    NewNetworkName: NewNetworkName
+    NewNetworkResourceGroupName: NewNetworkResourceGroupName
     ExistingVnetName : ExistingVnetName
+    ExistingVnetId: ExistingVnetId
     GatewayExists : GatewayExists
     ExistingGatewayName : ExistingGatewayName
     GatewaySubnetExists : GatewaySubnetExists
