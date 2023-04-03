@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.15.31.15270",
-      "templateHash": "15085608116931956778"
+      "templateHash": "10345726807083884496"
     }
   },
   "parameters": {
@@ -127,6 +127,13 @@
       "defaultValue": "",
       "metadata": {
         "description": "The subnet CIDR used for the Gateway Subnet. Must be a /24 or greater within the VNetAddressSpace"
+      }
+    },
+    "ExistingNetworkResourceId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The Existing Gateway name"
       }
     },
     "ExistingGatewayName": {
@@ -515,6 +522,9 @@
           },
           "NewNetworkResourceGroupName": {
             "value": "[parameters('NewNetworkResourceGroupName')]"
+          },
+          "ExistingNetworkResourceId": {
+            "value": "[parameters('ExistingNetworkResourceId')]"
           },
           "ExistingGatewayName": {
             "value": "[parameters('ExistingGatewayName')]"

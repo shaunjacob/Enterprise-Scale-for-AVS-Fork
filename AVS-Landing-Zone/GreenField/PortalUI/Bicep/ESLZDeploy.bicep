@@ -45,6 +45,8 @@ param NewVNetAddressSpace string = ''
 @description('The subnet CIDR used for the Gateway Subnet. Must be a /24 or greater within the VNetAddressSpace')
 param NewVnetNewGatewaySubnetAddressPrefix string = ''
 @description('The Existing Gateway name')
+param ExistingNetworkResourceId string = ''
+@description('The Existing Gateway name')
 param ExistingGatewayName string = ''
 
 
@@ -128,6 +130,7 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
     VNetExists: VNetExists
     NewNetworkName: NewNetworkName
     NewNetworkResourceGroupName: NewNetworkResourceGroupName
+    ExistingNetworkResourceId : ExistingNetworkResourceId
     ExistingGatewayName : ExistingGatewayName
     NewVNetAddressSpace: NewVNetAddressSpace
     NewVnetNewGatewaySubnetAddressPrefix: NewVnetNewGatewaySubnetAddressPrefix
