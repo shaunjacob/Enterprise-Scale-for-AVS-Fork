@@ -44,14 +44,8 @@ param GatewaySubnetExists bool = false
 param NewVNetAddressSpace string = ''
 @description('The subnet CIDR used for the Gateway Subnet. Must be a /24 or greater within the VNetAddressSpace')
 param NewVnetNewGatewaySubnetAddressPrefix string = ''
-@description('The Existing VNet name')
-param ExistingVnetName string = ''
-@description('The Existing VNet name')
-param ExistingVnetId string = ''
 @description('The Existing Gateway name')
 param ExistingGatewayName string = ''
-@description('The existing vnet gatewaysubnet id')
-param ExistingGatewaySubnetId string = ''
 @description('The existing vnet new gatewaysubnet prefix')
 param ExistingVnetNewGatewaySubnetPrefix string = ''
 
