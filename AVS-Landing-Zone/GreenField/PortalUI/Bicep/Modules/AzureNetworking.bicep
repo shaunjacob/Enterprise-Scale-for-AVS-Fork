@@ -10,6 +10,8 @@ param NewVnetNewGatewaySubnetAddressPrefix string = '10.111.0.0/24'
 param ExistingNetworkResourceId string = '/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/AVS-SEA-Network/providers/Microsoft.Network/virtualNetworks/AVS-SEA-vnet'
 param ExistingGatewayName string = 'AVS-SEA-gw'
 
+var ExistingNetworkResourceGroupName = split(ExistingNetworkResourceId,'/')[4]
+
 resource NewNetworkResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = if (!VNetExists) {
   name: NewNetworkResourceGroupName
   location: Location
@@ -31,6 +33,6 @@ module NewNetwork 'AzureNetworking/NewVNetWithGW.bicep' = if (!VNetExists) {
 output GatewayName string = (!VNetExists) ? NewNetwork.outputs.GatewayName : ExistingGatewayName
 output VNetName string = (!VNetExists) ? NewNetwork.outputs.VNetName : 'none'
 output VNetResourceId string = (!VNetExists) ? NewNetwork.outputs.VNetResourceId : 'none'
-output NetworkResourceGroup string = (!VNetExists) ? NewNetworkResourceGroup.name : split(ExistingNetworkResourceId,'/')[4]
+output NetworkResourceGroup string = (!VNetExists) ? NewNetworkResourceGroup.name : ExistingNetworkResourceGroupName
 output NetworkResourceGroupLocation string = (!VNetExists) ? NewNetworkResourceGroup.location : 'none'
 

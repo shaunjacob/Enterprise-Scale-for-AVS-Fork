@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.15.31.15270",
-      "templateHash": "10345726807083884496"
+      "templateHash": "2649689738569065094"
     }
   },
   "parameters": {
@@ -543,7 +543,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.15.31.15270",
-              "templateHash": "8652698538658225658"
+              "templateHash": "9669889389931153515"
             }
           },
           "parameters": {
@@ -583,6 +583,9 @@
               "type": "string",
               "defaultValue": "AVS-SEA-gw"
             }
+          },
+          "variables": {
+            "ExistingNetworkResourceGroupName": "[split(parameters('ExistingNetworkResourceId'), '/')[4]]"
           },
           "resources": [
             {
@@ -758,7 +761,7 @@
             },
             "NetworkResourceGroup": {
               "type": "string",
-              "value": "[if(not(parameters('VNetExists')), parameters('NewNetworkResourceGroupName'), split(parameters('ExistingNetworkResourceId'), '/')[4])]"
+              "value": "[if(not(parameters('VNetExists')), parameters('NewNetworkResourceGroupName'), variables('ExistingNetworkResourceGroupName'))]"
             },
             "NetworkResourceGroupLocation": {
               "type": "string",
