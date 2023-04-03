@@ -427,6 +427,16 @@
                             }
                         },
                         {
+                            "name": "VnetSelectorId",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
+                            "label": "Virtual Network",
+                            "resourceType": "Microsoft.Network/virtualNetworks",
+                            "constraints": {
+                                "required": true
+                            }
+                        },
+                        {
                             "name": "gatewaySelectorId",
                             "type": "Microsoft.Solutions.ResourceSelector",
                             "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
@@ -1208,6 +1218,7 @@
                 "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
                 "NetworkResourceGroupName": "[steps('azureNetwork').NetworkResourceGroup]",
                 "NetworkName": "[steps('azureNetwork').NetworkName]",
+                "ExistingVnetName": "[steps('azureNetwork').VnetSelectorId.name]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.id]",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
                 "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",

@@ -27,6 +27,7 @@ module NewNetwork 'AzureNetworking/NewVNetWithGW.bicep' = if (!VNetExists) {
   }
 }
 
+
 output GatewayName string = (!VNetExists) ? NewNetwork.outputs.GatewayName : ExistingGatewayName
 output VNetName string = (!VNetExists) ? NewNetwork.outputs.VNetName : 'none'
 output VNetResourceId string = (!VNetExists) ? NewNetwork.outputs.VNetResourceId : 'none'
