@@ -1218,7 +1218,7 @@
                 "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
                 "NetworkResourceGroupName": "[steps('azureNetwork').NetworkResourceGroup]",
                 "NetworkName": "[steps('azureNetwork').NetworkName]",
-                "ExistingVnetName": "[steps('azureNetwork').VnetSelectorId.name]",
+                "ExistingNetworkResourceId": "[steps('azureNetwork').VnetSelectorId.id]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.id]",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
                 "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",
