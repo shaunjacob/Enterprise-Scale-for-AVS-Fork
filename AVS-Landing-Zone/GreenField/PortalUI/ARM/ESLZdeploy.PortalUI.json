@@ -429,7 +429,7 @@
                         {
                             "name": "gatewaySelectorId",
                             "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('azureNetwork').GatewayExists, true)]",
+                            "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
                             "label": "Select the existing ExpressRoute Gateway to connect your AVS Private Cloud",
                             "resourceType": "Microsoft.Network/virtualNetworkGateways",
                             "constraints": {
