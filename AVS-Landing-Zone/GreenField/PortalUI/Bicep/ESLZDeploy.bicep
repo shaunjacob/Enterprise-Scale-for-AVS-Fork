@@ -32,25 +32,20 @@ param ExistingPrivateCloudName string = ''
 param ExistingPrivateCloudResourceId string = ''
 
 //Azure Networking
-@description('Set this to true if you are redeploying, and the VNet already exists')
-param VNetExists bool = false
 @description('A string value to skip the networking deployment')
 param DeployNetworking bool = false
 @description('Set this to true if you are redeploying, and the VNet already exists')
-param GatewayExists bool = false
-@description('Does the GatewaySubnet Exist')
-param GatewaySubnetExists bool = false
+param VNetExists bool = false
+@description('The address space used for the VNet attached to AVS. Must be non-overlapping with existing networks')
+param NewNetworkResourceGroupName string = 'network-rg'
+@description('The address space used for the VNet attached to AVS. Must be non-overlapping with existing networks')
+param NewNetworkName string = 'network-rg'
 @description('The address space used for the VNet attached to AVS. Must be non-overlapping with existing networks')
 param NewVNetAddressSpace string = ''
 @description('The subnet CIDR used for the Gateway Subnet. Must be a /24 or greater within the VNetAddressSpace')
 param NewVnetNewGatewaySubnetAddressPrefix string = ''
 @description('The Existing Gateway name')
 param ExistingGatewayName string = ''
-@description('The existing vnet new gatewaysubnet prefix')
-param ExistingVnetNewGatewaySubnetPrefix string = ''
-
-param NewNetworkName string = ''
-param NewNetworkResourceGroupName string = 'network-rg'
 
 
 //Jumpbox
@@ -133,13 +128,7 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
     VNetExists: VNetExists
     NewNetworkName: NewNetworkName
     NewNetworkResourceGroupName: NewNetworkResourceGroupName
-    ExistingVnetName : ExistingVnetName
-    ExistingVnetId: ExistingVnetId
-    GatewayExists : GatewayExists
     ExistingGatewayName : ExistingGatewayName
-    GatewaySubnetExists : GatewaySubnetExists
-    ExistingGatewaySubnetId : ExistingGatewaySubnetId
-    ExistingVnetNewGatewaySubnetPrefix : ExistingVnetNewGatewaySubnetPrefix
     NewVNetAddressSpace: NewVNetAddressSpace
     NewVnetNewGatewaySubnetAddressPrefix: NewVnetNewGatewaySubnetAddressPrefix
   }

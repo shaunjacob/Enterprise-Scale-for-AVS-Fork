@@ -427,6 +427,22 @@
                             }
                         },
                         {
+                            "name": "VnetSelectorId",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
+                            "label": "Virtual Network",
+                            "resourceType": "Microsoft.Network/virtualNetworks",
+                            "constraints": {
+                                "required": true
+                            },
+                            "options": {
+                                "filter": {
+                                    "subscription": "onBasics",
+                                    "location": "onBasics"
+                                }
+                            }
+                        },
+                        {
                             "name": "gatewaySelectorId",
                             "type": "Microsoft.Solutions.ResourceSelector",
                             "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
@@ -439,7 +455,7 @@
                         {
                             "name": "GWSubnetExistsFalse",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, false)]",
+                            "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
                             "options": {
                                 "text": "An ExpressRoute Gateway is required to connect your virtual network to AVS. If one does not exist, select Skip, deploy an ExpressRoute Gateway and come back to this step.",
                                 "style": "Error"
@@ -1208,6 +1224,7 @@
                 "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
                 "NetworkResourceGroupName": "[steps('azureNetwork').NetworkResourceGroup]",
                 "NetworkName": "[steps('azureNetwork').NetworkName]",
+                "ExistingVnetName": "[steps('azureNetwork').VnetSelectorId.name]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.id]",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
                 "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",

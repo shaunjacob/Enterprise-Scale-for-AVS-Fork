@@ -9,11 +9,7 @@ param NewNetworkName string = ''
 param NewNetworkResourceGroupName string = 'Test-vnetrg'
 param ExistingVnetName string = 'AVS-vnet'
 param ExistingVnetId string = '/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/AVS-Network/providers/Microsoft.Network/virtualNetworks/AVS-vnet'
-param GatewayExists bool = true
 param ExistingGatewayName string = ''
-param GatewaySubnetExists bool = false
-param ExistingGatewaySubnetId string = ''
-
 
 var ExistingNetworkResourceGroupName = split(ExistingVnetId,'/')[4]
 
@@ -45,10 +41,7 @@ module ExistingNetwork 'AzureNetworking/ExistingVNetWithGW.bicep' = if (VNetExis
     Prefix: Prefix
     Location: ExistingNetworkResourceGroup.location
     ExistingVnetName : ExistingVnetName
-    GatewayExists : GatewayExists
     ExistingGatewayName : ExistingGatewayName
-    GatewaySubnetExists : GatewaySubnetExists
-    ExistingGatewaySubnetId : ExistingGatewaySubnetId
   }
 }
 
