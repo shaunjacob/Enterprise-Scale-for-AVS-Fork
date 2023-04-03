@@ -1208,7 +1208,6 @@
                 "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
                 "NetworkResourceGroupName": "[steps('azureNetwork').NetworkResourceGroup]",
                 "NetworkName": "[steps('azureNetwork').NetworkName]",
-                "ExistingVnetName": "[steps('azureNetwork').VnetSelectorId.name]",
                 "GatewayExists": "[steps('azureNetwork').GatewayExists]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.id]",
                 "GatewaySubnetExists": "[steps('azureNetwork').GatewaySubnetExists]",
