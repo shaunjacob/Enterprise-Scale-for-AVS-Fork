@@ -441,7 +441,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
                             "options": {
-                                "text": "An ExpressRoute Gateway is required to connect your virtual network to AVS. If one does not exist, select Skip, deploy an ExpressRoute Gateway and come back to this step.",
+                                "text": "An ExpressRoute Gateway is required to connect your virtual network to AVS. If one does not exist, select Skip. You can come back and repeat this step once the ExpressRoute Gateway has been deployed.",
                                 "style": "Warning"
                             }
                         },                    
