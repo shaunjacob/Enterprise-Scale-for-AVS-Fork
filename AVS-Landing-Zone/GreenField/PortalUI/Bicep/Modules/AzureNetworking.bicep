@@ -7,7 +7,7 @@ param NewNetworkResourceGroupName string = 'SJTESTNET1'
 param NewNetworkName string = 'SJTESTNET1-vnet'
 param NewVNetAddressSpace string = '10.111.0.0/16'
 param NewVnetNewGatewaySubnetAddressPrefix string = '10.111.0.0/24'
-param ExistingNetworkResourceId string = ''
+param ExistingNetworkResourceId string = '/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/AVS-SEA-Network/providers/Microsoft.Network/virtualNetworks/AVS-SEA-vnet'
 param ExistingGatewayName string = 'AVS-SEA-gw'
 
 var ExistingNetworkResourceGroupName = split(ExistingNetworkResourceId,'/')[4]
