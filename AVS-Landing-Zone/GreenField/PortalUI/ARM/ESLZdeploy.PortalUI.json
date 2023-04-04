@@ -132,18 +132,18 @@
                             "name": "DeployPrivateCloud",
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
-                            "label": "Deploy Private Cloud",
+                            "label": "Choose a new or existing Private Cloud",
                             "defaultValue": "Yes",
                             "toolTip": "",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
                                     {
-                                        "label": "Yes",
+                                        "label": "New",
                                         "value": true
                                     },
                                     {
-                                        "label": "No",
+                                        "label": "Existing",
                                         "value": false
                                     }
                                 ]
