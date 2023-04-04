@@ -3,10 +3,19 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "Prefix": {
-            "value": "SJCN1"
+            "value": "SJPT1"
+        },
+        "DeployPrivateCloud": {
+            "value": false
         },
         "PrivateCloudName": {
             "value": "SA-SDDC-1"
+        },
+        "ExistingPrivateCloudName": {
+            "value": "SA-SDDC-1"
+        },
+        "ExistingPrivateCloudResourceId": {
+            "value": "/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/SA-SDDC-1/providers/Microsoft.AVS/privateClouds/SA-SDDC-1"
         },
         "PrivateCloudResourceGroupName": {
             "value": "SA-SDDC-1"
@@ -20,17 +29,29 @@
         "PrivateCloudHostCount": {
             "value": 3
         },
+        "DeployNetworking": {
+            "value": true
+        },
+        "VNetExists": {
+            "value": true
+        },
         "NewNetworkName": {
             "value": "SJVNETTEST1"
         },
         "NewNetworkResourceGroupName": {
             "value": "SJVNETTEST1-RG"
         },
-        "VNetAddressSpace": {
+        "NewVNetAddressSpace": {
             "value": "10.1.0.0/16"
         },
-        "VNetGatewaySubnet": {
+        "NewVnetNewGatewaySubnetAddressPrefix": {
             "value": "10.1.0.0/24"
+        },
+        "ExistingNetworkResourceId": {
+            "value": "/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/SJTESTNET1/providers/Microsoft.Network/virtualNetworks/SJTESTNET1-vnet"
+        },
+        "ExistingGatewayName": {
+            "value": "SJTEST1-gw"
         },
         "AlertEmails": {
             "value": "example@microsoft.com"
@@ -49,9 +70,6 @@
         },
         "BastionSubnet": {
             "value": "10.1.1.128/25"
-        },
-        "VNetExists": {
-            "value": false
         }
     }
 }

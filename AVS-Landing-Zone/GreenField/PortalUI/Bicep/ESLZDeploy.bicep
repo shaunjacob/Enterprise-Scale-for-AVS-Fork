@@ -49,7 +49,6 @@ param ExistingNetworkResourceId string = ''
 @description('The Existing Gateway name')
 param ExistingGatewayName string = ''
 
-
 //Jumpbox
 @description('Should a Jumpbox & Bastion be deployed to access the Private Cloud')
 param DeployJumpbox bool = false
