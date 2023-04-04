@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.15.31.15270",
-      "templateHash": "2649689738569065094"
+      "templateHash": "473288995861717391"
     }
   },
   "parameters": {
@@ -60,6 +60,7 @@
         "AV36",
         "AV36T",
         "AV36P",
+        "AV36PT",
         "AV52"
       ],
       "metadata": {
@@ -543,7 +544,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.15.31.15270",
-              "templateHash": "9669889389931153515"
+              "templateHash": "5198112946335203963"
             }
           },
           "parameters": {
@@ -577,7 +578,7 @@
             },
             "ExistingNetworkResourceId": {
               "type": "string",
-              "defaultValue": "/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/AVS-SEA-Network/providers/Microsoft.Network/virtualNetworks/AVS-SEA-vnet"
+              "defaultValue": ""
             },
             "ExistingGatewayName": {
               "type": "string",
