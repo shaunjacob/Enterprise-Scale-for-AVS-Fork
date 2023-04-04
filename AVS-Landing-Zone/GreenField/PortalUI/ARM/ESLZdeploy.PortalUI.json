@@ -1223,7 +1223,7 @@
                 "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
                 "NetworkResourceGroupName": "[steps('azureNetwork').NetworkResourceGroup]",
                 "NetworkName": "[steps('azureNetwork').NetworkName]",
-                "ExistingNetworkResourceId": "[steps('azureNetwork').VnetSelectorId.id]",
+                "ExistingNetworkResourceId": "[if(equals(steps('azureNetwork').VNetExists, true), steps('azureNetwork').VnetSelectorId.id, '/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/TESTRG/providers/Microsoft.Network/virtualNetworks/TESTVNET')]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.name]",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
                 "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",
