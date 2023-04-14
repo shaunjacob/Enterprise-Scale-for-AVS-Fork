@@ -49,18 +49,6 @@
                             ]
                         },
                         {
-                            "name": "avsDeploymentPrefix",
-                            "type": "Microsoft.Common.TextBox",
-                            "label": "Deployment prefix",
-                            "toolTip": "Provide a prefix (max 8 characters) for the resource groups and resources created as part of AVS landing zones.",
-                            "placeholder": "Example: AVS",
-                            "constraints": {
-                                "required": true,
-                                "regex": "^[a-z0-9A-Z-]{1,8}$",
-                                "validationMessage": "The prefix must be 1-8 characters."
-                            }
-                        },
-                        {
                             "name": "rbacInfo",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
@@ -105,7 +93,7 @@
                                     }
                                 },
                                 {
-                                    "name": "avsPrerequisites4",
+                                    "name": "naminginfo3",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
                                         "text": "- Alternatively, select custom naming below and input each resource name as per your desired naming convention"
@@ -114,7 +102,7 @@
                             ]
                         },
                         {
-                            "name": "DeployPrivateCloud",
+                            "name": "UsePrefix",
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
                             "label": "How would you like your resources named",
@@ -135,38 +123,17 @@
                             }
                         },
                         {
-                            "name": "avsPrivateCloudSettings",
-                            "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('PrivateCloud').DeployPrivateCloud, true)]",
-                            "label": "Resource Names",
-                            "elements": [
-                                {
-                                    "name": "AVSResourceGroup",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "visible": true,
-                                    "label": "AVS Resource Group Name",
-                                    "defaultValue": "",
-                                    "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
-                                    "constraints": {
-                                        "required": true,
-                                        "regex": "",
-                                        "validationMessage": "Provide a name for your Resource Group"
-                                    }
-                                },
-								{
-                                    "name": "AVSName",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "visible": true,
-                                    "label": "AVS Private Cloud Name",
-                                    "defaultValue": "",
-                                    "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
-                                    "constraints": {
-                                        "required": true,
-                                        "regex": "",
-                                        "validationMessage": "Provide a name for your Private Cloud"
-                                    }
-                                }                             
-                            ]
+                            "name": "avsDeploymentPrefix",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Deployment prefix",
+                            "visible": "[equals(steps('ResourceNaming').UsePrefix, true)]",
+                            "toolTip": "Provide a prefix (max 8 characters) for the resource groups and resources created as part of AVS landing zones.",
+                            "placeholder": "Example: AVS",
+                            "constraints": {
+                                "required": true,
+                                "regex": "^[a-z0-9A-Z-]{1,8}$",
+                                "validationMessage": "The prefix must be 1-8 characters."
+                            }
                         }
                     ]
                 },
