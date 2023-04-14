@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.1.55165",
-      "templateHash": "7641503984766599348"
+      "templateHash": "11770436252280018576"
     }
   },
   "parameters": {
@@ -179,12 +179,22 @@
         "description": "The sku to use for the Jumpbox VM, must have quota for this within the target region"
       }
     },
+    "operatingSystemSKU": {
+      "type": "string",
+      "defaultValue": "win2019",
+      "allowedValues": [
+        "win2019",
+        "win11",
+        "win11ms",
+        "ubuntu2004gen2"
+      ],
+      "metadata": {
+        "description": "Set the OS version to use"
+      }
+    },
     "BootstrapJumpboxVM": {
       "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "The subnet CIDR used for the Bastion Subnet. Must be a /26 or greater within the VNetAddressSpace"
-      }
+      "defaultValue": false
     },
     "BootstrapPath": {
       "type": "string",
@@ -1044,6 +1054,9 @@
           "JumpboxSku": {
             "value": "[parameters('JumpboxSku')]"
           },
+          "operatingSystemSKU": {
+            "value": "[parameters('operatingSystemSKU')]"
+          },
           "BootstrapJumpboxVM": {
             "value": "[parameters('BootstrapJumpboxVM')]"
           },
@@ -1061,7 +1074,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.16.1.55165",
-              "templateHash": "18071283536346682555"
+              "templateHash": "10679769830627618505"
             }
           },
           "parameters": {
@@ -1088,6 +1101,10 @@
             },
             "JumpboxSku": {
               "type": "string"
+            },
+            "operatingSystemSKU": {
+              "type": "string",
+              "defaultValue": ""
             },
             "BastionSubnet": {
               "type": "string"
@@ -1294,6 +1311,18 @@
                   },
                   "VMSize": {
                     "value": "[parameters('JumpboxSku')]"
+                  },
+                  "operatingSystemSKU": {
+                    "value": "[parameters('operatingSystemSKU')]"
+                  },
+                  "BootstrapVM": {
+                    "value": "[parameters('BootstrapJumpboxVM')]"
+                  },
+                  "BootstrapPath": {
+                    "value": "[parameters('BootstrapPath')]"
+                  },
+                  "BootstrapCommand": {
+                    "value": "[parameters('BootstrapCommand')]"
                   }
                 },
                 "template": {
@@ -1303,7 +1332,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.16.1.55165",
-                      "templateHash": "8387391313906378229"
+                      "templateHash": "5612330177567444336"
                     }
                   },
                   "parameters": {
@@ -1325,9 +1354,9 @@
                     "VMSize": {
                       "type": "string"
                     },
-                    "OSVersion": {
+                    "operatingSystemSKU": {
                       "type": "string",
-                      "defaultValue": "2019-Datacenter-smalldisk"
+                      "defaultValue": ""
                     },
                     "BootstrapVM": {
                       "type": "bool",
@@ -1344,7 +1373,33 @@
                   },
                   "variables": {
                     "Name": "[format('{0}-jumpbox', parameters('Prefix'))]",
-                    "Hostname": "avsjumpbox"
+                    "Hostname": "avsjumpbox",
+                    "osImageReference": {
+                      "win2019": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2019-Datacenter-smalldisk",
+                        "version": "latest"
+                      },
+                      "win11": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-11",
+                        "sku": "win11-21h2-pron",
+                        "version": "latest"
+                      },
+                      "win11ms": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-11",
+                        "sku": "win11-21h2-avd",
+                        "version": "latest"
+                      },
+                      "ubuntu2004gen2": {
+                        "publisher": "canonical",
+                        "offer": "0001-com-ubuntu-server-focal",
+                        "sku": "20_04-lts-gen2",
+                        "version": "latest"
+                      }
+                    }
                   },
                   "resources": [
                     {
@@ -1382,10 +1437,10 @@
                         },
                         "storageProfile": {
                           "imageReference": {
-                            "publisher": "MicrosoftWindowsServer",
-                            "offer": "WindowsServer",
-                            "sku": "[parameters('OSVersion')]",
-                            "version": "latest"
+                            "publisher": "[variables('osImageReference')[parameters('operatingSystemSKU')].publisher]",
+                            "offer": "[variables('osImageReference')[parameters('operatingSystemSKU')].offer]",
+                            "sku": "[variables('osImageReference')[parameters('operatingSystemSKU')].sku]",
+                            "version": "[variables('osImageReference')[parameters('operatingSystemSKU')].version]"
                           },
                           "osDisk": {
                             "createOption": "FromImage",

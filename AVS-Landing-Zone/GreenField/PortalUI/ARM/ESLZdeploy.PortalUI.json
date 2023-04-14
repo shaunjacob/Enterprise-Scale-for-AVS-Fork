@@ -30,25 +30,6 @@
                             }
                         },
                         {
-                            "name": "avsWorkloadSubscription",
-                            "type": "Microsoft.Common.Section",
-                            "visible": true,
-                            "label": "Deployment Prefix",
-                            "elements": [
-                                {
-                                    "name": "info",
-                                    "type": "Microsoft.Common.TextBlock",
-                                    "options": {
-                                        "text": "This AVS Landing Zone Accelerator will create a defined resource group hierarchy in the chosen subscription with the prefix provided at this step. Some of the resources created as part of the deployment will also utilize this prefix in its name. For more details, click the link below ",
-                                        "link": {
-                                            "label": "Learn more",
-                                            "uri": "https://github.com/Azure/Enterprise-Scale-for-AVS/tree/main/AVS-Landing-Zone/GreenField"
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        {
                             "name": "rbacInfo",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
@@ -628,6 +609,55 @@
                                 "publisher": "MicrosoftWindowsDesktop",
                                 "offer": "Windows-11",
                                 "sku": "21h2-avd"
+                            }
+                        },
+                        {
+                            "name": "JumpboxOS",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Jumpbox Operating System",
+                            "placeholder": "",
+                            "defaultValue": ["Windows Server 2019"],
+                            "toolTip": "Choose the operating system for the Jumpbox",
+                            "multiselect": false,
+                            "selectAll": true,
+                            "filter": true,
+                            "filterPlaceholder": "Filter items ...",
+                            "multiLine": true,
+                            "defaultDescription": "Jumpbox Operating System",
+                            "constraints": {
+                              "allowedValues": [
+                                {
+                                  "label": "Windows Server 2019",
+                                  "description": "Windows Server 2019",
+                                  "value": "WinServer"
+                                },
+                                {
+                                    "label": "Windows 11",
+                                    "description": "Windows 11",
+                                    "value": "Win11"
+                                },
+                                {
+                                    "label": "Windows 11 Multisession",
+                                    "description": "Windows 11 Multisession",
+                                    "value": "Win11ms"
+                                },
+                                {
+                                    "label": "Ubuntu 20.04",
+                                    "description": "Ubuntu 20.04",
+                                    "value": "ubuntu2004"
+                                }
+                              ],
+                              "required": true
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "boostrapVM",
+                            "type": "Microsoft.Common.CheckBox",
+                            "label": "Check the box to boostrap this Jumpbox with some required applications, or leave blank",
+                            "constraints": {
+                                "required": true,
+                                "validationMessage": "test."
                             }
                         },
                         {

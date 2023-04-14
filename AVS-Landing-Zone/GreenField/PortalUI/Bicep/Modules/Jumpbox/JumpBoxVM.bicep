@@ -5,13 +5,40 @@ param Username string
 @secure()
 param Password string
 param VMSize string
-param OSVersion string = '2019-Datacenter-smalldisk'
+param operatingSystemSKU string = ''
 param BootstrapVM bool = false
 param BootstrapPath string = ''
 param BootstrapCommand string = ''
 
 var Name = '${Prefix}-jumpbox'
 var Hostname = 'avsjumpbox'
+
+var osImageReference = {
+  win2019: {
+    publisher: 'MicrosoftWindowsServer'
+    offer: 'WindowsServer'
+    sku: '2019-Datacenter-smalldisk'
+    version: 'latest'
+  }
+  win11: {
+    publisher: 'MicrosoftWindowsDesktop'
+    offer: 'Windows-11'
+    sku: 'win11-21h2-pron'
+    version: 'latest'
+  }
+  win11ms: {
+    publisher: 'MicrosoftWindowsDesktop'
+    offer: 'Windows-11'
+    sku: 'win11-21h2-avd'
+    version: 'latest'
+  }
+  ubuntu2004gen2: {
+    publisher: 'canonical'
+    offer: '0001-com-ubuntu-server-focal'
+    sku: '20_04-lts-gen2'
+    version: 'latest'
+  }
+}
 
 resource Nic 'Microsoft.Network/networkInterfaces@2021-02-01' = {
   name: Name
@@ -45,10 +72,10 @@ resource VM 'Microsoft.Compute/virtualMachines@2021-03-01' = {
     }
     storageProfile: {
       imageReference: {
-        publisher: 'MicrosoftWindowsServer'
-        offer: 'WindowsServer'
-        sku: OSVersion
-        version: 'latest'
+        publisher: osImageReference[operatingSystemSKU].publisher
+        offer: osImageReference[operatingSystemSKU].offer
+        sku: osImageReference[operatingSystemSKU].sku
+        version: osImageReference[operatingSystemSKU].version
       }
       osDisk: {
         createOption: 'FromImage'
