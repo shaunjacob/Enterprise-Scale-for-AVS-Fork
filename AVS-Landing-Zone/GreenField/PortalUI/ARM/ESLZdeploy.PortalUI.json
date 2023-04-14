@@ -1274,8 +1274,8 @@
         },
         "outputs": {
             "parameters": {
-                "Prefix": "[steps('basics').avsDeploymentPrefix]",
                 "Location": "[steps('basics').avsDeploymentScope.location.name]",
+                "Prefix": "[steps('ResourceNaming').avsDeploymentPrefix]",
                 "DeployPrivateCloud": "[steps('PrivateCloud').DeployPrivateCloud]",
                 "PrivateCloudResourceGroupName": "[steps('PrivateCloud').avsPrivateCloudSettings.AVSResourceGroup]",
                 "PrivateCloudName": "[steps('PrivateCloud').avsPrivateCloudSettings.AVSName]",
