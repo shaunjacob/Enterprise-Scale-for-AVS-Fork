@@ -654,8 +654,8 @@
                         {
                             "name": "boostrapVM",
                             "type": "Microsoft.Common.CheckBox",
-                            "label": "Check the box to boostrap this Jumpbox with some required applications, or leave blank",
-                            "toolTip": "Choose the operating system for the Jumpbox"
+                            "label": "BootStrap VM",
+                            "toolTip": "Bootstrap VM and install PowerCLI, VMRC, Powershell."
                         },
                         {
                             "name": "jumpboxCredentials",
