@@ -612,7 +612,7 @@
                             }
                         },
                         {
-                            "name": "JumpboxOS",
+                            "name": "operatingSystemSKU",
                             "type": "Microsoft.Common.DropDown",
                             "label": "Jumpbox Operating System",
                             "placeholder": "",
@@ -1326,6 +1326,8 @@
                 "JumpboxSku": "[steps('azureNetwork').vmSkuSelector]",
                 "JumpboxUsername": "[steps('azureNetwork').jumpboxCredentials.jumpboxLocalUserName]",
                 "JumpboxPassword": "[steps('azureNetwork').jumpboxCredentials.JumpboxPassword.password]",
+                "operatingSystemSKU": "[steps('azureNetwork').operatingSystemSKU]",
+                "BootstrapJumpboxVM": "[steps('azureNetwork').BootstrapJumpboxVM]",
                 "DeployMonitoring": "[steps('Monitoring').DeployMonitoring]",
                 "DeployWorkbook": "[steps('Monitoring').AVSWorkbook.DeployAVSWorkbook]",
                 "DeployDashboard": "[steps('Monitoring').AVSDashboard.DeployDashboard]",
