@@ -649,13 +649,14 @@
                               ],
                               "required": true
                             },
-                            "visible": true
+                            "visible": "[equals(steps('azureNetwork').createJumpbox, true)]"
                         },
                         {
                             "name": "boostrapVM",
                             "type": "Microsoft.Common.CheckBox",
                             "label": "BootStrap VM",
-                            "toolTip": "Bootstrap VM and install PowerCLI, VMRC, Powershell."
+                            "toolTip": "Bootstrap VM and install PowerCLI, VMRC, Powershell.",
+                            "visible": "[equals(steps('azureNetwork').createJumpbox, true)]"
                         },
                         {
                             "name": "jumpboxCredentials",
