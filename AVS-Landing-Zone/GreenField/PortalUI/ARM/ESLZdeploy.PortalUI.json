@@ -73,6 +73,104 @@
                     ]
                 },
                 {
+                    "name": "ResourceNaming",
+                    "label": "Resource Naming",
+                    "elements": [
+                        {
+                            "name": "namingInfo",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "Resource Naming",
+                            "elements": [
+                                {
+                                    "name": "naminginfo1",
+                                    "type": "Microsoft.Common.TextBlock",
+                                    "options": {
+                                        "text": "This AVS Landing Zone Accelerator creates a number of Azure resources...Some customers have a requirement to name each resoures as per defined naming standards.",
+                                        "link": {
+                                            "label": "",
+                                            "uri": ""
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "naminginfo2",
+                                    "type": "Microsoft.Common.TextBlock",
+                                    "options": {
+                                        "text": "- Set a Prefix of upto 8 characters, this will create all the resources and resource groups with this Prefix. An example is shown in the link below with all the resources that will be created",
+                                        "link": {
+                                            "label": "Learn more",
+                                            "uri": "https://docs.microsoft.com/en-us/azure/azure-vmware/request-host-quota-azure-vmware-solution?WT.mc_id=Portal-VMCP#request-host-quota-for-ea-customers"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "avsPrerequisites4",
+                                    "type": "Microsoft.Common.TextBlock",
+                                    "options": {
+                                        "text": "- Alternatively, select custom naming below and input each resource name as per your desired naming convention"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "DeployPrivateCloud",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": true,
+                            "label": "How would you like your resources named",
+                            "defaultValue": "Yes",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Use Prefix",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "Custom Naming",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "avsPrivateCloudSettings",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('PrivateCloud').DeployPrivateCloud, true)]",
+                            "label": "Resource Names",
+                            "elements": [
+                                {
+                                    "name": "AVSResourceGroup",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": true,
+                                    "label": "AVS Resource Group Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Resource Group"
+                                    }
+                                },
+								{
+                                    "name": "AVSName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": true,
+                                    "label": "AVS Private Cloud Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Private Cloud"
+                                    }
+                                }                             
+                            ]
+                        }
+                    ]
+                },
+                {
                     "name": "PrivateCloud",
                     "label": "Private Cloud",
                     "elements": [

@@ -11,6 +11,9 @@ param VNetName string
 param JumpboxSubnet string
 param JumpboxSku string
 param BastionSubnet string
+param BootstrapJumpboxVM bool = false
+param BootstrapPath string
+param BootstrapCommand string
 
 
 module Subnet 'JumpBox/JumpBoxSubnet.bicep' = {
@@ -23,14 +26,9 @@ module Subnet 'JumpBox/JumpBoxSubnet.bicep' = {
   }
 }
 
-resource JumpboxResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' ={
-  name: '${Prefix}-Jumpbox'
-  location: Location
-}
-
 module Bastion 'JumpBox/Bastion.bicep' = {
   name: '${deployment().name}-Bastion'
-  scope: JumpboxResourceGroup
+  scope: resourceGroup(VNetResourceGroup)
   params:{
     Prefix: Prefix
     SubnetId: Subnet.outputs.BastionSubnetId
@@ -40,7 +38,7 @@ module Bastion 'JumpBox/Bastion.bicep' = {
 
 module VM 'JumpBox/JumpBoxVM.bicep' = {
   name: '${deployment().name}-VM'
-  scope: JumpboxResourceGroup
+  scope: resourceGroup(VNetResourceGroup)
   params: {
     Prefix: Prefix
     SubnetId: Subnet.outputs.JumpBoxSubnetId
