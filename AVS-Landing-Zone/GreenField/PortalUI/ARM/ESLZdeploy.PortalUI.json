@@ -87,7 +87,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
                             "label": "How would you like your resources named",
-                            "defaultValue": "Yes",
+                            "defaultValue": "Use Prefix",
                             "toolTip": "",
                             "constraints": {
                                 "required": true,
@@ -109,6 +109,7 @@
                             "label": "Deployment prefix",
                             "visible": "[equals(steps('ResourceNaming').UsePrefix, true)]",
                             "toolTip": "Provide a prefix (max 8 characters) for the resource groups and resources created as part of AVS landing zones.",
+                            "defaultValue": "SJTEST1",
                             "placeholder": "Example: AVS",
                             "constraints": {
                                 "required": true,
@@ -419,7 +420,7 @@
                             "type": "Microsoft.Common.TextBox",
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "New Virtual Network Resource Group Name",
-                            "defaultValue": "",
+                            "defaultValue": "SJTESTNET1",
                             "toolTip": "Name of the new virtual network resource group",
                             "constraints": {
                                 "required": true,
@@ -441,7 +442,7 @@
                             "type": "Microsoft.Common.TextBox",
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "New Virtual Network Name",
-                            "defaultValue": "",
+                            "defaultValue": "SJTESTNET1-vnet",
                             "toolTip": "Name of the new virtual network",
                             "constraints": {
                                 "required": true,
@@ -455,7 +456,7 @@
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "Virtual Network address range",
                             "toolTip": "Virtual network in Azure Native to host the ExpressRoute Gateway, Jumpbox and Bastion for AVS Connectivity. Ensure this is not overlapping the AVS Private Cloud",
-                            "defaultValue": "",
+                            "defaultValue": "10.111.0.0/16",
                             "placeholder": "Example: 192.168.0.0/22",
                             "constraints": {
                                 "required": true,
@@ -469,7 +470,7 @@
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "Gateway Subnet Prefix",
                             "toolTip": "Enter the address prefix for the new GatewaySubnet",
-                            "defaultValue": "",
+                            "defaultValue": "10.111.0.0/24",
                             "placeholder": "Example: 192.168.0.0/27",
                             "constraints": {
                                 "required": true,
@@ -563,7 +564,7 @@
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Azure Bastion Subnet Prefix",
                             "toolTip": "The Bastion host is deployed in the virtual network that contains the AzureBastionSubnet subnet that has a minimum /26 prefix.",
-                            "defaultValue": "",
+                            "defaultValue": "10.111.1.0/24",
                             "placeholder": "Example: 192.168.1.0/24",
                             "constraints": {
                                 "required": true,
@@ -577,7 +578,7 @@
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Jumpbox Subnet Prefix",
                             "toolTip": "New Subnet for the Jumpbox",
-                            "defaultValue": "",
+                            "defaultValue": "10.111.2.0/24",
                             "placeholder": "Example: 192.168.2.0/24",
                             "constraints": {
                                 "required": true,
@@ -591,6 +592,7 @@
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Jumpbox SKU",
                             "toolTip": "Select a VM SKU for the Jumpbox",
+                            "defaultValue": "Standard_B2ms",
                             "recommendedSizes": [
                                 "Standard_D1",
                                 "Standard_D2",
@@ -629,7 +631,7 @@
                                 {
                                   "label": "Windows Server 2019",
                                   "description": "Windows Server 2019",
-                                  "value": "WinServer"
+                                  "value": "Win2019"
                                 },
                                 {
                                     "label": "Windows 11",
@@ -644,7 +646,7 @@
                                 {
                                     "label": "Ubuntu 20.04",
                                     "description": "Ubuntu 20.04",
-                                    "value": "ubuntu2004"
+                                    "value": "ubuntu2004gen2"
                                 }
                               ],
                               "required": true
