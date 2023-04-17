@@ -1268,7 +1268,7 @@
                             "type": "Microsoft.Common.TextBox",
                             "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
                             "label": "New Virtual Network Resource Group Name",
-                            "defaultValue": "SJTESTNET1",
+                            "defaultValue": "",
                             "toolTip": "Name of the new virtual network resource group",
                             "constraints": {
                                 "required": true,
@@ -1281,7 +1281,7 @@
                             "type": "Microsoft.Common.TextBox",
                             "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
                             "label": "New Virtual Network Name",
-                            "defaultValue": "SJTESTNET1-vnet",
+                            "defaultValue": "",
                             "toolTip": "Name of the new virtual network",
                             "constraints": {
                                 "required": true,
