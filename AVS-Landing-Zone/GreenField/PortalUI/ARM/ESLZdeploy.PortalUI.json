@@ -1188,36 +1188,15 @@
                                     "name": "naminginfo3",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
-                                        "text": "- Alternatively, select custom naming below and input each resource name as per your desired naming convention"
+                                        "text": "- To set specific names for certain resources as per your own naming standards, click custom naming below"
                                     }
                                 }
                             ]
                         },
                         {
-                            "name": "CustomNaming",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "visible": true,
-                            "label": "How would you like your resources named",
-                            "defaultValue": "Use Prefix",
-                            "toolTip": "",
-                            "constraints": {
-                                "required": true,
-                                "allowedValues": [
-                                    {
-                                        "label": "Use Prefix",
-                                        "value": false
-                                    },
-                                    {
-                                        "label": "Custom Naming",
-                                        "value": true
-                                    }
-                                ]
-                            }
-                        },
-                        {
                             "name": "avsDeploymentPrefix",
                             "type": "Microsoft.Common.TextBox",
-                            "label": "Deployment prefix",
+                            "label": "Naming prefix",
                             "visible": true,
                             "toolTip": "Provide a prefix (max 8 characters) for the resource groups and resources created as part of AVS landing zones.",
                             "defaultValue": "SJTEST1",
@@ -1226,6 +1205,27 @@
                                 "required": true,
                                 "regex": "^[a-z0-9A-Z-]{1,8}$",
                                 "validationMessage": "The prefix must be 1-8 characters."
+                            }
+                        },
+                        {
+                            "name": "CustomNaming",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": true,
+                            "label": "Custom Naming",
+                            "defaultValue": "No",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
                             }
                         },
                         {
