@@ -1238,30 +1238,38 @@
                             }
                         },
                         {
-                            "name": "AVSResourceGroup",
-                            "type": "Microsoft.Common.TextBox",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
-                            "label": "AVS Resource Group Name",
-                            "defaultValue": "",
-                            "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
-                            "constraints": {
-                                "required": true,
-                                "regex": "",
-                                "validationMessage": "Provide a name for your Resource Group"
-                            }
-                        },
-                        {
-                            "name": "AVSName",
-                            "type": "Microsoft.Common.TextBox",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
-                            "label": "AVS Private Cloud Name",
-                            "defaultValue": "",
-                            "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
-                            "constraints": {
-                                "required": true,
-                                "regex": "",
-                                "validationMessage": "Provide a name for your Private Cloud"
-                            }
+                            "name": "PrivateCloudNaming",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "label": "Private Cloud Naming",
+                            "elements": [
+                                {
+                                    "name": "AVSResourceGroup",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
+                                    "label": "AVS Resource Group Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Resource Group"
+                                    }
+                                },
+                                {
+                                    "name": "AVSName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
+                                    "label": "AVS Private Cloud Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Private Cloud"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "name": "CustomNetworkResourceGroup",
@@ -1342,8 +1350,8 @@
                 "VRServerCount": "[steps('Addons').srmVRCount]",
                 "avsUseCustomNaming": "[steps('ResourceNaming').CustomNaming]",
                 "Prefix": "[steps('ResourceNaming').avsDeploymentPrefix]",
-                "PrivateCloudResourceGroupName": "[steps('ResourceNaming').AVSResourceGroup]",
-                "PrivateCloudName": "[steps('ResourceNaming').AVSName]",
+                "PrivateCloudResourceGroupName": "[steps('ResourceNaming').PrivateCloudNaming.AVSResourceGroup]",
+                "PrivateCloudName": "[steps('ResourceNaming').PrivateCloudNaming.AVSName]",
                 "NewNetworkResourceGroupName": "[steps('ResourceNaming').CustomNetworkResourceGroup]",
                 "NewNetworkName": "[steps('ResourceNaming').CustomNetworkName]",
                 "TelemetryOptOut": "false"
