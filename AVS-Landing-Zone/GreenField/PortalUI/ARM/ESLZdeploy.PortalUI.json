@@ -107,7 +107,7 @@
                             "name": "avsDeploymentPrefix",
                             "type": "Microsoft.Common.TextBox",
                             "label": "Deployment prefix",
-                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, false)]",
                             "toolTip": "Provide a prefix (max 8 characters) for the resource groups and resources created as part of AVS landing zones.",
                             "defaultValue": "SJTEST1",
                             "placeholder": "Example: AVS",
@@ -116,7 +116,42 @@
                                 "regex": "^[a-z0-9A-Z-]{1,8}$",
                                 "validationMessage": "The prefix must be 1-8 characters."
                             }
-                        }
+                        },
+                        {
+                            "name": "customnamingInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "options": {
+                                "text": "Entering an existing resource group name will not have any impact to any other resources in the resource group",
+                                "style": "Info"
+                            }
+                        },
+                        {
+                            "name": "CustomNetworkResourceGroup",
+                            "type": "Microsoft.Common.TextBox",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "label": "New Virtual Network Resource Group Name",
+                            "defaultValue": "SJTESTNET1",
+                            "toolTip": "Name of the new virtual network resource group",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "Provide a name for your new virtual network"
+                            }
+                        },
+                        {
+                            "name": "CustomNetworkName",
+                            "type": "Microsoft.Common.TextBox",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "label": "New Virtual Network Name",
+                            "defaultValue": "SJTESTNET1-vnet",
+                            "toolTip": "Name of the new virtual network",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "Provide a name for your New Virtual Network"
+                            }
+                        },
                     ]
                 },
                 {
