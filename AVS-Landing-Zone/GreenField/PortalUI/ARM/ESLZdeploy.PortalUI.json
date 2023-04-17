@@ -1065,7 +1065,19 @@
                             "type": "Microsoft.Common.Section",
                             "visible": true,
                             "label": "AVS Addons",
-                            "elements": []
+                            "elements": [
+                                {
+                                    "name": "AddonsInfo1",
+                                    "type": "Microsoft.Common.TextBlock",
+                                    "options": {
+                                        "text": "In addition to the Private Cloud deployment, you may choose to install optional addons such as HCX and SRM. Please select the ones you need from the options below",
+                                        "link": {
+                                            "label": "",
+                                            "uri": ""
+                                        }        
+                                    }
+                                }
+                            ]
                         },
                         {
                             "name": "deployHCX",
