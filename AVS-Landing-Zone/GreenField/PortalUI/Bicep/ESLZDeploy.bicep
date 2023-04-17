@@ -120,9 +120,14 @@ param VRServerCount int = 1
 @description('Opt-out of deployment telemetry')
 param TelemetryOptOut bool = false
 
+//Resource Naming
+@description('Optional. AVS resources custom naming. (Default: false)')
+param avsUseCustomNaming bool = false
+
 //Variables
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 var varCuaid = '1cf4a3e3-529c-4fb2-ba6a-63dff7d71586'
+var avsNetworkResourceGroupName = avsUseCustomNaming ? NewNetworkResourceGroupName : '${Prefix}-Network' // max length limit 90 characters
 
 module AVSCore 'Modules/AVSCore.bicep' = {
   name: '${deploymentPrefix}-AVS'
@@ -145,7 +150,7 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
     Location: Location
     VNetExists: VNetExists
     NewNetworkName: NewNetworkName
-    NewNetworkResourceGroupName: NewNetworkResourceGroupName
+    NewNetworkResourceGroupName: avsNetworkResourceGroupName
     ExistingNetworkResourceId : ExistingNetworkResourceId
     ExistingGatewayName : ExistingGatewayName
     NewVNetAddressSpace: NewVNetAddressSpace

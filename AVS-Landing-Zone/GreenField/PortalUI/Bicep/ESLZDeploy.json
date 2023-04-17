@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.1.55165",
-      "templateHash": "11770436252280018576"
+      "templateHash": "14022736970459663428"
     }
   },
   "parameters": {
@@ -333,11 +333,19 @@
       "metadata": {
         "description": "Opt-out of deployment telemetry"
       }
+    },
+    "avsUseCustomNaming": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Optional. AVS resources custom naming. (Default: false)"
+      }
     }
   },
   "variables": {
     "deploymentPrefix": "[format('AVS-{0}', uniqueString(deployment().name, parameters('Location')))]",
-    "varCuaid": "1cf4a3e3-529c-4fb2-ba6a-63dff7d71586"
+    "varCuaid": "1cf4a3e3-529c-4fb2-ba6a-63dff7d71586",
+    "avsNetworkResourceGroupName": "[if(parameters('avsUseCustomNaming'), parameters('NewNetworkResourceGroupName'), format('{0}-Network', parameters('Prefix')))]"
   },
   "resources": [
     {
@@ -553,7 +561,7 @@
             "value": "[parameters('NewNetworkName')]"
           },
           "NewNetworkResourceGroupName": {
-            "value": "[parameters('NewNetworkResourceGroupName')]"
+            "value": "[variables('avsNetworkResourceGroupName')]"
           },
           "ExistingNetworkResourceId": {
             "value": "[parameters('ExistingNetworkResourceId')]"
