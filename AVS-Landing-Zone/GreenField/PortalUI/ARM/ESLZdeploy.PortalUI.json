@@ -1240,7 +1240,7 @@
                         {
                             "name": "AVSResourceGroup",
                             "type": "Microsoft.Common.TextBox",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, false))]",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
                             "label": "AVS Resource Group Name",
                             "defaultValue": "",
                             "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
@@ -1253,7 +1253,7 @@
                         {
                             "name": "AVSName",
                             "type": "Microsoft.Common.TextBox",
-                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
                             "label": "AVS Private Cloud Name",
                             "defaultValue": "",
                             "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
