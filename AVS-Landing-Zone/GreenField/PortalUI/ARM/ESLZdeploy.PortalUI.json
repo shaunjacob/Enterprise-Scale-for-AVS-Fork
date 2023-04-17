@@ -83,7 +83,7 @@
                             ]
                         },
                         {
-                            "name": "UsePrefix",
+                            "name": "CustomNaming",
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
                             "label": "How would you like your resources named",
@@ -94,11 +94,11 @@
                                 "allowedValues": [
                                     {
                                         "label": "Use Prefix",
-                                        "value": true
+                                        "value": false
                                     },
                                     {
                                         "label": "Custom Naming",
-                                        "value": false
+                                        "value": true
                                     }
                                 ]
                             }
@@ -107,7 +107,7 @@
                             "name": "avsDeploymentPrefix",
                             "type": "Microsoft.Common.TextBox",
                             "label": "Deployment prefix",
-                            "visible": "[equals(steps('ResourceNaming').UsePrefix, true)]",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
                             "toolTip": "Provide a prefix (max 8 characters) for the resource groups and resources created as part of AVS landing zones.",
                             "defaultValue": "SJTEST1",
                             "placeholder": "Example: AVS",
@@ -1305,6 +1305,7 @@
         "outputs": {
             "parameters": {
                 "Location": "[steps('basics').avsDeploymentScope.location.name]",
+                "avsUseCustomNaming": "[steps('ResourceNaming').CustomNaming]",
                 "Prefix": "[steps('ResourceNaming').avsDeploymentPrefix]",
                 "DeployPrivateCloud": "[steps('PrivateCloud').DeployPrivateCloud]",
                 "PrivateCloudResourceGroupName": "[steps('PrivateCloud').avsPrivateCloudSettings.AVSResourceGroup]",

@@ -61,7 +61,7 @@ param JumpboxPassword string = ''
 @description('The subnet CIDR used for the Jumpbox VM Subnet. Must be a /26 or greater within the VNetAddressSpace')
 param JumpboxSubnet string = ''
 @description('The sku to use for the Jumpbox VM, must have quota for this within the target region')
-param JumpboxSku string = 'Standard_D2s_v3'
+param JumpboxSku string = 'Standard_B2ms'
 @description('Set the OS version to use')
 @allowed([
   'win2019'
@@ -122,12 +122,14 @@ param TelemetryOptOut bool = false
 
 //Resource Naming
 @description('Optional. AVS resources custom naming. (Default: false)')
-param avsUseCustomNaming bool = false
+param avsUseCustomNaming bool = true
 
 //Variables
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 var varCuaid = '1cf4a3e3-529c-4fb2-ba6a-63dff7d71586'
-var avsNetworkResourceGroupName = avsUseCustomNaming ? NewNetworkResourceGroupName : '${Prefix}-Network' // max length limit 90 characters
+var avsNetworkResourceGroupName = avsUseCustomNaming ? NewNetworkResourceGroupName : '${Prefix}-Network'
+var avsNetworkName = avsUseCustomNaming ? NewNetworkName : '${Prefix}-vnet'
+
 
 module AVSCore 'Modules/AVSCore.bicep' = {
   name: '${deploymentPrefix}-AVS'
@@ -149,7 +151,7 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
     Prefix: Prefix
     Location: Location
     VNetExists: VNetExists
-    NewNetworkName: NewNetworkName
+    NewNetworkName: avsNetworkName
     NewNetworkResourceGroupName: avsNetworkResourceGroupName
     ExistingNetworkResourceId : ExistingNetworkResourceId
     ExistingGatewayName : ExistingGatewayName

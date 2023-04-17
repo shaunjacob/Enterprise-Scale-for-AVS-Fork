@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.1.55165",
-      "templateHash": "14022736970459663428"
+      "templateHash": "4206286896845746041"
     }
   },
   "parameters": {
@@ -174,7 +174,7 @@
     },
     "JumpboxSku": {
       "type": "string",
-      "defaultValue": "Standard_D2s_v3",
+      "defaultValue": "Standard_B2ms",
       "metadata": {
         "description": "The sku to use for the Jumpbox VM, must have quota for this within the target region"
       }
@@ -336,7 +336,7 @@
     },
     "avsUseCustomNaming": {
       "type": "bool",
-      "defaultValue": false,
+      "defaultValue": true,
       "metadata": {
         "description": "Optional. AVS resources custom naming. (Default: false)"
       }
@@ -345,7 +345,8 @@
   "variables": {
     "deploymentPrefix": "[format('AVS-{0}', uniqueString(deployment().name, parameters('Location')))]",
     "varCuaid": "1cf4a3e3-529c-4fb2-ba6a-63dff7d71586",
-    "avsNetworkResourceGroupName": "[if(parameters('avsUseCustomNaming'), parameters('NewNetworkResourceGroupName'), format('{0}-Network', parameters('Prefix')))]"
+    "avsNetworkResourceGroupName": "[if(parameters('avsUseCustomNaming'), parameters('NewNetworkResourceGroupName'), format('{0}-Network', parameters('Prefix')))]",
+    "avsNetworkName": "[if(parameters('avsUseCustomNaming'), parameters('NewNetworkName'), format('{0}-vnet', parameters('Prefix')))]"
   },
   "resources": [
     {
@@ -558,7 +559,7 @@
             "value": "[parameters('VNetExists')]"
           },
           "NewNetworkName": {
-            "value": "[parameters('NewNetworkName')]"
+            "value": "[variables('avsNetworkName')]"
           },
           "NewNetworkResourceGroupName": {
             "value": "[variables('avsNetworkResourceGroupName')]"

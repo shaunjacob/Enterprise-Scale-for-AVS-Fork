@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "Prefix": {
-            "value": "SJPT2"
+            "value": "SJTEST2"
         },
         "DeployPrivateCloud": {
             "value": false
@@ -36,22 +36,22 @@
             "value": false
         },
         "NewNetworkName": {
-            "value": "SJVNETTEST2"
+            "value": "SJTESTNET2-vnet"
         },
         "NewNetworkResourceGroupName": {
-            "value": "SJVNETTEST2-RG"
+            "value": "SJTESTNET2"
         },
         "NewVNetAddressSpace": {
-            "value": "10.2.0.0/16"
+            "value": "10.111.0.0/16"
         },
         "NewVnetNewGatewaySubnetAddressPrefix": {
-            "value": "10.2.0.0/24"
+            "value": "10.111.0.0/24"
         },
         "ExistingNetworkResourceId": {
             "value": "/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/SJTESTNET1/providers/Microsoft.Network/virtualNetworks/SJTESTNET1-vnet"
         },
         "ExistingGatewayName": {
-            "value": "SJTEST1-gw"
+            "value": "SJTEST2-gw"
         },
         "AlertEmails": {
             "value": "example@microsoft.com"
@@ -66,10 +66,10 @@
             "value": "ChangeM3!"
         },
         "JumpboxSubnet": {
-            "value": "10.2.1.0/24"
+            "value": "10.111.2.0/24"
         },
         "BastionSubnet": {
-            "value": "10.2.2.0/24"
+            "value": "10.111.1.0/24"
         }
     }
 }
