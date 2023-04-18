@@ -1252,7 +1252,7 @@
                         {
                             "name": "PrivateCloudNaming",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
                             "label": "Private Cloud Naming",
                             "elements": [
                                 {
@@ -1286,7 +1286,7 @@
                         {
                             "name": "NetworkNaming",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
                             "label": "Azure Connectivity Naming",
                             "elements": [
                                 {
@@ -1372,8 +1372,8 @@
                 "Prefix": "[steps('ResourceNaming').avsDeploymentPrefix]",
                 "PrivateCloudResourceGroupName": "[steps('ResourceNaming').PrivateCloudNaming.AVSResourceGroup]",
                 "PrivateCloudName": "[steps('ResourceNaming').PrivateCloudNaming.AVSName]",
-                "NewNetworkResourceGroupName": "[steps('ResourceNaming').CustomNetworkResourceGroup]",
-                "NewNetworkName": "[steps('ResourceNaming').CustomNetworkName]",
+                "NewNetworkResourceGroupName": "[steps('ResourceNaming').NetworkNaming.CustomNetworkResourceGroup]",
+                "NewNetworkName": "[steps('ResourceNaming').NetworkNaming.CustomNetworkName]",
                 "TelemetryOptOut": "false"
             },
             "kind": "Subscription",
