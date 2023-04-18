@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.1.55165",
-      "templateHash": "4206286896845746041"
+      "templateHash": "14017681267355719646"
     }
   },
   "parameters": {
@@ -217,6 +217,10 @@
         "description": "The subnet CIDR used for the Bastion Subnet. Must be a /26 or greater within the VNetAddressSpace"
       }
     },
+    "OperationalResourceGroupName": {
+      "type": "string",
+      "defaultValue": ""
+    },
     "DeployMonitoring": {
       "type": "bool",
       "defaultValue": false
@@ -345,8 +349,11 @@
   "variables": {
     "deploymentPrefix": "[format('AVS-{0}', uniqueString(deployment().name, parameters('Location')))]",
     "varCuaid": "1cf4a3e3-529c-4fb2-ba6a-63dff7d71586",
-    "avsNetworkResourceGroupName": "[if(parameters('avsUseCustomNaming'), parameters('NewNetworkResourceGroupName'), format('{0}-Network', parameters('Prefix')))]",
-    "avsNetworkName": "[if(parameters('avsUseCustomNaming'), parameters('NewNetworkName'), format('{0}-vnet', parameters('Prefix')))]"
+    "customPrivateCloudResourceGroupName": "[if(parameters('avsUseCustomNaming'), parameters('PrivateCloudResourceGroupName'), format('{0}-PrivateCloud', parameters('Prefix')))]",
+    "customSDDCName": "[if(parameters('avsUseCustomNaming'), parameters('PrivateCloudName'), format('{0}-sddc', parameters('Prefix')))]",
+    "customNetworkResourceGroupName": "[if(parameters('avsUseCustomNaming'), parameters('NewNetworkResourceGroupName'), format('{0}-Network', parameters('Prefix')))]",
+    "customNetworkName": "[if(parameters('avsUseCustomNaming'), parameters('NewNetworkName'), format('{0}-vnet', parameters('Prefix')))]",
+    "customOperationalResourceGroupName": "[if(parameters('avsUseCustomNaming'), parameters('OperationalResourceGroupName'), format('{0}-Operational', parameters('Prefix')))]"
   },
   "resources": [
     {
@@ -360,14 +367,17 @@
         },
         "mode": "Incremental",
         "parameters": {
+          "Prefix": {
+            "value": "[parameters('Prefix')]"
+          },
           "Location": {
             "value": "[parameters('Location')]"
           },
           "PrivateCloudName": {
-            "value": "[parameters('PrivateCloudName')]"
+            "value": "[variables('customSDDCName')]"
           },
           "PrivateCloudResourceGroupName": {
-            "value": "[parameters('PrivateCloudResourceGroupName')]"
+            "value": "[variables('customPrivateCloudResourceGroupName')]"
           },
           "PrivateCloudAddressSpace": {
             "value": "[parameters('PrivateCloudAddressSpace')]"
@@ -392,10 +402,13 @@
             "_generator": {
               "name": "bicep",
               "version": "0.16.1.55165",
-              "templateHash": "15149948403634799035"
+              "templateHash": "13103409965414382180"
             }
           },
           "parameters": {
+            "Prefix": {
+              "type": "string"
+            },
             "Location": {
               "type": "string"
             },
@@ -442,6 +455,9 @@
                 },
                 "mode": "Incremental",
                 "parameters": {
+                  "Prefix": {
+                    "value": "[parameters('Prefix')]"
+                  },
                   "Location": {
                     "value": "[parameters('Location')]"
                   },
@@ -465,12 +481,16 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.16.1.55165",
-                      "templateHash": "5281191250561045719"
+                      "templateHash": "109743272911482260"
                     }
                   },
                   "parameters": {
-                    "PrivateCloudName": {
+                    "Prefix": {
                       "type": "string"
+                    },
+                    "PrivateCloudName": {
+                      "type": "string",
+                      "defaultValue": "[format('{0}-SDDC', parameters('Prefix'))]"
                     },
                     "NetworkBlock": {
                       "type": "string"
@@ -559,10 +579,10 @@
             "value": "[parameters('VNetExists')]"
           },
           "NewNetworkName": {
-            "value": "[variables('avsNetworkName')]"
+            "value": "[variables('customNetworkName')]"
           },
           "NewNetworkResourceGroupName": {
-            "value": "[variables('avsNetworkResourceGroupName')]"
+            "value": "[variables('customNetworkResourceGroupName')]"
           },
           "ExistingNetworkResourceId": {
             "value": "[parameters('ExistingNetworkResourceId')]"
@@ -1539,6 +1559,9 @@
           "Location": {
             "value": "[parameters('Location')]"
           },
+          "OperationalResourceGroupName": {
+            "value": "[variables('customOperationalResourceGroupName')]"
+          },
           "DeployMetricAlerts": {
             "value": "[parameters('DeployMetricAlerts')]"
           },
@@ -1570,7 +1593,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.16.1.55165",
-              "templateHash": "11308453494570891669"
+              "templateHash": "5038705791178381605"
             }
           },
           "parameters": {
@@ -1578,6 +1601,9 @@
               "type": "string"
             },
             "Location": {
+              "type": "string"
+            },
+            "OperationalResourceGroupName": {
               "type": "string"
             },
             "AlertEmails": {
@@ -1615,7 +1641,7 @@
             {
               "type": "Microsoft.Resources/resourceGroups",
               "apiVersion": "2021-04-01",
-              "name": "[format('{0}-Operational', parameters('Prefix'))]",
+              "name": "[parameters('OperationalResourceGroupName')]",
               "location": "[parameters('Location')]"
             },
             {
@@ -1623,7 +1649,7 @@
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-ActionGroup', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "resourceGroup": "[parameters('OperationalResourceGroupName')]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
@@ -1683,7 +1709,7 @@
                 }
               },
               "dependsOn": [
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('OperationalResourceGroupName'))]"
               ]
             },
             {
@@ -1691,14 +1717,14 @@
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-MetricAlerts', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "resourceGroup": "[parameters('OperationalResourceGroupName')]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
                 },
                 "mode": "Incremental",
                 "parameters": {
-                  "ActionGroupResourceId": "[if(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name)), '2022-09-01').outputs.ActionGroupResourceId.value), createObject('value', ''))]",
+                  "ActionGroupResourceId": "[if(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name)), '2022-09-01').outputs.ActionGroupResourceId.value), createObject('value', ''))]",
                   "AlertPrefix": {
                     "value": "[parameters('PrivateCloudName')]"
                   },
@@ -1862,8 +1888,8 @@
                 }
               },
               "dependsOn": [
-                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name))]",
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name))]",
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('OperationalResourceGroupName'))]"
               ]
             },
             {
@@ -1871,14 +1897,14 @@
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-ServiceHealth', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "resourceGroup": "[parameters('OperationalResourceGroupName')]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
                 },
                 "mode": "Incremental",
                 "parameters": {
-                  "ActionGroupResourceId": "[if(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name)), '2022-09-01').outputs.ActionGroupResourceId.value), createObject('value', ''))]",
+                  "ActionGroupResourceId": "[if(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name)), '2022-09-01').outputs.ActionGroupResourceId.value), createObject('value', ''))]",
                   "AlertPrefix": {
                     "value": "[parameters('PrivateCloudName')]"
                   },
@@ -1953,8 +1979,8 @@
                 }
               },
               "dependsOn": [
-                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name))]",
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name))]",
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('OperationalResourceGroupName'))]"
               ]
             },
             {
@@ -1962,7 +1988,7 @@
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-Dashboard', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "resourceGroup": "[parameters('OperationalResourceGroupName')]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
@@ -2312,7 +2338,7 @@
                 }
               },
               "dependsOn": [
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('OperationalResourceGroupName'))]"
               ]
             },
             {
@@ -2320,7 +2346,7 @@
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-Workbook', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "resourceGroup": "[parameters('OperationalResourceGroupName')]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
@@ -4537,7 +4563,7 @@
                 }
               },
               "dependsOn": [
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('OperationalResourceGroupName'))]"
               ]
             }
           ]
@@ -4562,8 +4588,8 @@
           "Location": {
             "value": "[parameters('Location')]"
           },
-          "Prefix": {
-            "value": "[parameters('Prefix')]"
+          "OperationalResourceGroupName": {
+            "value": "[variables('customOperationalResourceGroupName')]"
           },
           "DeployAVSLogsWorkspace": {
             "value": "[parameters('DeployAVSLogsWorkspace')]"
@@ -4605,7 +4631,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.16.1.55165",
-              "templateHash": "12103422817663947802"
+              "templateHash": "6843305311927112180"
             }
           },
           "parameters": {
@@ -4613,7 +4639,7 @@
               "type": "string",
               "defaultValue": ""
             },
-            "Prefix": {
+            "OperationalResourceGroupName": {
               "type": "string",
               "defaultValue": ""
             },
@@ -4668,7 +4694,7 @@
             {
               "type": "Microsoft.Resources/resourceGroups",
               "apiVersion": "2021-04-01",
-              "name": "[format('{0}-Operational', parameters('Prefix'))]",
+              "name": "[parameters('OperationalResourceGroupName')]",
               "location": "[parameters('Location')]"
             },
             {
@@ -4676,7 +4702,7 @@
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-Workspace', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "resourceGroup": "[parameters('OperationalResourceGroupName')]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
@@ -4725,7 +4751,7 @@
                 }
               },
               "dependsOn": [
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('OperationalResourceGroupName'))]"
               ]
             },
             {
@@ -4733,7 +4759,7 @@
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-Storage', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "resourceGroup": "[parameters('OperationalResourceGroupName')]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
@@ -4793,7 +4819,7 @@
                 }
               },
               "dependsOn": [
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('OperationalResourceGroupName'))]"
               ]
             },
             {
@@ -4811,8 +4837,8 @@
                   "PrivateCloudName": {
                     "value": "[parameters('PrivateCloudName')]"
                   },
-                  "Workspaceid": "[if(parameters('DeployWorkspace'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]",
-                  "StorageAccountid": "[if(parameters('DeployStorageAccount'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name)), '2022-09-01').outputs.StorageAccountid.value), createObject('value', parameters('ExistingStorageAccountId')))]",
+                  "Workspaceid": "[if(parameters('DeployWorkspace'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]",
+                  "StorageAccountid": "[if(parameters('DeployStorageAccount'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name)), '2022-09-01').outputs.StorageAccountid.value), createObject('value', parameters('ExistingStorageAccountId')))]",
                   "DeployAVSLogsWorkspace": {
                     "value": "[parameters('DeployAVSLogsWorkspace')]"
                   },
@@ -4913,8 +4939,8 @@
                 }
               },
               "dependsOn": [
-                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name))]",
-                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name))]"
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name))]",
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name))]"
               ]
             },
             {
@@ -4929,7 +4955,7 @@
                 },
                 "mode": "Incremental",
                 "parameters": {
-                  "WorkspaceId": "[if(parameters('DeployWorkspace'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]"
+                  "WorkspaceId": "[if(parameters('DeployWorkspace'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]"
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
@@ -4994,7 +5020,7 @@
                 }
               },
               "dependsOn": [
-                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name))]"
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('OperationalResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name))]"
               ]
             }
           ]

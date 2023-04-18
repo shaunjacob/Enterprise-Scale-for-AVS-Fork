@@ -1,5 +1,6 @@
 targetScope = 'subscription'
 
+param Prefix string
 param Location string
 param PrivateCloudAddressSpace string
 param PrivateCloudName string
@@ -20,6 +21,7 @@ module PrivateCloud 'AVSCore/PrivateCloud.bicep' = if (DeployPrivateCloud) {
   scope: PrivateCloudResourceGroup
   name: '${deployment().name}-PrivateCloud'
   params: {
+    Prefix: Prefix
     Location: Location
     PrivateCloudName: PrivateCloudName
     NetworkBlock: PrivateCloudAddressSpace

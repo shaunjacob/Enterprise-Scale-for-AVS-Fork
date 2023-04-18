@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 param Location string = ''
-param Prefix string = ''
+param OperationalResourceGroupName string = ''
 param PrivateCloudName string = ''
 param PrivateCloudResourceId string = ''
 param DeployAVSLogsWorkspace bool = false
@@ -19,7 +19,7 @@ param DeployStorageAccount bool
 var PrivateCloudResourceGroupName = split(PrivateCloudResourceId,'/')[4]
 
 resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: '${Prefix}-Operational'
+  name: OperationalResourceGroupName
   location: Location
 }
 

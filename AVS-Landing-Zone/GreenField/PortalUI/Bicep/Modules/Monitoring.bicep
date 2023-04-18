@@ -2,6 +2,7 @@ targetScope = 'subscription'
 
 param Prefix string
 param Location string
+param OperationalResourceGroupName string
 param AlertEmails string
 param DeployMetricAlerts bool
 param DeployServiceHealth bool
@@ -15,7 +16,7 @@ param StorageUsageThreshold int
 
 
 resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: '${Prefix}-Operational'
+  name: OperationalResourceGroupName
   location: Location
 }
 

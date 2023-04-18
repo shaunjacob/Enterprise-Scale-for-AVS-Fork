@@ -1263,7 +1263,7 @@
                                     "defaultValue": "",
                                     "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
                                     "constraints": {
-                                        "required": true,
+                                        "required": false,
                                         "regex": "",
                                         "validationMessage": "Provide a name for your Resource Group"
                                     }
@@ -1276,7 +1276,7 @@
                                     "defaultValue": "",
                                     "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
                                     "constraints": {
-                                        "required": true,
+                                        "required": false,
                                         "regex": "",
                                         "validationMessage": "Provide a name for your Private Cloud"
                                     }
@@ -1297,7 +1297,7 @@
                                     "defaultValue": "",
                                     "toolTip": "Name of the new virtual network resource group",
                                     "constraints": {
-                                        "required": true,
+                                        "required": false,
                                         "regex": "",
                                         "validationMessage": "Provide a name for your new virtual network"
                                     }
@@ -1310,7 +1310,7 @@
                                     "defaultValue": "",
                                     "toolTip": "Name of the new virtual network",
                                     "constraints": {
-                                        "required": true,
+                                        "required": false,
                                         "regex": "",
                                         "validationMessage": "Provide a name for your New Virtual Network"
                                     }

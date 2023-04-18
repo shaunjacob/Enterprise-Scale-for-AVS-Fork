@@ -82,6 +82,7 @@ param BootstrapCommand string = 'powershell.exe -ExecutionPolicy Unrestricted -F
 param BastionSubnet string = ''
 
 // Monitoring Module Parameters
+param OperationalResourceGroupName string = ''
 param DeployMonitoring bool = false
 param DeployDashboard bool = false
 param DeployMetricAlerts bool = false
@@ -120,23 +121,28 @@ param VRServerCount int = 1
 @description('Opt-out of deployment telemetry')
 param TelemetryOptOut bool = false
 
-//Resource Naming
-@description('Optional. AVS resources custom naming. (Default: false)')
-param avsUseCustomNaming bool = true
-
 //Variables
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 var varCuaid = '1cf4a3e3-529c-4fb2-ba6a-63dff7d71586'
-var avsNetworkResourceGroupName = avsUseCustomNaming ? NewNetworkResourceGroupName : '${Prefix}-Network'
-var avsNetworkName = avsUseCustomNaming ? NewNetworkName : '${Prefix}-vnet'
+
+//Custom Naming
+@description('Optional. AVS resources custom naming. (Default: false)')
+param avsUseCustomNaming bool = true
+var customPrivateCloudResourceGroupName = avsUseCustomNaming ? PrivateCloudResourceGroupName : '${Prefix}-PrivateCloud'
+var customSDDCName = avsUseCustomNaming ? PrivateCloudName : '${Prefix}-sddc'
+var customNetworkResourceGroupName = avsUseCustomNaming ? NewNetworkResourceGroupName : '${Prefix}-Network'
+var customNetworkName = avsUseCustomNaming ? NewNetworkName : '${Prefix}-vnet'
+var customOperationalResourceGroupName = avsUseCustomNaming ? OperationalResourceGroupName : '${Prefix}-Operational'
+
 
 
 module AVSCore 'Modules/AVSCore.bicep' = {
   name: '${deploymentPrefix}-AVS'
   params: {
+    Prefix: Prefix
     Location: Location
-    PrivateCloudName: PrivateCloudName
-    PrivateCloudResourceGroupName: PrivateCloudResourceGroupName
+    PrivateCloudName: customSDDCName
+    PrivateCloudResourceGroupName: customPrivateCloudResourceGroupName
     PrivateCloudAddressSpace: PrivateCloudAddressSpace
     PrivateCloudHostCount: PrivateCloudHostCount
     PrivateCloudSKU: PrivateCloudSKU
@@ -151,8 +157,8 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
     Prefix: Prefix
     Location: Location
     VNetExists: VNetExists
-    NewNetworkName: avsNetworkName
-    NewNetworkResourceGroupName: avsNetworkResourceGroupName
+    NewNetworkName: customNetworkName
+    NewNetworkResourceGroupName: customNetworkResourceGroupName
     ExistingNetworkResourceId : ExistingNetworkResourceId
     ExistingGatewayName : ExistingGatewayName
     NewVNetAddressSpace: NewVNetAddressSpace
@@ -197,6 +203,7 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMonitoring)
     AlertEmails: AlertEmails
     Prefix: Prefix
     Location: Location
+    OperationalResourceGroupName : customOperationalResourceGroupName
     DeployMetricAlerts : DeployMetricAlerts
     DeployServiceHealth : DeployServiceHealth
     DeployDashboard : DeployDashboard
@@ -213,7 +220,7 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
   name: '${deploymentPrefix}-Diagnostics'
   params: {
     Location: Location
-    Prefix: Prefix
+    OperationalResourceGroupName: customOperationalResourceGroupName
     DeployAVSLogsWorkspace: DeployAVSLogsWorkspace
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
     DeployAVSLogsStorage: DeployAVSLogsStorage

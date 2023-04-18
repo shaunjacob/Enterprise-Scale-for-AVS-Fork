@@ -1,4 +1,6 @@
-param PrivateCloudName string
+
+param Prefix string
+param PrivateCloudName string = '${Prefix}-SDDC'
 param NetworkBlock string
 param ManagementClusterSize int
 param SKUName string
