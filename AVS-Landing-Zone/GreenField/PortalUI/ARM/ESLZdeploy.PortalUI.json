@@ -1284,31 +1284,39 @@
                             ]
                         },
                         {
-                            "name": "CustomNetworkResourceGroup",
-                            "type": "Microsoft.Common.TextBox",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
-                            "label": "New Virtual Network Resource Group Name",
-                            "defaultValue": "",
-                            "toolTip": "Name of the new virtual network resource group",
-                            "constraints": {
-                                "required": true,
-                                "regex": "",
-                                "validationMessage": "Provide a name for your new virtual network"
-                            }
-                        },
-                        {
-                            "name": "CustomNetworkName",
-                            "type": "Microsoft.Common.TextBox",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
-                            "label": "New Virtual Network Name",
-                            "defaultValue": "",
-                            "toolTip": "Name of the new virtual network",
-                            "constraints": {
-                                "required": true,
-                                "regex": "",
-                                "validationMessage": "Provide a name for your New Virtual Network"
-                            }
-                        }
+                            "name": "NetworkNaming",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "label": "Azure Connectivity Naming",
+                            "elements": [
+                                {
+                                    "name": "CustomNetworkResourceGroup",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
+                                    "label": "New Virtual Network Resource Group Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Name of the new virtual network resource group",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your new virtual network"
+                                    }
+                                },
+                                {
+                                    "name": "CustomNetworkName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
+                                    "label": "New Virtual Network Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Name of the new virtual network",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your New Virtual Network"
+                                    }
+                                }
+                            ]
+                        }          
                     ]
                 }
             ]
