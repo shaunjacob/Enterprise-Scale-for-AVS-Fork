@@ -1261,7 +1261,7 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
                                     "label": "AVS Resource Group Name",
                                     "defaultValue": "",
-                                    "placeholder": "Placeholder Name: Prefix-PrivateCloud",
+                                    "placeholder": "Default Name: Prefix-PrivateCloud",
                                     "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
                                     "constraints": {
                                         "required": false,
@@ -1275,6 +1275,7 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
                                     "label": "AVS Private Cloud Name",
                                     "defaultValue": "",
+                                    "placeholder": "Default Name: Prefix-SDDC",
                                     "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
                                     "constraints": {
                                         "required": false,
@@ -1296,6 +1297,7 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
                                     "label": "New Virtual Network Resource Group Name",
                                     "defaultValue": "",
+                                    "placeholder": "Default Name: Prefix-Network",
                                     "toolTip": "Name of the new virtual network resource group",
                                     "constraints": {
                                         "required": false,
@@ -1309,6 +1311,7 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
                                     "label": "New Virtual Network Name",
                                     "defaultValue": "",
+                                    "placeholder": "Default Name: Prefix-vnet",
                                     "toolTip": "Name of the new virtual network",
                                     "constraints": {
                                         "required": false,
@@ -1323,7 +1326,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
                             "options": {
-                                "text": "The placeholder name displayed will be set as the resource name if no inputs are provided",
+                                "text": "The default name displayed will be set as the resource name if no inputs are provided",
                                 "style": "Info"
                             }
                         }          
