@@ -1322,6 +1322,28 @@
                             ]
                         },
                         {
+                            "name": "MonitoringLoggingNaming",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Monitoring').DeployMonitoring, true))]",
+                            "label": "Monitoring and Logging Naming",
+                            "elements": [
+                                {
+                                    "name": "MonitoringLoggingResourceGroup",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Monitoring').DeployMonitoring, true))]",
+                                    "label": "Monitoring and Logging Resource Group Name",
+                                    "defaultValue": "",
+                                    "placeholder": "Default Name: Prefix-Operational",
+                                    "toolTip": "Name of the new Monitoring and Logging resource group",
+                                    "constraints": {
+                                        "required": false,
+                                        "regex": "",
+                                        "validationMessage": ""
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             "name": "customnamingInfo2",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
