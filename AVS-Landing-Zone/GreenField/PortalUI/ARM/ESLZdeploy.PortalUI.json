@@ -1324,13 +1324,13 @@
                         {
                             "name": "MonitoringLoggingNaming",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Monitoring').DeployMonitoring, true))]",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Monitoring').DeployMonitoring, true),equals(steps('Diagnostics').DeployDiagnostics, true)))]",
                             "label": "Monitoring and Logging Naming",
                             "elements": [
                                 {
                                     "name": "MonitoringLoggingResourceGroup",
                                     "type": "Microsoft.Common.TextBox",
-                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Monitoring').DeployMonitoring, true))]",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Monitoring').DeployMonitoring, true),equals(steps('Diagnostics').DeployDiagnostics, true)))]",
                                     "label": "Monitoring and Logging Resource Group Name",
                                     "defaultValue": "",
                                     "placeholder": "Default Name: Prefix-Operational",
