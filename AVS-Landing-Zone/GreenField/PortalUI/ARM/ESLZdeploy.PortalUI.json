@@ -1355,12 +1355,12 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false))]",
                                     "label": "New Storage Account Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: prefixuniquestring",
+                                    "placeholder": "",
                                     "toolTip": "Name of the new Storage account",
                                     "constraints": {
-                                        "required": false,
-                                        "regex": "",
-                                        "validationMessage": ""
+                                        "required": true,
+                                        "regex": "^[a-z0-9]{3,24}$",
+                                        "validationMessage": "The name must be unique across all existing storage account names in Azure. It must be 3 to 24 characters long, and can contain only lowercase letters and numbers."
                                     }
                                 }
                             ]

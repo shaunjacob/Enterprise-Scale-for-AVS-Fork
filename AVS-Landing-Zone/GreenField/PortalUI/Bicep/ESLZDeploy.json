@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.1.55165",
-      "templateHash": "17885567387194948980"
+      "templateHash": "12695433148463400226"
     }
   },
   "parameters": {
@@ -34,14 +34,14 @@
     },
     "PrivateCloudName": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "[format('{0}-sddc', parameters('Prefix'))]",
       "metadata": {
         "description": "Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment"
       }
     },
     "PrivateCloudResourceGroupName": {
       "type": "string",
-      "defaultValue": "avs-rg",
+      "defaultValue": "[format('{0}-PrivateCloud', parameters('Prefix'))]",
       "metadata": {
         "description": "Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment"
       }
@@ -104,14 +104,14 @@
     },
     "NewNetworkResourceGroupName": {
       "type": "string",
-      "defaultValue": "network-rg",
+      "defaultValue": "[format('{0}-Network', parameters('Prefix'))]",
       "metadata": {
         "description": "The address space used for the VNet attached to AVS. Must be non-overlapping with existing networks"
       }
     },
     "NewNetworkName": {
       "type": "string",
-      "defaultValue": "network-rg",
+      "defaultValue": "[format('{0}-vnet', parameters('Prefix'))]",
       "metadata": {
         "description": "The address space used for the VNet attached to AVS. Must be non-overlapping with existing networks"
       }
@@ -219,7 +219,7 @@
     },
     "MonitoringResourceGroupName": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "[format('{0}-Operational', parameters('Prefix'))]"
     },
     "DeployMonitoring": {
       "type": "bool",
@@ -255,7 +255,7 @@
     },
     "LoggingResourceGroupName": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "[format('{0}-Operational', parameters('Prefix'))]"
     },
     "DeployDiagnostics": {
       "type": "bool",
@@ -283,7 +283,7 @@
     },
     "NewWorkspaceName": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "[format('{0}-log', parameters('Prefix'))]"
     },
     "NewStorageAccountName": {
       "type": "string",

@@ -11,9 +11,9 @@ param Location string = deployment().location
 @description('Set this to false if the Private Cloud already exists')
 param DeployPrivateCloud bool = false
 @description('Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment')
-param PrivateCloudName string = ''
+param PrivateCloudName string = '${Prefix}-sddc'
 @description('Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment')
-param PrivateCloudResourceGroupName string = 'avs-rg'
+param PrivateCloudResourceGroupName string = '${Prefix}-PrivateCloud'
 @description('The address space used for the AVS Private Cloud management networks. Must be a non-overlapping /22')
 param PrivateCloudAddressSpace string = ''
 @description('The SKU that should be used for the first cluster, ensure you have quota for the given SKU before deploying')
@@ -38,9 +38,9 @@ param DeployNetworking bool = false
 @description('Set this to true if you are redeploying, and the VNet already exists')
 param VNetExists bool = false
 @description('The address space used for the VNet attached to AVS. Must be non-overlapping with existing networks')
-param NewNetworkResourceGroupName string = 'network-rg'
+param NewNetworkResourceGroupName string = '${Prefix}-Network'
 @description('The address space used for the VNet attached to AVS. Must be non-overlapping with existing networks')
-param NewNetworkName string = 'network-rg'
+param NewNetworkName string = '${Prefix}-vnet'
 @description('The address space used for the VNet attached to AVS. Must be non-overlapping with existing networks')
 param NewVNetAddressSpace string = ''
 @description('The subnet CIDR used for the Gateway Subnet. Must be a /24 or greater within the VNetAddressSpace')
@@ -82,7 +82,7 @@ param BootstrapCommand string = 'powershell.exe -ExecutionPolicy Unrestricted -F
 param BastionSubnet string = ''
 
 // Monitoring Module Parameters
-param MonitoringResourceGroupName string = ''
+param MonitoringResourceGroupName string = '${Prefix}-Operational'
 param DeployMonitoring bool = false
 param DeployDashboard bool = false
 param DeployMetricAlerts bool = false
@@ -93,14 +93,14 @@ param MemoryUsageThreshold int = 60
 param StorageUsageThreshold int = 60
 
 //Diagnostic Module Parameters
-param LoggingResourceGroupName string = ''
+param LoggingResourceGroupName string = '${Prefix}-Operational'
 param DeployDiagnostics bool = false
 param DeployAVSLogsWorkspace bool = false
 param DeployActivityLogDiagnostics bool = false
 param DeployAVSLogsStorage bool = false
 param DeployWorkbook bool = false
 param DeployWorkspace bool = false
-param NewWorkspaceName string = ''
+param NewWorkspaceName string = '${Prefix}-log'
 param NewStorageAccountName string = ''
 param DeployStorageAccount bool = false
 param ExistingWorkspaceId string = ''
