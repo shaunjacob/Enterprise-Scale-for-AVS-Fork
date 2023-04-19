@@ -1296,17 +1296,31 @@
                         {
                             "name": "MonitoringLoggingNaming",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false), and(equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false, or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false))))))]",
                             "label": "Monitoring and Logging Naming",
                             "elements": [
                                 {
-                                    "name": "MonitoringLoggingResourceGroup",
+                                    "name": "MonitoringResourceGroup",
                                     "type": "Microsoft.Common.TextBox",
-                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
-                                    "label": "Monitoring and Logging Resource Group Name",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Monitoring').DeployMonitoring, true))]",
+                                    "label": "Monitoring Resource Group Name",
                                     "defaultValue": "",
                                     "placeholder": "Default Name: Prefix-Operational",
-                                    "toolTip": "Name of the new Monitoring and Logging resource group",
+                                    "toolTip": "Name of the new Monitoring resource group",
+                                    "constraints": {
+                                        "required": false,
+                                        "regex": "",
+                                        "validationMessage": ""
+                                    }
+                                },
+                                {
+                                    "name": "LoggingResourceGroup",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
+                                    "label": "Logging Resource Group Name",
+                                    "defaultValue": "",
+                                    "placeholder": "Default Name: Prefix-Operational",
+                                    "toolTip": "Name of the new Logging resource group",
                                     "constraints": {
                                         "required": false,
                                         "regex": "",
