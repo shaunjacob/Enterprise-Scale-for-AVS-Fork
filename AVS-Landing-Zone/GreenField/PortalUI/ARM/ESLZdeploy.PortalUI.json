@@ -1261,6 +1261,7 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
                                     "label": "AVS Resource Group Name",
                                     "defaultValue": "",
+                                    "placeholder": "Placeholder Name: Prefix-PrivateCloud",
                                     "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
                                     "constraints": {
                                         "required": false,
@@ -1316,6 +1317,15 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "name": "customnamingInfo2",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "options": {
+                                "text": "The placeholder name displayed will be set as the resource name if no inputs are provided",
+                                "style": "Info"
+                            }
                         }          
                     ]
                 }
