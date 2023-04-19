@@ -121,6 +121,8 @@ param VRServerCount int = 1
 @description('Opt-out of deployment telemetry')
 param TelemetryOptOut bool = false
 
+param utc string = utcNow()
+
 //Variables
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 var varCuaid = '1cf4a3e3-529c-4fb2-ba6a-63dff7d71586'
@@ -128,11 +130,15 @@ var varCuaid = '1cf4a3e3-529c-4fb2-ba6a-63dff7d71586'
 //Custom Naming
 @description('Optional. AVS resources custom naming. (Default: false)')
 param avsUseCustomNaming bool = true
+var PrefixLowercase = toLower(Prefix)
+var uniquestorageaccountname  = '${PrefixLowercase}${uniqueString(utc)}'
 var customPrivateCloudResourceGroupName = avsUseCustomNaming ? PrivateCloudResourceGroupName : '${Prefix}-PrivateCloud'
 var customSDDCName = avsUseCustomNaming ? PrivateCloudName : '${Prefix}-sddc'
 var customNetworkResourceGroupName = avsUseCustomNaming ? NewNetworkResourceGroupName : '${Prefix}-Network'
 var customNetworkName = avsUseCustomNaming ? NewNetworkName : '${Prefix}-vnet'
 var customOperationalResourceGroupName = avsUseCustomNaming ? OperationalResourceGroupName : '${Prefix}-Operational'
+var customWorkspaceName = avsUseCustomNaming ? NewWorkspaceName : '${Prefix}-log'
+var customStorageAccountName = avsUseCustomNaming ? NewStorageAccountName : uniquestorageaccountname
 
 
 
@@ -225,9 +231,9 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
     DeployAVSLogsStorage: DeployAVSLogsStorage
     DeployWorkspace: DeployWorkspace
-    NewWorkspaceName: NewWorkspaceName
+    NewWorkspaceName: customWorkspaceName
     DeployStorageAccount: DeployStorageAccount
-    NewStorageAccountName: NewStorageAccountName
+    NewStorageAccountName: customStorageAccountName
     PrivateCloudName: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
     PrivateCloudResourceId: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudResourceId
     ExistingWorkspaceId: ExistingWorkspaceId

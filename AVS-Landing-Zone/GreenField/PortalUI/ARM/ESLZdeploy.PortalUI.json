@@ -1340,6 +1340,34 @@
                                         "regex": "",
                                         "validationMessage": ""
                                     }
+                                },
+                                {
+                                    "name": "CustomWorkspaceName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').Workspace.WorkspaceExists, true))]",
+                                    "label": "New Workspace Name",
+                                    "defaultValue": "",
+                                    "placeholder": "Default Name: Prefix-log",
+                                    "toolTip": "Name of the new Log Analytics Workspace",
+                                    "constraints": {
+                                        "required": false,
+                                        "regex": "",
+                                        "validationMessage": ""
+                                    }
+                                },
+                                {
+                                    "name": "CustomStorageAccountName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true))]",
+                                    "label": "New Storage Account Name",
+                                    "defaultValue": "",
+                                    "placeholder": "Default Name: prefix'randomstring'",
+                                    "toolTip": "Name of the new Storage account",
+                                    "constraints": {
+                                        "required": false,
+                                        "regex": "",
+                                        "validationMessage": ""
+                                    }
                                 }
                             ]
                         },

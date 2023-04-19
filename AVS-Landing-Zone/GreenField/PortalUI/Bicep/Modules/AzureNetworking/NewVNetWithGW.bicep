@@ -8,7 +8,7 @@ param NewNetworkName string = ''
 
 
 //var NewVNetName = '${Prefix}-vnet'
-var NewVnetNewGatewayName = '${Prefix}-gw'
+var NewVnetNewGatewayName = '${Prefix}-vgw'
 
 //New VNet Workflow
 resource NewVNet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
