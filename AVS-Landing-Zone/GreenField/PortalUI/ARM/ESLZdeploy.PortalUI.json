@@ -982,7 +982,7 @@
                                     }
                                 },
                                 {
-                                    "name": "StorageAccountExists",
+                                    "name": "DeployStorageAccount",
                                     "type": "Microsoft.Common.OptionsGroup",
                                     "visible": "[equals(steps('Diagnostics').StorageAccount.StorageLogCollection, true)]",
                                     "label": "Deploy New or Choose Existing Storage Account",
@@ -993,11 +993,11 @@
                                         "allowedValues": [
                                             {
                                                 "label": "New",
-                                                "value": false
+                                                "value": true
                                             },
                                             {
                                                 "label": "Existing",
-                                                "value": true
+                                                "value": false
                                             }
                                         ]
                                     }
@@ -1005,7 +1005,7 @@
                                 {
                                     "name": "existingStorageAccountSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)]",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.DeployStorageAccount, false)]",
                                     "label": "Select the Existing Storage Account",
                                     "resourceType": "Microsoft.Storage/storageAccounts"
                                 },
@@ -1318,13 +1318,13 @@
                         {
                             "name": "LoggingNaming",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.DeployStorageAccount, true)))]",
                             "label": "Logging Naming",
                             "elements": [
                                 {
                                     "name": "LoggingResourceGroup",
                                     "type": "Microsoft.Common.TextBox",
-                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.DeployStorageAccount, true)))]",
                                     "label": "Logging Resource Group Name",
                                     "defaultValue": "",
                                     "placeholder": "Default Name: Prefix-Operational",
@@ -1352,7 +1352,7 @@
                                 {
                                     "name": "CustomStorageAccountName",
                                     "type": "Microsoft.Common.TextBox",
-                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false))]",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').StorageAccount.DeployStorageAccount, true))]",
                                     "label": "New Storage Account Name",
                                     "defaultValue": "",
                                     "placeholder": "",
@@ -1418,7 +1418,7 @@
                 "NewWorkspaceName": "[steps('ResourceNaming').LoggingNaming.CustomWorkspaceName]",
                 "ExistingWorkspaceId": "[steps('Diagnostics').Workspace.existingWorkspaceSelector.id]",
                 "ExistingStorageAccountId": "[steps('Diagnostics').StorageAccount.existingStorageAccountSelector.id]",
-                "DeployStorageAccount": "[steps('Diagnostics').StorageAccount.StorageAccountExists]",
+                "DeployStorageAccount": "[steps('Diagnostics').StorageAccount.DeployStorageAccount]",
                 "NewStorageAccountName": "[steps('ResourceNaming').LoggingNaming.CustomStorageAccountName]",
                 "StorageRetentionDays": "[steps('Diagnostics').StorageAccount.storageRetention]",
                 "DeployHCX": "[steps('Addons').deployHCX]",
