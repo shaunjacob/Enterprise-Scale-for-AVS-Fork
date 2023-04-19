@@ -936,33 +936,19 @@
                                         "allowedValues": [
                                             {
                                                 "label": "New",
-                                                "value": true
+                                                "value": false
                                             },
                                             {
                                                 "label": "Existing",
-                                                "value": false
+                                                "value": true
                                             }
                                         ]
                                     }
                                 },
                                 {
-                                    "name": "newWorkspaceName",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, true)]",
-                                    "label": "New Workspace Name",
-                                    "placeholder": "",
-                                    "defaultValue": "",
-                                    "toolTip": "The workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
-                                    "constraints": {
-                                        "required": true,
-                                        "regex": "^[a-z0-9A-Z-]{4,63}$",
-                                        "validationMessage": "The workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol."
-                                    }
-                                },
-                                {
                                     "name": "existingWorkspaceSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, false)]",
+                                    "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, true)]",
                                     "label": "Select the Existing Log Analytics Workspace",
                                     "resourceType": "Microsoft.OperationalInsights/workspaces"
                                 }
@@ -1007,33 +993,19 @@
                                         "allowedValues": [
                                             {
                                                 "label": "New",
-                                                "value": true
+                                                "value": false
                                             },
                                             {
                                                 "label": "Existing",
-                                                "value": false
+                                                "value": true
                                             }
                                         ]
                                     }
                                 },
                                 {
-                                    "name": "newStorageAccountName",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)]",
-                                    "label": "New Storage Account Name",
-                                    "placeholder": "",
-                                    "defaultValue": "",
-                                    "toolTip": "The name must be unique across all existing storage account names in Azure. It must be 3 to 24 characters long, and can contain only lowercase letters and numbers.",
-                                    "constraints": {
-                                        "required": true,
-                                        "regex": "^[a-z0-9]{3,24}$",
-                                        "validationMessage": "The name must be unique across all existing storage account names in Azure. It must be 3 to 24 characters long, and can contain only lowercase letters and numbers."
-                                    }
-                                },
-                                {
                                     "name": "existingStorageAccountSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)]",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)]",
                                     "label": "Select the Existing Storage Account",
                                     "resourceType": "Microsoft.Storage/storageAccounts"
                                 },
@@ -1324,13 +1296,13 @@
                         {
                             "name": "MonitoringLoggingNaming",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Monitoring').DeployMonitoring, true),equals(steps('Diagnostics').DeployDiagnostics, true)))]",
+                            "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
                             "label": "Monitoring and Logging Naming",
                             "elements": [
                                 {
                                     "name": "MonitoringLoggingResourceGroup",
                                     "type": "Microsoft.Common.TextBox",
-                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Monitoring').DeployMonitoring, true),equals(steps('Diagnostics').DeployDiagnostics, true)))]",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
                                     "label": "Monitoring and Logging Resource Group Name",
                                     "defaultValue": "",
                                     "placeholder": "Default Name: Prefix-Operational",
@@ -1344,7 +1316,7 @@
                                 {
                                     "name": "CustomWorkspaceName",
                                     "type": "Microsoft.Common.TextBox",
-                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').Workspace.WorkspaceExists, true))]",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
                                     "label": "New Workspace Name",
                                     "defaultValue": "",
                                     "placeholder": "Default Name: Prefix-log",
@@ -1358,10 +1330,10 @@
                                 {
                                     "name": "CustomStorageAccountName",
                                     "type": "Microsoft.Common.TextBox",
-                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true))]",
+                                    "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, false),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)))]",
                                     "label": "New Storage Account Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: prefix'randomstring'",
+                                    "placeholder": "Default Name: prefixuniquestring",
                                     "toolTip": "Name of the new Storage account",
                                     "constraints": {
                                         "required": false,
@@ -1421,11 +1393,11 @@
                 "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
                 "DeployAVSLogsStorage": "[steps('Diagnostics').StorageAccount.StorageLogCollection]",
                 "DeployWorkspace": "[steps('Diagnostics').Workspace.WorkspaceExists]",
-                "NewWorkspaceName": "[steps('Diagnostics').Workspace.newWorkspaceName]",
+                "NewWorkspaceName": "[steps('ResourceNaming').MonitoringLoggingNaming.CustomWorkspaceName]",
                 "ExistingWorkspaceId": "[steps('Diagnostics').Workspace.existingWorkspaceSelector.id]",
                 "ExistingStorageAccountId": "[steps('Diagnostics').StorageAccount.existingStorageAccountSelector.id]",
                 "DeployStorageAccount": "[steps('Diagnostics').StorageAccount.StorageAccountExists]",
-                "NewStorageAccountName": "[steps('Diagnostics').StorageAccount.newStorageAccountName]",
+                "NewStorageAccountName": "[steps('ResourceNaming').MonitoringLoggingNaming.CustomStorageAccountName]",
                 "StorageRetentionDays": "[steps('Diagnostics').StorageAccount.storageRetention]",
                 "DeployHCX": "[steps('Addons').deployHCX]",
                 "DeploySRM": "[steps('Addons').deploySRM]",
