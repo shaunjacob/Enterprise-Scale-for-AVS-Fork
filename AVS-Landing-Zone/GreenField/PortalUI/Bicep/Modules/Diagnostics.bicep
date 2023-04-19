@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 param Location string = ''
-param OperationalResourceGroupName string = ''
+param LoggingResourceGroupName string = ''
 param PrivateCloudName string = ''
 param PrivateCloudResourceId string = ''
 param DeployAVSLogsWorkspace bool = false
@@ -18,8 +18,8 @@ param DeployStorageAccount bool
 
 var PrivateCloudResourceGroupName = split(PrivateCloudResourceId,'/')[4]
 
-resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: OperationalResourceGroupName
+resource LoggingResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: LoggingResourceGroupName
   location: Location
 }
 
@@ -28,7 +28,7 @@ resource PrivateCloudResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-0
 }
 
 module Workspace 'Diagnostics/Workspace.bicep' = if ((DeployWorkspace)) {
-  scope: OperationalResourceGroup
+  scope: LoggingResourceGroup
   name: '${deployment().name}-Workspace'
   params: {
     Location: Location
@@ -37,7 +37,7 @@ module Workspace 'Diagnostics/Workspace.bicep' = if ((DeployWorkspace)) {
 }
 
 module Storage 'Diagnostics/Storage.bicep' = if (DeployStorageAccount) {
-  scope: OperationalResourceGroup
+  scope: LoggingResourceGroup
   name: '${deployment().name}-Storage'
   params: {
     Location: Location

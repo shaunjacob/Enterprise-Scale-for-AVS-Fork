@@ -82,7 +82,7 @@ param BootstrapCommand string = 'powershell.exe -ExecutionPolicy Unrestricted -F
 param BastionSubnet string = ''
 
 // Monitoring Module Parameters
-param OperationalResourceGroupName string = ''
+param MonitoringResourceGroupName string = ''
 param DeployMonitoring bool = false
 param DeployDashboard bool = false
 param DeployMetricAlerts bool = false
@@ -93,6 +93,7 @@ param MemoryUsageThreshold int = 60
 param StorageUsageThreshold int = 60
 
 //Diagnostic Module Parameters
+param LoggingResourceGroupName string = ''
 param DeployDiagnostics bool = false
 param DeployAVSLogsWorkspace bool = false
 param DeployActivityLogDiagnostics bool = false
@@ -136,7 +137,8 @@ var customPrivateCloudResourceGroupName = avsUseCustomNaming ? PrivateCloudResou
 var customSDDCName = avsUseCustomNaming ? PrivateCloudName : '${Prefix}-sddc'
 var customNetworkResourceGroupName = avsUseCustomNaming ? NewNetworkResourceGroupName : '${Prefix}-Network'
 var customNetworkName = avsUseCustomNaming ? NewNetworkName : '${Prefix}-vnet'
-var customOperationalResourceGroupName = avsUseCustomNaming ? OperationalResourceGroupName : '${Prefix}-Operational'
+var customMonitoringResourceGroupName = avsUseCustomNaming ? MonitoringResourceGroupName : '${Prefix}-Operational'
+var customLoggingResourceGroupName = avsUseCustomNaming ? LoggingResourceGroupName : '${Prefix}-Operational'
 var customWorkspaceName = avsUseCustomNaming ? NewWorkspaceName : '${Prefix}-log'
 var customStorageAccountName = avsUseCustomNaming ? NewStorageAccountName : uniquestorageaccountname
 
@@ -209,7 +211,7 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMonitoring)
     AlertEmails: AlertEmails
     Prefix: Prefix
     Location: Location
-    OperationalResourceGroupName : customOperationalResourceGroupName
+    MonitoringResourceGroupName : customMonitoringResourceGroupName
     DeployMetricAlerts : DeployMetricAlerts
     DeployServiceHealth : DeployServiceHealth
     DeployDashboard : DeployDashboard
@@ -226,7 +228,7 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
   name: '${deploymentPrefix}-Diagnostics'
   params: {
     Location: Location
-    OperationalResourceGroupName: customOperationalResourceGroupName
+    LoggingResourceGroupName: customLoggingResourceGroupName
     DeployAVSLogsWorkspace: DeployAVSLogsWorkspace
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
     DeployAVSLogsStorage: DeployAVSLogsStorage

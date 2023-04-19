@@ -2,7 +2,7 @@ targetScope = 'subscription'
 
 param Prefix string
 param Location string
-param OperationalResourceGroupName string
+param MonitoringResourceGroupName string
 param AlertEmails string
 param DeployMetricAlerts bool
 param DeployServiceHealth bool
@@ -15,13 +15,13 @@ param MemoryUsageThreshold int
 param StorageUsageThreshold int
 
 
-resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: OperationalResourceGroupName
+resource MonitoringResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: MonitoringResourceGroupName
   location: Location
 }
 
 module ActionGroup 'Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth)) {
-  scope: OperationalResourceGroup
+  scope: MonitoringResourceGroup
   name: '${deployment().name}-ActionGroup'
   params: {
     Prefix: Prefix
@@ -30,7 +30,7 @@ module ActionGroup 'Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || 
 }
 
 module PrimaryMetricAlerts 'Monitoring/MetricAlerts.bicep' = if (DeployMetricAlerts) {
-  scope: OperationalResourceGroup
+  scope: MonitoringResourceGroup
   name: '${deployment().name}-MetricAlerts'
   params: {
     ActionGroupResourceId: ((DeployMetricAlerts) || (DeployServiceHealth)) ? ActionGroup.outputs.ActionGroupResourceId : ''
@@ -43,7 +43,7 @@ module PrimaryMetricAlerts 'Monitoring/MetricAlerts.bicep' = if (DeployMetricAle
 }
 
 module ServiceHealth 'Monitoring/ServiceHealth.bicep' = if (DeployServiceHealth) {
-  scope: OperationalResourceGroup
+  scope: MonitoringResourceGroup
   name: '${deployment().name}-ServiceHealth'
   params: {
     ActionGroupResourceId: ((DeployMetricAlerts) || (DeployServiceHealth)) ? ActionGroup.outputs.ActionGroupResourceId : ''
@@ -53,7 +53,7 @@ module ServiceHealth 'Monitoring/ServiceHealth.bicep' = if (DeployServiceHealth)
 }
 
 module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
-  scope: OperationalResourceGroup
+  scope: MonitoringResourceGroup
   name: '${deployment().name}-Dashboard'
   params:{
     Location: Location
@@ -63,7 +63,7 @@ module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
 }
 
 module Workbook 'Monitoring/Workbook.bicep' = if (DeployWorkbook) {
-  scope: OperationalResourceGroup
+  scope: MonitoringResourceGroup
   name: '${deployment().name}-Workbook'
   params:{
     Location: Location
