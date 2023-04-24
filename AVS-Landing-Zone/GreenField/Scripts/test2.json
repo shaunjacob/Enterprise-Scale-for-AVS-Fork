@@ -1,0 +1,31 @@
+"[equals(steps('ResourceNaming').CustomNaming, false)]"
+"[and(equals(steps('ResourceNaming').CustomNaming, false), equals(steps('azureNetwork').VNetExists, true, true))]"
+
+"[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]"
+"visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, true))]"
+
+
+"[and(equals(steps('ResourceNaming').CustomNaming, true), )]"
+
+"[equals(steps('azureNetwork').VNetExists, true, true)]"
+
+
+steps('azureNetwork').VNetExists, true
+
+
+"[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Monitoring').DeployMonitoring, true))]"
+"[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Monitoring').DeployMonitoring, true),equals(steps('Diagnostics').DeployDiagnostics, true)))]"
+
+or(equals(steps('Monitoring').DeployMonitoring, true),equals(steps('Diagnostics').DeployDiagnostics, true))
+
+
+
+"[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').Workspace.WorkspaceExists, true))]",
+
+[equals(steps('Diagnostics').Workspace.WorkspaceExists, true)]
+
+
+"[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.WorkspaceExists, true),equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)))]"
+
+
+
