@@ -1167,16 +1167,6 @@
                                     "options": {
                                         "text": "To set specific names for certain resources as per your own naming standards, select Yes to Custom Naming below. Note, naming fields will appear based on selections in other tabs"
                                     }
-                                },
-                                {
-                                    "name": "avdResourceNamingWarning",
-                                    "type": "Microsoft.Common.InfoBox",
-                                    "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
-                                    "options": {
-                                        "text": "When using custom naming for resources, please make sure to follow naming rules and restrictions for Azure resources.",
-                                        "uri": "https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules",
-                                        "style": "Info"
-                                    }
                                 }
                             ]
                         },
