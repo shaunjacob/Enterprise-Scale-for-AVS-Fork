@@ -27,7 +27,7 @@ resource PrivateCloudResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-0
   name: PrivateCloudResourceGroupName
 }
 
-module Workspace 'Diagnostics/Workspace.bicep' = if ((DeployWorkspace)) {
+module Workspace 'Diagnostics/Workspace.bicep' = if ((!DeployWorkspace)) {
   scope: LoggingResourceGroup
   name: '${deployment().name}-Workspace'
   params: {
@@ -50,7 +50,7 @@ module AVSDiagnostics 'Diagnostics/AVSDiagnostics.bicep' = if ((DeployAVSLogsWor
   name: '${deployment().name}-AVSDiagnostics'
   params: {
     PrivateCloudName: PrivateCloudName
-    Workspaceid: DeployWorkspace ? Workspace.outputs.WorkspaceId : ExistingWorkspaceId
+    Workspaceid: (!DeployWorkspace) ? Workspace.outputs.WorkspaceId : ExistingWorkspaceId
     StorageAccountid : DeployStorageAccount ? Storage.outputs.StorageAccountid : ExistingStorageAccountId
     DeployAVSLogsWorkspace : DeployAVSLogsWorkspace
     DeployAVSLogsStorage : DeployAVSLogsStorage

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.17.1.54307",
-      "templateHash": "15727057422465732548"
+      "templateHash": "8106139508651044926"
     }
   },
   "parameters": {
@@ -4651,7 +4651,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.17.1.54307",
-              "templateHash": "8870015749823195220"
+              "templateHash": "15542893324089361115"
             }
           },
           "parameters": {
@@ -4718,7 +4718,7 @@
               "location": "[parameters('Location')]"
             },
             {
-              "condition": "[parameters('DeployWorkspace')]",
+              "condition": "[not(parameters('DeployWorkspace'))]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-Workspace', deployment().name)]",
@@ -4857,7 +4857,7 @@
                   "PrivateCloudName": {
                     "value": "[parameters('PrivateCloudName')]"
                   },
-                  "Workspaceid": "[if(parameters('DeployWorkspace'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]",
+                  "Workspaceid": "[if(not(parameters('DeployWorkspace')), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]",
                   "StorageAccountid": "[if(parameters('DeployStorageAccount'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name)), '2022-09-01').outputs.StorageAccountid.value), createObject('value', parameters('ExistingStorageAccountId')))]",
                   "DeployAVSLogsWorkspace": {
                     "value": "[parameters('DeployAVSLogsWorkspace')]"
