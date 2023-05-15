@@ -25,7 +25,7 @@
                             "name": "avsSharedServices",
                             "type": "Microsoft.Common.InfoBox",
                             "options": {
-                                "text": "The subscription and location selected in this step will be used to deploy the AVS Workload Landing Zone resources (Private Cloud, Virtual Networks, VMs etc.).",
+                                "text": "The subscription and location (Region) selected in this step will be used to deploy the AVS Landing Zone resources (Private Cloud, Virtual Networks, VMs etc.)",
                                 "style": "Info"
                             }
                         },
@@ -34,7 +34,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
                             "options": {
-                                "text": "Azure AVS Landing Zones ARM deployment requires contributor access at the subscription scope. Visit this link to get more information on RBAC permissions and scopes.",
+                                "text": "Azure VMware Solution (AVS) AVS Landing Zone deployment requires contributor access at the subscription scope. Visit this link to get more information on RBAC permissions and scopes.",
                                 "uri": "https://docs.microsoft.com/en-us/azure/role-based-access-control/scope-overview",
                                 "style": "Warning"
                             }
@@ -189,8 +189,17 @@
                                     "constraints": {
                                         "required": true
                                     }
-                                }
-                                
+                                },
+                                {
+                                    "name": "avsQuotaInfo",
+                                    "type": "Microsoft.Common.InfoBox",
+                                    "visible": true,
+                                    "options": {
+                                        "text": "Ensure that you have already requested quota for your chosen SKU above, and that this has already been allocated to this subscription otherwise the deployment will fail.",
+                                        "uri": "https://learn.microsoft.com/en-us/azure/azure-vmware/request-host-quota-azure-vmware-solution",
+                                        "style": "Warning"
+                                    }
+                                }                                
                             ]
                         },
                         {
@@ -484,6 +493,11 @@
                             "constraints": {
                               "allowedValues": [
                                 {
+                                    "label": "Windows Server 2022",
+                                    "description": "Windows Server 2022",
+                                    "value": "Win2022"
+                                },
+                                {
                                   "label": "Windows Server 2019",
                                   "description": "Windows Server 2019",
                                   "value": "Win2019"
@@ -512,7 +526,7 @@
                             "name": "BootstrapJumpboxVM",
                             "type": "Microsoft.Common.CheckBox",
                             "label": "BootStrap VM",
-                            "toolTip": "Bootstrap VM and install PowerCLI, VMRC, Powershell.",
+                            "toolTip": "Bootstrap VM and install PowerCLI, VMRC, Powershell. This will only work for Windows based VMs, not Linux",
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]"
                         },
                         {

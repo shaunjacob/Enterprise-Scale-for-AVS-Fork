@@ -14,10 +14,16 @@ var Name = '${Prefix}-jumpbox'
 var Hostname = 'avsjumpbox'
 
 var osImageReference = {
+  win2022: {
+    publisher: 'MicrosoftWindowsServer'
+    offer: 'WindowsServer'
+    sku: '2022-Datacenter'
+    version: 'latest'
+  }
   win2019: {
     publisher: 'MicrosoftWindowsServer'
     offer: 'WindowsServer'
-    sku: '2019-Datacenter-smalldisk'
+    sku: '2019-Datacenter'
     version: 'latest'
   }
   win11: {

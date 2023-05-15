@@ -64,6 +64,7 @@ param JumpboxSubnet string = ''
 param JumpboxSku string = 'Standard_B2ms'
 @description('Set the OS version to use')
 @allowed([
+  'win2022'
   'win2019'
   'win11'
   'win11ms'
