@@ -1438,6 +1438,8 @@
                 "PrivateCloudName": "[steps('ResourceNaming').PrivateCloudNaming.AVSName]",
                 "NewNetworkResourceGroupName": "[steps('ResourceNaming').NetworkNaming.CustomNetworkResourceGroup]",
                 "NewNetworkName": "[steps('ResourceNaming').NetworkNaming.CustomNetworkName]",
+                "MonitoringResourceGroupName": "[steps('ResourceNaming').MonitoringNaming.MonitoringResourceGroup]",
+                "LoggingResourceGroupName": "[steps('ResourceNaming').LoggingNaming.LoggingResourceGroup]",
                 "TelemetryOptOut": "false"
             },
             "kind": "Subscription",
