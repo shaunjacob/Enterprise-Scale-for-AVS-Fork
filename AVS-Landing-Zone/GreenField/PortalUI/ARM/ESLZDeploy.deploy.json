@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.17.1.54307",
-      "templateHash": "8106139508651044926"
+      "templateHash": "2134296413586594826"
     }
   },
   "parameters": {
@@ -262,7 +262,7 @@
       "type": "bool",
       "defaultValue": false
     },
-    "DeployAVSLogsWorkspace": {
+    "EnableAVSLogsWorkspaceSetting": {
       "type": "bool",
       "defaultValue": false
     },
@@ -270,7 +270,7 @@
       "type": "bool",
       "defaultValue": false
     },
-    "DeployAVSLogsStorage": {
+    "EnableAVSLogsStorageSetting": {
       "type": "bool",
       "defaultValue": false
     },
@@ -4611,14 +4611,14 @@
           "LoggingResourceGroupName": {
             "value": "[variables('customLoggingResourceGroupName')]"
           },
-          "DeployAVSLogsWorkspace": {
-            "value": "[parameters('DeployAVSLogsWorkspace')]"
+          "EnableAVSLogsWorkspaceSetting": {
+            "value": "[parameters('EnableAVSLogsWorkspaceSetting')]"
           },
           "DeployActivityLogDiagnostics": {
             "value": "[parameters('DeployActivityLogDiagnostics')]"
           },
-          "DeployAVSLogsStorage": {
-            "value": "[parameters('DeployAVSLogsStorage')]"
+          "EnableAVSLogsStorageSetting": {
+            "value": "[parameters('EnableAVSLogsStorageSetting')]"
           },
           "DeployWorkspace": {
             "value": "[parameters('DeployWorkspace')]"
@@ -4651,7 +4651,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.17.1.54307",
-              "templateHash": "15542893324089361115"
+              "templateHash": "13168932403294327101"
             }
           },
           "parameters": {
@@ -4671,7 +4671,7 @@
               "type": "string",
               "defaultValue": ""
             },
-            "DeployAVSLogsWorkspace": {
+            "EnableAVSLogsWorkspaceSetting": {
               "type": "bool",
               "defaultValue": false
             },
@@ -4687,7 +4687,7 @@
               "type": "bool",
               "defaultValue": false
             },
-            "DeployAVSLogsStorage": {
+            "EnableAVSLogsStorageSetting": {
               "type": "bool",
               "defaultValue": false
             },
@@ -4718,7 +4718,7 @@
               "location": "[parameters('Location')]"
             },
             {
-              "condition": "[not(parameters('DeployWorkspace'))]",
+              "condition": "[parameters('DeployWorkspace')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-Workspace', deployment().name)]",
@@ -4843,7 +4843,7 @@
               ]
             },
             {
-              "condition": "[or(parameters('DeployAVSLogsWorkspace'), parameters('DeployAVSLogsStorage'))]",
+              "condition": "[or(parameters('EnableAVSLogsWorkspaceSetting'), parameters('EnableAVSLogsStorageSetting'))]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2022-09-01",
               "name": "[format('{0}-AVSDiagnostics', deployment().name)]",
@@ -4857,13 +4857,13 @@
                   "PrivateCloudName": {
                     "value": "[parameters('PrivateCloudName')]"
                   },
-                  "Workspaceid": "[if(not(parameters('DeployWorkspace')), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]",
+                  "Workspaceid": "[if(parameters('DeployWorkspace'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]",
                   "StorageAccountid": "[if(parameters('DeployStorageAccount'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name)), '2022-09-01').outputs.StorageAccountid.value), createObject('value', parameters('ExistingStorageAccountId')))]",
-                  "DeployAVSLogsWorkspace": {
-                    "value": "[parameters('DeployAVSLogsWorkspace')]"
+                  "EnableAVSLogsWorkspaceSetting": {
+                    "value": "[parameters('EnableAVSLogsWorkspaceSetting')]"
                   },
-                  "DeployAVSLogsStorage": {
-                    "value": "[parameters('DeployAVSLogsStorage')]"
+                  "EnableAVSLogsStorageSetting": {
+                    "value": "[parameters('EnableAVSLogsStorageSetting')]"
                   },
                   "StorageRetentionDays": {
                     "value": "[parameters('StorageRetentionDays')]"
@@ -4876,7 +4876,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.17.1.54307",
-                      "templateHash": "1144059685867317249"
+                      "templateHash": "8932610096631103718"
                     }
                   },
                   "parameters": {
@@ -4895,16 +4895,16 @@
                     "StorageRetentionDays": {
                       "type": "int"
                     },
-                    "DeployAVSLogsWorkspace": {
+                    "EnableAVSLogsWorkspaceSetting": {
                       "type": "bool"
                     },
-                    "DeployAVSLogsStorage": {
+                    "EnableAVSLogsStorageSetting": {
                       "type": "bool"
                     }
                   },
                   "resources": [
                     {
-                      "condition": "[parameters('DeployAVSLogsWorkspace')]",
+                      "condition": "[parameters('EnableAVSLogsWorkspaceSetting')]",
                       "type": "Microsoft.Insights/diagnosticSettings",
                       "apiVersion": "2021-05-01-preview",
                       "scope": "[format('Microsoft.AVS/privateClouds/{0}', parameters('PrivateCloudName'))]",
@@ -4926,7 +4926,7 @@
                       }
                     },
                     {
-                      "condition": "[parameters('DeployAVSLogsStorage')]",
+                      "condition": "[parameters('EnableAVSLogsStorageSetting')]",
                       "type": "Microsoft.Insights/diagnosticSettings",
                       "apiVersion": "2021-05-01-preview",
                       "scope": "[format('Microsoft.AVS/privateClouds/{0}', parameters('PrivateCloudName'))]",
@@ -4975,7 +4975,7 @@
                 },
                 "mode": "Incremental",
                 "parameters": {
-                  "WorkspaceId": "[if(parameters('DeployWorkspace'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]"
+                  "WorkspaceId": "[if(not(parameters('DeployWorkspace')), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]"
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",

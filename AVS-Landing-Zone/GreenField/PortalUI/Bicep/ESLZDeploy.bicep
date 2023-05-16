@@ -96,9 +96,9 @@ param StorageUsageThreshold int = 60
 //Diagnostic Module Parameters
 param LoggingResourceGroupName string = '${Prefix}-Operational'
 param DeployDiagnostics bool = false
-param DeployAVSLogsWorkspace bool = false
+param EnableAVSLogsWorkspaceSetting bool = false
 param DeployActivityLogDiagnostics bool = false
-param DeployAVSLogsStorage bool = false
+param EnableAVSLogsStorageSetting bool = false
 param DeployWorkbook bool = false
 param DeployWorkspace bool = false
 param NewWorkspaceName string = '${Prefix}-log'
@@ -230,9 +230,9 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
   params: {
     Location: Location
     LoggingResourceGroupName: customLoggingResourceGroupName
-    DeployAVSLogsWorkspace: DeployAVSLogsWorkspace
+    EnableAVSLogsWorkspaceSetting: EnableAVSLogsWorkspaceSetting
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
-    DeployAVSLogsStorage: DeployAVSLogsStorage
+    EnableAVSLogsStorageSetting: EnableAVSLogsStorageSetting
     DeployWorkspace: DeployWorkspace
     NewWorkspaceName: customWorkspaceName
     DeployStorageAccount: DeployStorageAccount

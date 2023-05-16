@@ -4,11 +4,11 @@ param Location string = ''
 param LoggingResourceGroupName string = ''
 param PrivateCloudName string = ''
 param PrivateCloudResourceId string = ''
-param DeployAVSLogsWorkspace bool = false
+param EnableAVSLogsWorkspaceSetting bool = false
 param NewWorkspaceName string = ''
 param NewStorageAccountName string = ''
 param DeployActivityLogDiagnostics bool = false
-param DeployAVSLogsStorage bool = false
+param EnableAVSLogsStorageSetting bool = false
 param ExistingWorkspaceId string
 param ExistingStorageAccountId string
 param StorageRetentionDays int
@@ -27,7 +27,7 @@ resource PrivateCloudResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-0
   name: PrivateCloudResourceGroupName
 }
 
-module Workspace 'Diagnostics/Workspace.bicep' = if ((!DeployWorkspace)) {
+module Workspace 'Diagnostics/Workspace.bicep' = if ((DeployWorkspace)) {
   scope: LoggingResourceGroup
   name: '${deployment().name}-Workspace'
   params: {
@@ -45,15 +45,15 @@ module Storage 'Diagnostics/Storage.bicep' = if (DeployStorageAccount) {
   }
 }
 
-module AVSDiagnostics 'Diagnostics/AVSDiagnostics.bicep' = if ((DeployAVSLogsWorkspace) || (DeployAVSLogsStorage)) {
+module AVSDiagnostics 'Diagnostics/AVSDiagnostics.bicep' = if ((EnableAVSLogsWorkspaceSetting) || (EnableAVSLogsStorageSetting)) {
   scope: PrivateCloudResourceGroup
   name: '${deployment().name}-AVSDiagnostics'
   params: {
     PrivateCloudName: PrivateCloudName
-    Workspaceid: (!DeployWorkspace) ? Workspace.outputs.WorkspaceId : ExistingWorkspaceId
+    Workspaceid: DeployWorkspace ? Workspace.outputs.WorkspaceId : ExistingWorkspaceId
     StorageAccountid : DeployStorageAccount ? Storage.outputs.StorageAccountid : ExistingStorageAccountId
-    DeployAVSLogsWorkspace : DeployAVSLogsWorkspace
-    DeployAVSLogsStorage : DeployAVSLogsStorage
+    EnableAVSLogsWorkspaceSetting : EnableAVSLogsWorkspaceSetting
+    EnableAVSLogsStorageSetting : EnableAVSLogsStorageSetting
     StorageRetentionDays : StorageRetentionDays
   }
 }
@@ -61,6 +61,6 @@ module AVSDiagnostics 'Diagnostics/AVSDiagnostics.bicep' = if ((DeployAVSLogsWor
 module ActivityLogDiagnostics 'Diagnostics/ActivityLogDiagnostics.bicep' = if (DeployActivityLogDiagnostics) {
   name: '${deployment().name}-ActivityLogDiagnostics'
   params: {
-    WorkspaceId: DeployWorkspace ? Workspace.outputs.WorkspaceId : ExistingWorkspaceId
+    WorkspaceId: (!DeployWorkspace) ? Workspace.outputs.WorkspaceId : ExistingWorkspaceId
   }
 }

@@ -942,7 +942,7 @@
                                     }
                                 },
                                 {
-                                    "name": "WorkspaceExists",
+                                    "name": "DeployWorkspace",
                                     "type": "Microsoft.Common.OptionsGroup",
                                     "visible": "[or(equals(steps('Diagnostics').Workspace.AVSLogCollection, true), equals(steps('Diagnostics').Workspace.ActivityLogCollection, true))]",
                                     "label": "Deploy New or Choose Existing Workspace",
@@ -953,11 +953,11 @@
                                         "allowedValues": [
                                             {
                                                 "label": "New",
-                                                "value": false
+                                                "value": true
                                             },
                                             {
                                                 "label": "Existing",
-                                                "value": true
+                                                "value": false
                                             }
                                         ]
                                     }
@@ -1418,10 +1418,10 @@
                 "MemoryUsageThreshold": "[if(equals(steps('Monitoring').DeployMonitoring, true), steps('Monitoring').MonitoringInputs.memoryUsageThreshold, '0')]",
                 "StorageUsageThreshold": "[if(equals(steps('Monitoring').DeployMonitoring, true), steps('Monitoring').MonitoringInputs.storageUsageThreshold, '0')]",
                 "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
-                "DeployAVSLogsWorkspace": "[steps('Diagnostics').Workspace.AVSLogCollection]",
+                "EnableAVSLogsWorkspaceSetting": "[steps('Diagnostics').Workspace.AVSLogCollection]",
                 "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
-                "DeployAVSLogsStorage": "[steps('Diagnostics').StorageAccount.StorageLogCollection]",
-                "DeployWorkspace": "[steps('Diagnostics').Workspace.WorkspaceExists]",
+                "EnableAVSLogsStorageSetting": "[steps('Diagnostics').StorageAccount.StorageLogCollection]",
+                "DeployWorkspace": "[steps('Diagnostics').Workspace.DeployWorkspace]",
                 "NewWorkspaceName": "[steps('ResourceNaming').LoggingNaming.CustomWorkspaceName]",
                 "ExistingWorkspaceId": "[steps('Diagnostics').Workspace.existingWorkspaceSelector.id]",
                 "ExistingStorageAccountId": "[steps('Diagnostics').StorageAccount.existingStorageAccountSelector.id]",

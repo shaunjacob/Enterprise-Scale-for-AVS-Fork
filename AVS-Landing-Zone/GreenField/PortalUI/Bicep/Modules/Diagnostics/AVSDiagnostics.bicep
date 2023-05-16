@@ -3,15 +3,15 @@ param Workspaceid string = ''
 param StorageAccountid string = ''
 param StorageRetentionDays int
 
-param DeployAVSLogsWorkspace bool
-param DeployAVSLogsStorage bool
+param EnableAVSLogsWorkspaceSetting bool
+param EnableAVSLogsStorageSetting bool
 
 
 resource PrivateCloud 'Microsoft.AVS/privateClouds@2021-12-01' existing = {
   name: PrivateCloudName
 }
 
-resource LogAnalyticsDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if ((DeployAVSLogsWorkspace)) {
+resource LogAnalyticsDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if ((EnableAVSLogsWorkspaceSetting)) {
   name: 'Logs-to-Workspace'
   scope: PrivateCloud
   properties: {
@@ -31,7 +31,7 @@ resource LogAnalyticsDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-
   }
 }
 
-resource StorageAccountDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if ((DeployAVSLogsStorage)) {
+resource StorageAccountDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if ((EnableAVSLogsStorageSetting)) {
   name: 'Logs-to-StorageAccount'
   scope: PrivateCloud
   properties: {
