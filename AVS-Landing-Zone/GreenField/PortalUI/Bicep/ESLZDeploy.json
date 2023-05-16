@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.17.1.54307",
-      "templateHash": "2134296413586594826"
+      "templateHash": "17223389515857261662"
     }
   },
   "parameters": {
@@ -4651,7 +4651,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.17.1.54307",
-              "templateHash": "13168932403294327101"
+              "templateHash": "16979767492724151285"
             }
           },
           "parameters": {
@@ -4975,7 +4975,7 @@
                 },
                 "mode": "Incremental",
                 "parameters": {
-                  "WorkspaceId": "[if(not(parameters('DeployWorkspace')), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]"
+                  "WorkspaceId": "[if(parameters('DeployWorkspace'), createObject('value', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('LoggingResourceGroupName')), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2022-09-01').outputs.WorkspaceId.value), createObject('value', parameters('ExistingWorkspaceId')))]"
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",

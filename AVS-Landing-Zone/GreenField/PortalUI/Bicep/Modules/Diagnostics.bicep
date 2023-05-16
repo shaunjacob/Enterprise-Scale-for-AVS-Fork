@@ -61,6 +61,6 @@ module AVSDiagnostics 'Diagnostics/AVSDiagnostics.bicep' = if ((EnableAVSLogsWor
 module ActivityLogDiagnostics 'Diagnostics/ActivityLogDiagnostics.bicep' = if (DeployActivityLogDiagnostics) {
   name: '${deployment().name}-ActivityLogDiagnostics'
   params: {
-    WorkspaceId: (!DeployWorkspace) ? Workspace.outputs.WorkspaceId : ExistingWorkspaceId
+    WorkspaceId: (DeployWorkspace) ? Workspace.outputs.WorkspaceId : ExistingWorkspaceId
   }
 }
