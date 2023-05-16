@@ -965,7 +965,7 @@
                                 {
                                     "name": "existingWorkspaceSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, true)]",
+                                    "visible": "[equals(steps('Diagnostics').Workspace.DeployWorkspace, false)]",
                                     "label": "Select the Existing Log Analytics Workspace",
                                     "resourceType": "Microsoft.OperationalInsights/workspaces"
                                 }
