@@ -1168,18 +1168,11 @@
                                     "type": "Microsoft.Common.TextBlock",
                                     "visible": true,
                                     "options": {
-                                        "text": "The AVS accelerator uses the Prefix below to provide automated resource naming based on Microsoft best practices, default resources organization and naming is shown in this diagram.",
+                                        "text": "The AVS accelerator uses the Prefix below to provide automated resource naming based on Microsoft best practices. To set specific names for certain resources as per your own naming standards, select Yes to Custom Naming below. Note, custom naming fields will appear based on selections in other tabs",
                                         "link": {
                                             "label": "Learn more",
                                             "uri": "https://raw.githubusercontent.com/shaunjacob/Enterprise-Scale-for-AVS-Fork/RemoveOnPremGreenfield/docs/images/AVSLZ-CustomNaming.png"
                                         }
-                                    }
-                                },
-                                {
-                                    "name": "naminginfo3",
-                                    "type": "Microsoft.Common.TextBlock",
-                                    "options": {
-                                        "text": "To set specific names for certain resources as per your own naming standards, select Yes to Custom Naming below. Note, naming fields will appear based on selections in other tabs"
                                     }
                                 }
                             ]
@@ -1220,7 +1213,26 @@
                             }
                         },
                         {
-                            "name": "customnamingInfo",
+                            "name": "customnamingInfo1",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": true,
+                            "options": {
+                                "text": "Click here to see the resource group and resource names that will be created with the Prefix above",
+                                "uri": "https://raw.githubusercontent.com/shaunjacob/Enterprise-Scale-for-AVS-Fork/RemoveOnPremGreenfield/docs/images/AVSLZ-CustomNaming.png",
+                                "style": "Info"
+                            }
+                        },
+                        {
+                            "name": "customnamingInfo2",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
+                            "options": {
+                                "text": "The Prefix above is still required even when custom naming is selected as it will be used for the deployment tasks and for naming other resources",
+                                "style": "Info"
+                            }
+                        },
+                        {
+                            "name": "customnamingInfo3",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
                             "options": {
@@ -1240,10 +1252,10 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
                                     "label": "AVS Resource Group Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: Prefix-PrivateCloud",
+                                    "placeholder": "Example: Prefix-PrivateCloud",
                                     "toolTip": "Name of a resource group to host the AVS Resources. This can also be an existing resource group name",
                                     "constraints": {
-                                        "required": false,
+                                        "required": true,
                                         "regex": "",
                                         "validationMessage": "Provide a name for your Resource Group"
                                     }
@@ -1254,10 +1266,10 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('PrivateCloud').DeployPrivateCloud, true))]",
                                     "label": "AVS Private Cloud Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: Prefix-SDDC",
+                                    "placeholder": "Example: Prefix-SDDC",
                                     "toolTip": "Name of your AVS Private Cloud resource, e.g. AVS-SDDC",
                                     "constraints": {
-                                        "required": false,
+                                        "required": true,
                                         "regex": "",
                                         "validationMessage": "Provide a name for your Private Cloud"
                                     }
@@ -1276,10 +1288,10 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
                                     "label": "New Virtual Network Resource Group Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: Prefix-Network",
+                                    "placeholder": "Example: Prefix-Network",
                                     "toolTip": "Name of the new virtual network resource group",
                                     "constraints": {
-                                        "required": false,
+                                        "required": true,
                                         "regex": "",
                                         "validationMessage": "Provide a name for your new virtual network"
                                     }
@@ -1290,10 +1302,10 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('azureNetwork').VNetExists, false))]",
                                     "label": "New Virtual Network Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: Prefix-vnet",
+                                    "placeholder": "Example: Prefix-vnet",
                                     "toolTip": "Name of the new virtual network",
                                     "constraints": {
-                                        "required": false,
+                                        "required": true,
                                         "regex": "",
                                         "validationMessage": "Provide a name for your New Virtual Network"
                                     }
@@ -1312,10 +1324,10 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Monitoring').DeployMonitoring, true))]",
                                     "label": "Monitoring Resource Group Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: Prefix-Operational",
+                                    "placeholder": "Example: Prefix-Operational",
                                     "toolTip": "Name of the new Monitoring resource group",
                                     "constraints": {
-                                        "required": false,
+                                        "required": true,
                                         "regex": "",
                                         "validationMessage": ""
                                     }
@@ -1334,10 +1346,10 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), or(equals(steps('Diagnostics').Workspace.DeployWorkspace, true),equals(steps('Diagnostics').StorageAccount.DeployStorageAccount, true)))]",
                                     "label": "Logging Resource Group Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: Prefix-Operational",
+                                    "placeholder": "Example: Prefix-Operational",
                                     "toolTip": "Name of the new Logging resource group",
                                     "constraints": {
-                                        "required": false,
+                                        "required": true,
                                         "regex": "",
                                         "validationMessage": ""
                                     }
@@ -1348,10 +1360,10 @@
                                     "visible": "[and(equals(steps('ResourceNaming').CustomNaming, true), equals(steps('Diagnostics').Workspace.DeployWorkspace, true))]",
                                     "label": "New Workspace Name",
                                     "defaultValue": "",
-                                    "placeholder": "Default Name: Prefix-log",
+                                    "placeholder": "Example: Prefix-log",
                                     "toolTip": "Name of the new Log Analytics Workspace",
                                     "constraints": {
-                                        "required": false,
+                                        "required": true,
                                         "regex": "",
                                         "validationMessage": ""
                                     }
@@ -1371,16 +1383,7 @@
                                     }
                                 }
                             ]
-                        },
-                        {
-                            "name": "customnamingInfo2",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": "[equals(steps('ResourceNaming').CustomNaming, true)]",
-                            "options": {
-                                "text": "The default name displayed will be set as the resource name if no inputs are provided",
-                                "style": "Info"
-                            }
-                        }          
+                        }         
                     ]
                 }
             ]
