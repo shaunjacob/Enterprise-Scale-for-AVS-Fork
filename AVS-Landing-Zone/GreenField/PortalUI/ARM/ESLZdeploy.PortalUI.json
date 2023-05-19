@@ -384,13 +384,22 @@
                             }
                         },
                         {
-                            "name": "gatewaySelectorId",
-                            "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('azureNetwork').GatewayExists, true)]",
+                            "name": "virtualNetworkGatewaysApi",
+                            "type": "Microsoft.Solutions.ArmApiControl",
+                            "request": {
+                                "method": "GET",
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/providers/Microsoft.Network/virtualNetworkGateways?api-version=2022-11-01')]"
+                            }
+                        },
+                        {
+                            "name": "virtualNetworkGateway",
+                            "type": "Microsoft.Common.DropDown",
+                            "visible": "[equals(steps('aib').virtualNetwork, true)]",
                             "label": "Select Existing ExpressRoute Gateway",
-                            "resourceType": "Microsoft.Network/virtualNetworkGateways",
+                            "defaultValue": "",
+                            "toolTip": "",
                             "constraints": {
-                                "required": true
+                                "allowedValues": "[map(filter(steps('azureNetwork').virtualNetworkGatewaysApi.value, (item) => contains(first(item.properties.ipConfigurations).properties.subnet.id, steps('azureNetwork').VnetSelectorId.name)), (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]"
                             }
                         },
                         {
@@ -988,7 +997,7 @@
                 "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
                 "ExistingVnetName": "[steps('azureNetwork').VnetSelectorId.name]",
                 "GatewayExists": "[steps('azureNetwork').GatewayExists]",
-                "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.name]",
+                "ExistingGatewayName": "[steps('azureNetwork').virtualNetworkGateway]",
                 "GatewaySubnetExists": "[if(equals(steps('azureNetwork').GatewayExists, true), true, steps('azureNetwork').GatewaySubnetExists)]",
                 "ExistingGatewaySubnetId": "[steps('azureNetwork').gatewaySubnetSubnetSelectorName]",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
