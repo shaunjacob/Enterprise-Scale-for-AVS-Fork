@@ -373,7 +373,7 @@
                         {
                             "name": "virtualNetworkGateway",
                             "type": "Microsoft.Common.DropDown",
-                            "visible": "[equals(steps('azureNetwork').GatewayExists, true)]",
+                            "visible": "",
                             "label": "Select Existing ExpressRoute Gateway",
                             "defaultValue": "",
                             "toolTip": "",
