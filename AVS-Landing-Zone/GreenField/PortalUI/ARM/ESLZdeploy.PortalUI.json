@@ -353,16 +353,6 @@
                             }
                         },
                         {
-                            "name": "gatewaySelectorId",
-                            "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
-                            "label": "Select the existing ExpressRoute Gateway to connect your AVS Private Cloud",
-                            "resourceType": "Microsoft.Network/virtualNetworkGateways",
-                            "constraints": {
-                                "required": true
-                            }
-                        },
-                        {
                             "name": "virtualNetworkGatewaysApi",
                             "type": "Microsoft.Solutions.ArmApiControl",
                             "request": {
@@ -373,7 +363,7 @@
                         {
                             "name": "virtualNetworkGateway",
                             "type": "Microsoft.Common.DropDown",
-                            "visible": "",
+                            "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
                             "label": "Select Existing ExpressRoute Gateway",
                             "defaultValue": "",
                             "toolTip": "",
@@ -1410,7 +1400,7 @@
                 "VNetExists": "[steps('azureNetwork').VNetExists]",
                 "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
                 "ExistingNetworkResourceId": "[if(equals(steps('azureNetwork').VNetExists, true), steps('azureNetwork').VnetSelectorId.id, '/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/TESTRG/providers/Microsoft.Network/virtualNetworks/TESTVNET')]",
-                "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.name]",
+                "ExistingGatewayName": "[steps('azureNetwork').virtualNetworkGateway]",
                 "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
                 "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",
                 "BastionSubnet": "[steps('azureNetwork').BastionSubnet]",
