@@ -320,7 +320,7 @@
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "Virtual Network address range",
                             "toolTip": "Virtual network in Azure Native to host the ExpressRoute Gateway, Jumpbox and Bastion for AVS Connectivity. Ensure this is not overlapping the AVS Private Cloud",
-                            "defaultValue": "10.111.0.0/16",
+                            "defaultValue": "",
                             "placeholder": "Example: 192.168.0.0/22",
                             "constraints": {
                                 "required": true,
@@ -334,7 +334,7 @@
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "Gateway Subnet Prefix",
                             "toolTip": "Enter the address prefix for the new GatewaySubnet",
-                            "defaultValue": "10.111.0.0/24",
+                            "defaultValue": "",
                             "placeholder": "Example: 192.168.0.0/27",
                             "constraints": {
                                 "required": true,
@@ -437,7 +437,7 @@
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Azure Bastion Subnet Prefix",
                             "toolTip": "The Bastion host is deployed in the virtual network that contains the AzureBastionSubnet subnet that has a minimum /26 prefix.",
-                            "defaultValue": "10.111.1.0/24",
+                            "defaultValue": "",
                             "placeholder": "Example: 192.168.1.0/24",
                             "constraints": {
                                 "required": true,
@@ -451,7 +451,7 @@
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Jumpbox Subnet Prefix",
                             "toolTip": "New Subnet for the Jumpbox",
-                            "defaultValue": "10.111.2.0/24",
+                            "defaultValue": "",
                             "placeholder": "Example: 192.168.2.0/24",
                             "constraints": {
                                 "required": true,
@@ -491,7 +491,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Jumpbox Operating System",
                             "placeholder": "",
-                            "defaultValue": ["Windows Server 2019"],
+                            "defaultValue": ["Windows Server 2022"],
                             "toolTip": "Choose the operating system for the Jumpbox",
                             "multiselect": false,
                             "selectAll": true,
@@ -772,7 +772,7 @@
                                     "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true), equals(steps('Monitoring').AVSDashboard.DeployServiceHealth, true))]",
                                     "toolTip": "Provide an email address to send the service health alerts to",
                                     "placeholder": "Example: alerts@contoso.com",
-                                    "defaultValue": "alerts@contoso.com",
+                                    "defaultValue": "",
                                     "constraints": {
                                         "required": true,
                                         "regex": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
@@ -1192,7 +1192,7 @@
                             "label": "Naming prefix",
                             "visible": true,
                             "toolTip": "Provide a prefix (max 8 characters) for the resource groups and resources created as part of AVS landing zones.",
-                            "defaultValue": "SJTEST1",
+                            "defaultValue": "",
                             "placeholder": "Example: AVS",
                             "constraints": {
                                 "required": true,
